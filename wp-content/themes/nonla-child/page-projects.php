@@ -349,12 +349,18 @@ img { display: block; max-width: 100%; }
         <?php endforeach; ?>
       </div>
       <div class="project-actions">
+        <?php if ($p['status'] === 'upcoming'): ?>
         <a href="<?php echo esc_url($reg_url); ?>" target="_blank" rel="noopener" class="btn-primary">
-          <span class="t" data-en="Register Your Interest" data-ro="Înregistrează-ți Interesul">Register Your Interest</span>
+          <span class="t" data-en="Register Now" data-ro="Înregistrează-te Acum">Register Now</span>
           <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
+        <?php endif; ?>
         <a href="mailto:<?php echo esc_attr($contact); ?>?subject=<?php echo urlencode($p['series'] . ' ' . $p['edition']); ?>" class="btn-outline">
+          <?php if ($p['status'] === 'completed'): ?>
+          <span class="t" data-en="Ask About Next Edition" data-ro="Întreabă despre Ediția Viitoare">Ask About Next Edition</span>
+          <?php else: ?>
           <span class="t" data-en="Ask a Question" data-ro="Pune o Întrebare">Ask a Question</span>
+          <?php endif; ?>
         </a>
       </div>
     </div>
