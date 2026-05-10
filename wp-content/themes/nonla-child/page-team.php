@@ -6,16 +6,69 @@ $photos = get_stylesheet_directory_uri() . '/assets/photos/';
 $team_dir = get_stylesheet_directory_uri() . '/assets/team/';
 
 $team = [
-  // Add team members here. Example:
-  // [
-  //   'name'     => 'Ionut Holbea',
-  //   'role_en'  => 'Founder & Lead Coordinator',
-  //   'role_ro'  => 'Fondator & Coordonator Principal',
-  //   'bio_en'   => 'Short bio in English.',
-  //   'bio_ro'   => 'Biografie scurtă în română.',
-  //   'photo'    => 'ionut.jpg',  // place in assets/team/
-  //   'email'    => 'ionut@nonlaescape.com',
-  // ],
+  [
+    'name'    => 'Alex Ivan',
+    'city'    => 'Ho Chi Minh City',
+    'role_en' => 'Founder · Cultural Ambassador',
+    'role_ro' => 'Fondator · Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/alex-profile-1-e1733645445625.jpg',
+  ],
+  [
+    'name'    => 'Trần Thị Thanh Thuỳ',
+    'city'    => 'Ho Chi Minh City',
+    'role_en' => 'Cultural Ambassador · Operations Coordinator',
+    'role_ro' => 'Ambasador Cultural · Coordonator Operațional',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/thuy-profile-1-e1733636971467.jpg',
+  ],
+  [
+    'name'    => 'Hiếu Phạm',
+    'city'    => 'Hanoi',
+    'role_en' => 'Cultural Ambassador',
+    'role_ro' => 'Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-14.59.20-1.jpeg',
+  ],
+  [
+    'name'    => 'Nguyễn Duy Uyên',
+    'city'    => 'Hanoi',
+    'role_en' => 'Cultural Ambassador',
+    'role_ro' => 'Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/uyen-profile-1-e1733641741146.jpg',
+  ],
+  [
+    'name'    => 'Nguyễn Ngọc Hà Phương',
+    'city'    => 'Hanoi',
+    'role_en' => 'Cultural Ambassador',
+    'role_ro' => 'Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/haphuong-profile-1-e1733643856255.jpg',
+  ],
+  [
+    'name'    => 'Nguyễn Đoàn Yến Nhi',
+    'city'    => 'Ho Chi Minh City',
+    'role_en' => 'Cultural Ambassador',
+    'role_ro' => 'Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/nhi-profile-1-e1733669989583.jpg',
+  ],
+  [
+    'name'    => 'Trịnh Thu Phương',
+    'city'    => 'Ho Chi Minh City',
+    'role_en' => 'Cultural Ambassador',
+    'role_ro' => 'Ambasador Cultural',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-13.53.44-2-1-scaled-e1733636020764.jpeg',
+  ],
+  [
+    'name'    => 'Aura Amironesei',
+    'city'    => 'Iași',
+    'role_en' => 'Legal Advisor',
+    'role_ro' => 'Consilier Juridic',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/aura-profile-1-1-2.jpg',
+  ],
+  [
+    'name'    => 'Constantin Anghel',
+    'city'    => 'Buzău',
+    'role_en' => 'Accountant',
+    'role_ro' => 'Contabil',
+    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-21.47.31-1-1-e1733635842883.jpeg',
+  ],
 ];
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
@@ -218,7 +271,7 @@ img { display: block; max-width: 100%; }
     <div class="team-card reveal" style="transition-delay: <?php echo ($i % 3) * 0.1; ?>s;">
       <div class="team-photo">
         <?php if (!empty($member['photo'])): ?>
-        <img src="<?php echo esc_url($team_dir . $member['photo']); ?>" alt="<?php echo esc_attr($member['name']); ?>" loading="lazy">
+        <img src="<?php echo esc_url($member['photo']); ?>" alt="<?php echo esc_attr($member['name']); ?>" loading="lazy">
         <?php else: ?>
         <div class="team-photo-placeholder">👤</div>
         <?php endif; ?>
@@ -230,11 +283,16 @@ img { display: block; max-width: 100%; }
              data-ro="<?php echo esc_attr($member['role_ro']); ?>">
           <?php echo esc_html($member['role_en']); ?>
         </div>
+        <?php if (!empty($member['city'])): ?>
+        <div style="font-size:11px;color:var(--muted);letter-spacing:.08em;margin-top:4px;">📍 <?php echo esc_html($member['city']); ?></div>
+        <?php endif; ?>
+        <?php if (!empty($member['bio_en'])): ?>
         <p class="team-bio t"
            data-en="<?php echo esc_attr($member['bio_en']); ?>"
-           data-ro="<?php echo esc_attr($member['bio_ro']); ?>">
+           data-ro="<?php echo esc_attr($member['bio_ro'] ?? $member['bio_en']); ?>">
           <?php echo esc_html($member['bio_en']); ?>
         </p>
+        <?php endif; ?>
         <?php if (!empty($member['email'])): ?>
         <div class="team-email"><a href="mailto:<?php echo esc_attr($member['email']); ?>"><?php echo esc_html($member['email']); ?></a></div>
         <?php endif; ?>
