@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "shutterpress-gallery/shutterpress-gallery-block",
+  "version": "1.7.7",
+  "title": "ShutterPress Gallery",
+  "category": "widgets",
+  "icon": "format-gallery",
+  "description": "Display the ShutterPress Gallery.",
+  "example": {},
+  "supports": {
+    "html": false
+  },
+  "attributes": {
+    "galleryId": {
+      "type": "number",
+      "default": 0
+    },
+    "useLightbox": {
+      "type": "boolean",
+      "default": true
+    },
+    "showDefaultButtons": {
+      "type": "boolean",
+      "default": true
+    },
+    "galleryLayout": {
+      "type": "string",
+      "default": "grid"
+    },
+    "galleryGap": {
+      "type": "number",
+      "default": 20
+    },
+    "rowHeight": {
+      "type": "number",
+      "default": 300
+    },
+    "columns_desktop": {
+      "type": "number",
+      "default": 3
+    },
+    "columns_tablet": {
+      "type": "number",
+      "default": 2
+    },
+    "columns_mobile": {
+      "type": "number",
+      "default": 1
+    },
+    "hasLoadedDefaults": {
+      "type": "boolean",
+      "default": false
+    }
+  },
+  "textdomain": "shutterpress-gallery",
+  "editorScript": [
+    "file:./shutterpress-gallery-block.js"
+  ],
+  "render": "file:./shutterpress-gallery-block-render.php"
+}

@@ -1,0 +1,962 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Shutterpress Gallery - Masonry, justified and grid galleries - lightbox and infinite scroll 1.7.4\n"
+"Report-Msgid-Bugs-To: https://wordpress.org/support/plugin/shutterpress-gallery\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"POT-Creation-Date: 2025-10-09T19:31:17+00:00\n"
+"PO-Revision-Date: 2025-10-09 21:37+0200\n"
+"Language: en_GB\n"
+"X-Generator: Poedit 3.7\n"
+"X-Domain: shutterpress-gallery\n"
+
+#. Description of the plugin
+#: shutterpress-gallery.php
+msgid "WordPress photo gallery plugin for photographers and creatives. Build fast, responsive image galleries with Masonry, Justified, and Grid layouts, lightbox support, and Infinite Scroll."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:951
+msgid "Shutterpress"
+msgstr ""
+
+#. Plugin URI of the plugin
+#. Author URI of the plugin
+#: shutterpress-gallery.php
+msgid "https://shutterpress.io"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block-render.php:161
+msgid "Error rendering ShutterPress block:"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:459
+#: src/admin/Shutterpress_Gallery_Admin.php:494
+msgid "ShutterPress Galleries"
+msgstr ""
+
+#. Plugin Name of the plugin
+#: shutterpress-gallery.php
+#: src/admin/Shutterpress_Gallery_Admin.php:460
+#: src/admin/Shutterpress_Gallery_Admin.php:484
+msgid "ShutterPress Gallery"
+msgstr ""
+
+#. Author of the plugin
+#: shutterpress-gallery.php
+#: src/admin/Shutterpress_Gallery_Admin.php:461
+msgid "ShutterPress"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:462
+msgid "All Galleries"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:463
+msgid "Add new"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:464
+msgid "Add new Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:465
+msgid "Edit Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:466
+msgid "New Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:467
+msgid "View Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:468
+msgid "View Galleries"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:469
+msgid "Search Galleries"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:470
+msgid "No Galleries found"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:471
+msgid "No Galleries found in trash"
+msgstr "No Galleries found in bin"
+
+#: src/admin/Shutterpress_Gallery_Admin.php:472
+#: src/admin/Shutterpress_Gallery_Admin.php:490
+msgid "Parent Gallery:"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:473
+msgid "Featured image for this Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:474
+msgid "Set featured image for this Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:475
+msgid "Remove featured image for this Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:476
+msgid "Use as featured image for this Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:477
+msgid "Gallery archives"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:478
+msgid "Insert into Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:479
+msgid "Upload to this Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:480
+msgid "Filter Galleries list"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:481
+msgid "Galleries list navigation"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:482
+msgid "Galleries list"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:483
+msgid "Gallery attributes"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:485
+msgid "Gallery published"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:486
+msgid "Gallery published privately."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:487
+msgid "Gallery reverted to draft."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:488
+msgid "Gallery scheduled"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:489
+msgid "Gallery updated."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:524
+msgctxt "post type general name"
+msgid "Gallery Templates"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:525
+msgctxt "post type singular name"
+msgid "Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:526
+msgctxt "admin menu"
+msgid "Gallery Templates"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:527
+msgctxt "add new on admin bar"
+msgid "Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:528
+msgctxt "Gallery template"
+msgid "Add New"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:529
+msgid "Add New Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:530
+msgid "New Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:531
+msgid "Edit Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:532
+msgid "View Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:533
+msgid "Gallery Templates"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:534
+msgid "Search Gallery Templates"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:535
+msgid "Parent Gallery Templates:"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:536
+msgid "No gallery templates found."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:537
+msgid "No gallery templates found in Trash."
+msgstr "No gallery templates found in Bin."
+
+#: src/admin/Shutterpress_Gallery_Admin.php:1036
+msgid "Enjoying"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:1038
+msgid "Please leave a review"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin.php:1038
+msgid "to support the plugin!"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:60
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:121
+msgid "Shutterpress Gallery Settings"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:61
+msgid "Settings"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:70
+msgid "Shutterpress Gallery Help"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:71
+msgid "Help"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:82
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:83
+msgid "Upgrade to Pro"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:108
+msgid "General"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:236
+msgid "Save Settings"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:315
+msgid "ShutterPress General Settings"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:337
+msgid "Tablet Breakpoint (px)"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:338
+msgid "Mobile Breakpoint (px)"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:392
+msgid "Gallery Slug"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:408
+msgid "Images per Page"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:445
+msgid "Define the breakpoint for"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:447
+msgid "(in pixels)"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:460
+msgid "Anonymous Usage Tracking"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:474
+msgid "Enable Debugging"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:484
+msgid "Set the general settings for ShutterPress Gallery."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:530
+msgid "How many images per page or per infinite scroll load"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:558
+msgid "Select a slug for the gallery."
+msgstr ""
+
+#. translators: %1$s is the site URL. %2$s is the user-defined gallery slug.
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:561
+#, php-format
+msgid "Each gallery URL will be %1$s/<strong>%2$s</strong>/gallery-title"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:580
+msgid "Turn on debugging to log plugin activity to wp-content/shutterpress-debug.log."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:601
+msgid "Allow Shutterpress Gallery to collect anonymous usage data to improve the plugin."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:604
+msgid "You can opt out at any time. No personal data is collected."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:605
+msgid "Learn more."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:619
+msgid "SP Meta Box"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:641
+msgid "Meta Field"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:696
+msgid "ShutterPress Gallery Help"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:732
+msgid "Resources"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:738
+msgid "Open Documentation"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:746
+msgid "Contact Support"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:754
+msgid "Watch Videos"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:759
+msgid "Join Facebook Group"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:764
+msgid "Join Discord Group"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:790
+msgid "Signup to our Mailing List"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:794
+msgid "Join our mailing list for tips and product updates, as a special bonus we'll send you a copy of our free 65-page guide: "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:794
+msgid "How to make money from photography"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:797
+msgid "Thanks for subscribing, please check your inbox for a confirmation email."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:799
+msgid "Email address"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:804
+msgid "I confirm I would like to receive occasional emails from ShutterPress"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:806
+msgid "Subscribe"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:834
+msgid "Take your galleries to the next level with advanced tools designed for professional photographers. ShutterPress Pro helps you protect, deliver, and sell your images effortlessly."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:836
+msgid "Image Watermarking - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:836
+msgid "Add custom watermarks to protect your images."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:837
+msgid "Password Protection - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:837
+msgid "Secure galleries with password protection."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:838
+msgid "WooCommerce Integration - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:838
+msgid "Sell prints and downloads with full WooCommerce integration."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:839
+msgid "Private User Galleries - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:839
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:842
+msgid "Create private client galleries with user accounts."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:840
+msgid "Right Click Protection - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:840
+msgid "Prevent image theft by disabling right clicks and image dragging on your galleries."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:841
+msgid "PDF Document Creation - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:841
+msgid "Create pdf documents like license agreements to include in downloads."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:842
+msgid "Send Client Emails - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:843
+msgid "Full Gallery Downloads - "
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:843
+msgid "Download complete galleries as zip files containing the images and any pdf documents."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:845
+msgid "Upgrade Now"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:186
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:195
+msgid "Gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:203
+msgid "Uses the default post gallery if no gallery is selected."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:212
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Use Lightbox"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:216
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:240
+msgid "Yes"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:217
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:241
+msgid "No"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:225
+#, php-format
+msgid "If you want to add custom buttons, create a button and set the Button ID to \"sp-gallery-filter-liked-photos-{{Gallery_id}}\". See <a href=\"%s\">Shutterpress.io</a> for more info."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:236
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Use Default Buttons"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:249
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Layout"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:254
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:319
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Grid"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:255
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:323
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Masonry"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:256
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:327
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Justified"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:264
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:369
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Image Gap"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:287
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:378
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Row Height"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:313
+msgid "Number of Columns"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:499
+msgid "Use post gallery"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:509
+msgid "No galleries found"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Elementor_Widget.php:527
+msgid "Full"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:185
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:193
+msgid "Images"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:198
+msgid "Sorting"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:203
+msgid "Drag & Drop"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:204
+msgid "Filename Ascending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:205
+msgid "Filename Descending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:206
+msgid "Shoot Time Ascending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:207
+msgid "Shoot Time Descending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:208
+msgid "Save Time Ascending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:209
+msgid "Save Time Descending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:210
+msgid "Upload Time Ascending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:211
+msgid "Upload Time Descending"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:218
+msgid "Gallery Options"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:225
+msgid "Favorite Images"
+msgstr "Favourite Images"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:229
+msgid "Choose whether to show the option to like each image. This shows the heart icon and the filter button."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:233
+msgid "Downloadable Images"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:237
+msgid "Choose whether to make images individually downloadable. This shows the download icon on each image and in the lightbox."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:241
+msgid "Download Full-size Image"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:245
+msgid "Choose whether to download the original full-size image or the scaled image. WordPress automatically scales images larger than 2560px on either side."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:251
+msgid "Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:256
+msgid "Select a Gallery Template"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:269
+msgid "Gallery Shortcode"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:278
+msgid "Use this shortcode to display the gallery on the frontend:"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:307
+msgid "Layout Options"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:314
+msgid "Gallery Layout"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:336
+msgid "Primary Color"
+msgstr "Primary Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:344
+msgid "This color is used for buttons and icons, and some other ui elements."
+msgstr "This colour is used for buttons and icons, and some other ui elements."
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:348
+msgid "Pagination"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:355
+msgid "Infinite Scroll"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:359
+msgid "Controls how images load in large galleries. Infinite scroll replaces pagination, but pagination is still used if multiple galleries are on the same page or when editing in Gutenberg or Elementor."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:391
+msgid "Columns"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:395
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:478
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:702
+msgid "Desktop"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:396
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:479
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:703
+msgid "Tablet"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:397
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:480
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:704
+msgid "Mobile"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:419
+msgid "Rounded Corners"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:425
+msgid "Corner Radius"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:453
+msgid "Download Icon"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:466
+msgid "Icon Options"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:474
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:698
+msgid "Icon Size"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:496
+msgid "Show Icons"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:500
+msgid "Always"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:501
+msgid "On Hover"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:506
+msgid "Stroke Width"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:519
+msgid "Icon Position"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:543
+msgid "Lightbox Options"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:550
+msgid "Lightbox"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:557
+msgid "Background Color"
+msgstr "Background Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:568
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:687
+msgid "Icon Color"
+msgstr "Icon Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:579
+msgid "Transition style"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:584
+msgid "Slide"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:585
+msgid "Fade"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:594
+msgid "Hover Effects"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:601
+msgid "Grow Image"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:611
+msgid "Float Image"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:618
+msgid "Height"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:622
+msgid "Low"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:623
+msgid "Medium"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:624
+msgid "High"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:630
+msgid "Shadow Color"
+msgstr "Shadow Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:642
+msgid "Overlay Color"
+msgstr "Overlay Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:648
+msgid "Color"
+msgstr "Colour"
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:664
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:671
+msgid "Overlay Icon"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:724
+msgid "Show Image Title"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:731
+msgid "Show Image Caption"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:740
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:748
+msgid "Custom CSS"
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Meta_Box.php:752
+msgid "Custom CSS is placed inside the class .sp-gallery and will only affect the current gallery template"
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Gallery.php:839
+#: includes/js/shutterpress-gallery-public.js:1
+msgid "Show Favorite Photos"
+msgstr "Show Favourite Photos"
+
+#: src/includes/Shutterpress_Gallery_Gallery.php:918
+msgid "No images found in this gallery."
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Untitled Gallery"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Use Post Gallery"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "ShutterPress Gallery. View the post to see images."
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Error rendering block"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Gallery Settings"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Select Gallery"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Loading galleries…"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Type to search by gallery name"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+#, js-format
+msgid "If you want to add custom buttons, set the button HTML anchor to \"%s\"."
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "See ShutterPress.io for more info."
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Number of Desktop Columns"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Number of Tablet Columns"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/shutterpress-gallery-block.js:1
+msgid "Number of Mobile Columns"
+msgstr ""
+
+#: includes/js/shutterpress-gallery-public.js:1
+msgid "Show All Photos"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/block.json
+msgctxt "block title"
+msgid "ShutterPress Gallery"
+msgstr ""
+
+#: includes/blocks/shutterpress-gallery-block/block.json
+msgctxt "block description"
+msgid "Display the ShutterPress Gallery."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:745
+msgid "If you need help or have a question, get in touch with the ShutterPress support team. We’re photographers ourselves and usually reply within 24 hours on weekdays."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:758
+msgid "Join the private ShutterPress User Group to connect with fellow photographers, share your site, ask questions, and get early access to new features."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:763
+msgid "Hop into the ShutterPress Discord to chat with the team, request features, or show off your latest gallery. Great for quick feedback, ideas, and community hangouts."
+msgstr ""
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:753
+msgid "Watch quick video walkthroughs that show how to set up galleries, customize layouts, protect your work, and sell prints. Perfect if you prefer learning visually."
+msgstr "Watch quick video walkthroughs that show how to set up galleries, customise layouts, protect your work, and sell prints. Perfect if you prefer learning visually."
+
+#: src/admin/Shutterpress_Gallery_Admin_Settings.php:737
+msgid "Find step-by-step guides covering every feature in ShutterPress Gallery, from creating your first gallery to advanced setup and Pro features. The documentation is always kept up to date with new releases."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:882
+msgid "Invalid post ID provided."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:888
+msgid "Post does not exist."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:893
+msgid "You do not have permission to edit this post."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:898
+msgid "Invalid field ID provided."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:903
+msgid "Meta Box plugin function not available."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:941
+msgid "Failed to retrieve gallery images."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:949
+msgid "Failed to update image order."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:965
+msgid "Failed to retrieve sort type."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Utils.php:973
+msgid "Failed to update sorted images."
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Gallery.php:1392
+msgid "Prev"
+msgstr ""
+
+#: src/includes/Shutterpress_Gallery_Gallery.php:1404
+msgid "Next"
+msgstr ""

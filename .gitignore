@@ -1,0 +1,41 @@
+# WordPress core (download fresh, don't track)
+/wp-admin/
+/wp-includes/
+/index.php
+/wp-*.php
+/xmlrpc.php
+/license.txt
+/readme.html
+
+# Local-specific files
+/wp-config.php
+/.htaccess
+/local-phpinfo.php
+/local-xdebuginfo.php
+/wp-config-sample.php
+
+# Uploads (media, large binary files)
+/wp-content/uploads/
+
+# Backups & migration
+/wp-content/ai1wm-backups/
+/wp-content/.litespeed_conf.dat
+/wp-content/plugins/all-in-one-wp-migration/storage/
+*.wpress
+
+# Cache & generated
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backup-db/
+/wp-content/advanced-cache.php
+/wp-content/wp-cache-config.php
+
+# Disabled Hostinger plugins (not for deployment)
+/wp-content/plugins/hostinger.disabled/
+/wp-content/plugins/hostinger-ai-assistant.disabled/
+/wp-content/plugins/hostinger-easy-onboarding.disabled/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log

@@ -1,0 +1,145 @@
+= 1.4.3 = 
+
+* Update - Minor changes to tracking variables
+
+= 1.4.2 = 
+
+* Fix - Minor bug fixes
+* Update - Minor UI Changes
+
+= 1.4.1 = 
+
+* Fix - Removes Error Log Line "Debugging initialized."
+
+= 1.4.0 =
+
+* New - Add optional error logging
+* New - Add REST class
+* New - Pass tracking through a proxy servers
+* Update - Change Ajax calls to REST
+* Update - Remove Mixpanel from Composer
+
+= 1.3.9 =
+
+* Fix - Bug in update tracking causing updates to be logged twice
+
+= 1.3.8 =
+
+* Fix - Bug in update tracking
+
+= 1.3.7 =
+
+* New - Adds Mixpanel PHP SDK
+* New - Adds annonymous tracking to improve the plugin with an optout option.
+
+= 1.3.6 =
+
+* fix - Removes unneccessary error_log commands
+* fix - Corrects css classes when filtering images
+
+= 1.3.5 =
+
+* New - Adds image class
+* New - Adds gallery class
+* Update - Changes the way upgrade link styles are added
+
+= 1.3.4 =
+
+* New - Adds first installed time to options
+* New - Adds Utils helper class
+* New - Adds review notice
+* Update - Ensures correct image is chosen from srcset in multi column galleries
+* Update - Removes upgrade links if pro plugin is active
+* Update - Sanitizes filtered password content
+* Update - Adds data-downloads to gallery output
+* Fix - Removes download icon from lightbox if download not available
+
+= 1.3.3 =
+
+* Update - Checks if slug is already registered before registering custom post type
+* update - Reduces database queries on gallery load
+* Update - Adds ajax image download to download from remote servers
+* Fix - Fixes bug with masonry gallery and lazy loading
+
+= 1.3.2 =
+
+* Fix - Allow thumbnail to show in lightgallery when using lazy load
+
+= 1.3.1 =
+
+* New - Adds upgrade links to the admin page
+
+= 1.3.0 =
+
+* New - Various updates to ensure compatibility with pro version
+* Fix - issue with loading liked image data with caching plugins
+* Update - requirements for loading script files
+* Update - add filters for pro plugin
+* Update - Unifies nonce name
+* Update - Adds compatibility with wordpress 6.7.1
+
+= 1.2.5 =
+
+* New - Updates gallery settings via Ajax
+* Fix - Gets image likes and user status via Ajax to work better with caching plugins
+* Fix - Only loads wpColorPicker on the settings page
+
+= 1.2.4 =
+
+* New - Allows changing the default gallery slug to avoid conflicts with other plugins
+* Update - Changes grid loyout so all images are square and cover the container
+* Update - Stores gallery instances in an array rather than custom variables
+
+= 1.2.3 =
+
+* New - Color picker in the setting page for the default color
+* Update - Delays gallery render until inline css is loaded
+* Update - Adds more classes to gallery buttons
+* Fix - Issue where images in the media library couldn't be deleted 
+
+= 1.2.2 =
+
+* Fix - Icon CSS
+
+= 1.2.1 =
+
+* Fix - CSS issue where icons didn't show in mobile devices
+* Fix - Namespace for WP_Query
+
+= 1.2.0 =
+
+* New - Adds a new elementor widget.
+* New - Adds options to the Gutenberg block and shortcode
+* New - Allows use of custom buttons in Elementor and Gutenberg
+* New - Adds image sorting in the gallery admin page
+* New - Allows multiple galleries on a page
+* New - Adds namespace to all classes
+* Fix - Syncs favorite image data from cookie storage after logging in
+* Fix - Responsive layouts not rendering correctly at smaller sizes
+* Fix - Checks for favorite images before filtering
+* Fix - Makes better use of Render Class to render each gallery
+* Update - Changes class for liked images to sp-gallery-liked
+* Update - Moves Ajax functions to a new Class
+
+= 1.1.0 =
+
+* Changes gallery image storage from a single postmeta entry for each image to an array of image ids.
+
+= 1.0.2 =
+
+* Fixes issue with image metadata not being removed from a gallery when an image is deleted.
+* Adds a filter to allow developers to add additional settings page tabs.
+* Checks if metabox.io is installed before loading the metabox.io scripts.
+* Adds compatiibility with PHP 8.1.
+* Fixes an issue when users weren't returned to the correct tab when saving settings.
+
+= 1.0.1 =
+
+* Adds composer.json file 
+* Correctly adds inline styles
+* Adds Jquery imagesloaded locally
+* Changes all prefixes to sp_gallery or Shutterpress_Gallery
+
+= 1.0.0 =
+
+* Initial release with image galleries, shortcode, Gutenberg block, favorite image feature, image download, lightbox and filter functionality.

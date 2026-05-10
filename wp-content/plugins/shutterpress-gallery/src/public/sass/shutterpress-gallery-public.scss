@@ -1,0 +1,877 @@
+// =============================
+// Variables
+// =============================
+$primary-color: var(--sp-gallery-color-primary);
+$accent-color: var(--sp-gallery-color-accent);
+$shutterpress-red: #ee2e4f;
+$white: #fff;
+$black: #333;
+$grey: #666;
+$light-grey: #f2f2f2;
+$transition: 0.3s;
+
+$icon-size: var(--sp-gallery-icon-size);
+$icon-container-size: 50px;
+$border-radius: 5px;
+
+$gap-large: 20px;
+$gap-small: 8px;
+$pagination-padding: 5px 15px;
+$button-padding: 12px 24px;
+
+// =============================
+// Root CSS variables bridged from Sass
+// =============================
+:root {
+  --sp-gallery-transition: #{$transition};
+}
+
+// =============================
+// Mixins
+// =============================
+@mixin flex-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+@mixin horizontal-icons {
+  flex-direction: row;
+  padding: calc($icon-size * 0.5) calc($icon-size * 0.75);
+}
+
+@mixin vertical-icons {
+  flex-direction: column;
+  padding: calc($icon-size * 0.75) calc($icon-size * 0.5);
+}
+
+@mixin magic-border($w, $color, $dur, $dir: 1) {
+  position: relative;
+  &::before {
+    content: "";
+    position: absolute;
+    inset: 0; /* draw inside the box so it isn't clipped by ancestor overflow */
+    pointer-events: none;
+    z-index: 0; /* behind the content */
+    /* five layers, all set to no-repeat explicitly */
+    background:
+      linear-gradient(to right, $color 0 0) 50% 100% / 100% $w no-repeat,
+      linear-gradient(to top, $color 50%, transparent 0) 0 0 / $w 200% no-repeat,
+      linear-gradient(to top, $color 50%, transparent 0) 100% 0 / $w 200%
+        no-repeat,
+      linear-gradient(to right, $color 0 0) 100% 0 / 0% $w no-repeat,
+      linear-gradient(to left, $color 0 0) 0 0 / 0% $w no-repeat;
+    transition:
+      transform $dur ease-in-out,
+      background-position $dur ease-in-out,
+      background-size $dur ease-in-out;
+    /* compute the angle in Sass, then interpolate */
+    transform: scaleX(0) rotate(#{180deg * $dir});
+    transition-delay:
+      $dur * 2,
+      $dur,
+      0s;
+  }
+
+  &:hover::before {
+    background-size:
+      200% $w,
+      $w 400%,
+      $w 400%,
+      55% $w,
+      55% $w;
+    background-position:
+      50% 100%,
+      0% 100%,
+      100% 100%,
+      100% 0%,
+      0% 0%;
+    transform: scaleX(1) rotate(#{180deg * $dir});
+    transition-delay:
+      0s,
+      $dur,
+      $dur * 2;
+  }
+}
+
+// =============================
+// Utilities
+// =============================
+.sp-gallery-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+.sp-gallery-item-hidden {
+  opacity: 0;
+  visibility: hidden;
+}
+
+// =============================
+// Layout containers
+// =============================
+.sp-gallery-grid-gallery {
+  display: grid;
+}
+
+.sp-gallery-grid-item {
+  height: 100%;
+
+  img {
+    aspect-ratio: 1/1;
+    object-fit: cover;
+    max-width: 100%;
+    max-height: 100%;
+    height: 100% !important;
+  }
+}
+
+.sp-gallery-masonry-gallery {
+  margin: 0;
+  padding: 0;
+  position: relative;
+  width: 100%;
+  display: grid;
+
+  .sp-gallery-masonry-item {
+    img {
+      height: 100%;
+    }
+  }
+}
+
+.sp-gallery-justified-item {
+  img {
+    height: 100%;
+    width: auto;
+    max-width: 100%;
+    object-fit: cover;
+  }
+
+  .elementor & {
+    img {
+      height: 100%;
+      width: auto;
+      max-width: 100%;
+      object-fit: cover;
+    }
+  }
+}
+
+// =============================
+// Core gallery container and variants
+// =============================
+
+.sp-gallery {
+  --sp-gallery-shadow-color: 0deg 0% 0%;
+  --sp-gallery-shadow-elevation-low:
+    0px 1px 1.2px hsl(var(--sp-gallery-shadow-color) / 0.11),
+    0px 2px 2.5px -0.9px hsl(var(--sp-gallery-shadow-color) / 0.14),
+    0px 5px 6.2px -1.7px hsl(var(--sp-gallery-shadow-color) / 0.17);
+  --sp-gallery-shadow-elevation-medium:
+    0px 0.4px 0.6px hsl(var(--sp-gallery-shadow-color) / 0),
+    0px 2.4px 3.6px hsl(var(--sp-gallery-shadow-color) / 0.08),
+    0px 5px 7.5px hsl(var(--sp-gallery-shadow-color) / 0.16),
+    0px 10.3px 15.5px hsl(var(--sp-gallery-shadow-color) / 0.25);
+  --sp-gallery-shadow-elevation-high:
+    0px 0.5px 0.6px hsl(var(--sp-gallery-shadow-color) / 0.09),
+    -0.1px 5.2px 6.6px -0.2px hsl(var(--sp-gallery-shadow-color) / 0.11),
+    -0.1px 9.6px 12.2px -0.4px hsl(var(--sp-gallery-shadow-color) / 0.12),
+    -0.1px 15px 19.1px -0.6px hsl(var(--sp-gallery-shadow-color) / 0.14),
+    -0.2px 22.6px 28.8px -0.9px hsl(var(--sp-gallery-shadow-color) / 0.15),
+    -0.3px 33.6px 42.8px -1.1px hsl(var(--sp-gallery-shadow-color) / 0.17),
+    -0.5px 49.3px 62.9px -1.3px hsl(var(--sp-gallery-shadow-color) / 0.18),
+    -0.7px 70.8px 90.3px -1.5px hsl(var(--sp-gallery-shadow-color) / 0.2);
+
+  .sp-gallery-item-inner {
+    overflow: hidden;
+    width: 100%;
+    height: 100%;
+
+    .sp-gallery-image-container {
+      width: 100%;
+      height: 100%;
+
+      .sp-gallery-item-lightbox {
+        cursor: pointer;
+      }
+
+      img {
+        display: block;
+        max-width: 100%;
+        margin: 0 auto;
+        content-visibility: auto;
+        contain-intrinsic-size: auto none;
+      }
+    }
+
+    .sp-gallery-overlay-container {
+      position: absolute;
+      inset: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      pointer-events: none; /* don't block image clicks */
+      z-index: 20;
+
+      svg {
+        stroke: var(--sp-gallery-overlay-icon-color);
+        width: var(--sp-gallery-hover-icon-size);
+        height: var(--sp-gallery-hover-icon-size);
+        stroke-width: var(--sp-gallery-icon-stroke-width);
+        transform-origin: center;
+        transform-box: fill-box; /* make origin respect the SVG box */
+        will-change: transform;
+        position: relative;
+        vector-effect: non-scaling-stroke;
+      }
+    }
+  }
+
+  &.sp-gallery-icons-on-hover {
+    .sp-gallery-image-icons-container {
+      opacity: 0;
+      transition: opacity $transition ease;
+    }
+    .sp-gallery-item:hover .sp-gallery-image-icons-container {
+      opacity: 1;
+    }
+  }
+
+  &.sp-gallery-rounded {
+    //.sp-gallery-item,
+    .sp-gallery-item img,
+    .sp-gallery-item-inner,
+    .sp-gallery-overlay-container,
+    .sp-gallery-image-icons-container {
+      border-radius: var(--sp-gallery-border-radius);
+      overflow: hidden;
+    }
+  }
+
+  &.sp-gallery-image-grow {
+    .sp-gallery-item img {
+      transform-origin: center center;
+      transform: scale(1);
+      transition: transform $transition ease;
+    }
+    .sp-gallery-item:hover img {
+      transform: scale(1.1);
+    }
+  }
+
+  .sp-gallery-item {
+    .sp-gallery-overlay-container {
+      padding: 10px;
+      overflow: hidden;
+      flex-direction: column;
+      gap: 10px;
+    }
+  }
+
+  &.sp-gallery-overlay .sp-gallery-item {
+    .sp-gallery-overlay-container {
+      &::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background-color: var(--sp-gallery-overlay-color);
+        opacity: 0;
+        transition: opacity var(--sp-gallery-transition) ease;
+      }
+    }
+
+    &:hover {
+      .sp-gallery-overlay-container::before {
+        opacity: 1;
+      }
+    }
+  }
+
+  &.sp-gallery-overlay-icon {
+    .sp-gallery-item .sp-gallery-overlay-icon-container {
+      opacity: 0;
+      // z-index: 20;
+      transition: opacity var(--sp-gallery-transition) ease;
+    }
+
+    .sp-gallery-item:hover .sp-gallery-overlay-icon-container {
+      opacity: 1;
+      // z-index: 20;
+      //   transition: opacity var(--sp-gallery-transition) ease;
+    }
+  }
+
+  &.sp-gallery-overlay-title,
+  &.sp-gallery-overlay-caption {
+    .sp-gallery-item {
+      .sp-gallery-overlay-container {
+        text-align: center;
+        color: white;
+
+        .sp-gallery-image-title,
+        .sp-gallery-image-caption {
+          text-align: center;
+          color: white;
+          z-index: 30;
+          opacity: 0;
+          transition: opacity var(--sp-gallery-transition) ease;
+        }
+
+        .sp-gallery-image-title {
+          font-weight: 500;
+          font-size: 20px;
+          // align-self: flex-start;
+          //  transform: translateX(-100%);
+          order: 1;
+        }
+        .sp-gallery-image-caption {
+          color: white;
+          // align-self: flex-end;
+          //   transform: translateX(100%);
+          font-size: 20px;
+          order: 3;
+        }
+      }
+
+      &:hover {
+        .sp-gallery-overlay-container {
+          .sp-gallery-image-title,
+          .sp-gallery-image-caption {
+            opacity: 1;
+          }
+        }
+      }
+    }
+  }
+
+  @keyframes slideInLeft {
+    from {
+      transform: translateX(-100%); /* start off to the left */
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  @keyframes slideInRight {
+    from {
+      transform: translateX(100%); /* start off to the left */
+      opacity: 0;
+    }
+    to {
+      transform: translateX(0);
+      opacity: 1;
+    }
+  }
+
+  &.sp-gallery-float {
+    .sp-gallery-item:hover {
+      position: relative;
+      z-index: 10;
+    }
+
+    .sp-gallery-item .sp-gallery-item-inner {
+      transform: scale(1);
+      box-shadow: none;
+      transition:
+        transform var(--sp-gallery-transition) ease,
+        box-shadow var(--sp-gallery-transition) ease;
+      will-change: transform, box-shadow;
+    }
+
+    .sp-gallery-item:hover .sp-gallery-item-inner {
+      transform: var(--sp-gallery-float-scale);
+      box-shadow: var(--sp-gallery-float-shadow);
+    }
+  }
+}
+
+// =============================
+// Overlays and icon controls
+// =============================
+
+.sp-gallery-image-icons-container {
+  position: absolute;
+  display: flex;
+  inset: 0;
+  padding: 20px;
+  z-index: 30;
+  pointer-events: none;
+
+  .sp-gallery-image-icons {
+    position: absolute;
+    @include flex-center;
+    gap: calc($icon-size * 0.5);
+    transition: all $transition ease;
+
+    pointer-events: all;
+
+    &.sp-gallery-icon-block {
+      &:hover {
+        background-color: var(--sp-gallery-icon-bg-color);
+      }
+    }
+
+    &.sp-gallery-icon-pill {
+      border-radius: 1000px;
+      border: solid 1px rgba(255, 255, 255, 0);
+
+      &:hover {
+        background-color: rgba(0, 0, 0, 0.75);
+        backdrop-filter: blur(10px);
+        border: solid 1px rgba(255, 255, 255, 0.1);
+        background: #ffffff;
+        background: linear-gradient(
+          0deg,
+          rgba(255, 255, 255, 0.2) 0%,
+          rgba(255, 255, 255, 0) 100%
+        );
+      }
+    }
+
+    .sp-gallery-like-icon,
+    .sp-gallery-image-icon {
+      border: none;
+      background: none;
+      cursor: pointer;
+      max-width: $icon-size;
+      aspect-ratio: 1 / 1;
+      @include flex-center;
+      height: $icon-size;
+      width: $icon-size;
+
+      svg {
+        width: $icon-size;
+        height: $icon-size;
+        stroke: $white;
+        transition: stroke $transition ease;
+        stroke-width: var(--sp-gallery-icon-stroke-width);
+      }
+
+      &:focus {
+        outline-style: none;
+      }
+    }
+
+    .sp-gallery-like-icon {
+      &:hover svg {
+        stroke: $shutterpress-red;
+      }
+      &.sp-gallery-liked-image svg {
+        stroke: $shutterpress-red;
+        fill: $shutterpress-red;
+      }
+    }
+
+    .sp-gallery-image-icon:hover svg {
+      stroke: $primary-color;
+    }
+  }
+
+  // position variants
+  .sp-gallery-icons-tl & {
+    align-items: start;
+    justify-content: start;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      top: 0;
+      left: 0;
+      border-radius: 0 0 var(--sp-gallery-border-radius) 0;
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-tc & {
+    align-items: start;
+    justify-content: center;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      top: 0;
+      left: 0;
+      right: 0;
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-tr & {
+    align-items: start;
+    justify-content: end;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      top: 0;
+      right: 0;
+      border-radius: 0 0 0 var(--sp-gallery-border-radius);
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-ml & {
+    align-items: center;
+    justify-content: start;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      left: 0;
+      top: 0;
+      bottom: 0;
+    }
+    .sp-gallery-image-icons {
+      @include vertical-icons;
+    }
+  }
+  .sp-gallery-icons-mc & {
+    align-items: center;
+    justify-content: center;
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-mr & {
+    align-items: center;
+    justify-content: end;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      right: 0;
+      top: 0;
+      bottom: 0;
+    }
+    .sp-gallery-image-icons {
+      @include vertical-icons;
+    }
+  }
+  .sp-gallery-icons-bl & {
+    align-items: end;
+    justify-content: start;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      bottom: 0;
+      left: 0;
+      border-radius: 0 var(--sp-gallery-border-radius) 0 0;
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-bc & {
+    align-items: end;
+    justify-content: center;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      bottom: 0;
+      left: 0;
+      right: 0;
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+  .sp-gallery-icons-br & {
+    align-items: end;
+    justify-content: end;
+    .sp-gallery-image-icons.sp-gallery-icon-block {
+      bottom: 0;
+      right: 0;
+      border-radius: var(--sp-gallery-border-radius) 0 0 0;
+    }
+    .sp-gallery-image-icons {
+      @include horizontal-icons;
+    }
+  }
+}
+
+// =============================
+// Buttons
+// =============================
+.sp-gallery-buttons {
+  margin-bottom: $gap-large;
+  gap: $gap-large;
+  @include flex-center;
+  flex-wrap: wrap;
+}
+
+.sp-gallery-button-container {
+  cursor: pointer;
+}
+
+.sp-gallery-button {
+  background-color: $primary-color;
+  display: inline-block;
+  text-decoration: none;
+  padding: $button-padding;
+  border-radius: $border-radius;
+  font-size: 16px;
+  font-weight: 500;
+  line-height: 1em;
+  border: none;
+  color: $white;
+  transition: background-color $transition ease;
+  cursor: pointer;
+
+  &:not(.wp-block-button__link) {
+    &:focus {
+      outline-style: none;
+      background-color: $accent-color;
+    }
+    &:hover {
+      outline-style: none;
+      background-color: $accent-color;
+    }
+  }
+}
+
+.sp-gallery-elementor-button {
+  background-color: $primary-color;
+  padding: $button-padding;
+  border-radius: $border-radius;
+  font-size: 16px;
+  border: none;
+  color: $white;
+}
+
+.elementor-button .sp-gallery-button {
+  background-color: inherit;
+  border: none;
+}
+
+// =============================
+// Pagination
+// =============================
+.sp-gallery-pagination {
+  margin-top: $gap-large;
+  text-align: center;
+
+  a,
+  span {
+    display: inline-block;
+    padding: $pagination-padding;
+    margin: 0 2px;
+    border: 2px solid $light-grey;
+    background-color: $light-grey;
+    border-radius: $border-radius;
+    text-decoration: none;
+    color: $black;
+    font-size: 18px;
+    transition:
+      background-color $transition ease,
+      border $transition ease,
+      color $transition ease;
+
+    &:focus {
+      border: 2px solid $primary-color;
+      outline: none;
+    }
+  }
+
+  a:hover,
+  span:hover,
+  .active {
+    background-color: $primary-color;
+    border: 2px solid $primary-color;
+    color: $white;
+  }
+}
+
+// =============================
+// Loaders and lazy states
+// =============================
+.sp-gallery-loader {
+  @include flex-center;
+  height: 60px;
+  gap: $gap-small;
+
+  .dot {
+    width: 15px;
+    height: 15px;
+    background-color: $black;
+    border-radius: 50%;
+    animation: sp-bounce 1.2s infinite ease-in-out both;
+  }
+  .dot1 {
+    animation-delay: -0.32s;
+  }
+  .dot2 {
+    animation-delay: -0.16s;
+  }
+  .dot3 {
+    animation-delay: 0;
+  }
+}
+
+.sp-gallery-back-to-top:hover svg {
+  stroke: $grey;
+  transform: translateY(-2px);
+  transition: all 0.2s ease;
+}
+
+.sp-gallery-page-load-status {
+  display: none;
+}
+
+.sp-gallery-page-load-container {
+  display: none;
+  min-height: 60px;
+}
+
+@keyframes sp-bounce {
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+    opacity: 0.4;
+  }
+  40% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+// =============================
+// Editor and environment tweaks
+// =============================
+.elementor-editor-active .page-load-status {
+  display: none;
+}
+
+body.admin-bar .lg-container .lg-outer {
+  top: var(--wp-admin--admin-bar--height);
+  height: calc(100vh - var(--wp-admin--admin-bar--height));
+}
+
+// =============================
+// Lightgallery integration (examples, kept commented)
+// =============================
+
+.lg-container {
+  .lg-backdrop {
+    background-color: var(--lg-background-color);
+  }
+
+  .lg-toolbar {
+    .lg-close::after,
+    .lg-autoplay-button::after,
+    .lg-fullscreen::after,
+    .lg-download::after,
+    .lg-zoom-in::after,
+    .lg-zoom-out::after {
+      content: none !important;
+      display: none;
+    }
+  }
+
+  .lg-toolbar {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-end;
+    gap: 20px;
+    padding: 15px;
+
+    button,
+    button:hover,
+    button:focus {
+      background-color: var(--lg-background-color);
+      border: none;
+    }
+
+    .lg-icon {
+      color: var(--lg-icon-color);
+      padding: 0;
+      height: 24px;
+      width: 24px;
+      order: 1;
+      svg {
+        height: 24px;
+        width: 24px;
+        stroke-width: 2;
+      }
+      &:hover {
+        color: var(--lg-hover-color, --toolbar-icon-hover-color);
+      }
+      &.lg-close {
+        order: 100;
+      }
+      &.lg-fullscreen {
+        order: 10;
+      }
+      &.lg-autoplay-button {
+        order: 20;
+      }
+      &.lg-zoom-in {
+        order: 30;
+        .lucide-zoom-out {
+          display: none;
+        }
+      }
+      &.lg-zoom-out {
+        order: 30;
+        .lucide-zoom-in {
+          display: none;
+        }
+      }
+      &.lg-download {
+        order: 40;
+      }
+    }
+
+    .lg-counter {
+      order: 0;
+      margin-right: auto;
+      padding: 0;
+      height: 24px;
+      line-height: 24px;
+      font-size: 16px;
+      color: var(--lg-icon-color);
+    }
+  }
+
+  .lg-content {
+    .lg-next,
+    .lg-prev {
+      color: var(--lg-icon-color);
+      transition: color 0.2s linear;
+      &:hover:not(.disabled) {
+        color: var(--lg-hover-color);
+      }
+    }
+  }
+
+  .lg-components {
+    .lg-thumb-item {
+      &.active,
+      &:hover {
+        border-color: var(--lg-hover-color);
+      }
+    }
+  }
+
+  .lg-progress-bar {
+    .lg-progress {
+      background-color: var(--lg-hover-color);
+    }
+  }
+
+  .lg-outer {
+    .lg-thumb-outer {
+      background-color: var(--lg-background-color);
+    }
+    &.lg-show-autoplay {
+      .lucide-play {
+        display: none;
+      }
+    }
+    &:not(.lg-show-autoplay) {
+      .lucide-pause {
+        display: none;
+      }
+    }
+    &.lg-fullscreen-on {
+      .lucide-expand {
+        display: none;
+      }
+    }
+    &:not(.lg-fullscreen-on) {
+      .lucide-shrink {
+        display: none;
+      }
+    }
+  }
+}
