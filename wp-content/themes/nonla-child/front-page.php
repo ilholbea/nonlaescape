@@ -303,6 +303,7 @@ img { display: block; max-width: 100%; }
   <ul class="nav-links">
     <li><a href="#about"><span class="t" data-en="About" data-ro="Despre">About</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/projects')); ?>"><span class="t" data-en="Projects" data-ro="Proiecte">Projects</span></a></li>
+    <li><a href="<?php echo esc_url(home_url('/team')); ?>"><span class="t" data-en="Team" data-ro="Echipă">Team</span></a></li>
     <li><a href="#contact"><span class="t" data-en="Contact" data-ro="Contact">Contact</span></a></li>
   </ul>
   <div class="nav-right">
@@ -322,7 +323,7 @@ img { display: block; max-width: 100%; }
   <div class="hero-overlay"></div>
   <div class="hero-content">
     <div class="hero-eyebrow">
-      <span class="t" data-en="Romanian NGO · Cultural Travel" data-ro="ONG Românesc · Turism Cultural">Romanian NGO · Cultural Travel</span>
+      <span class="t" data-en="Escape the ordinary. Discover the unknown." data-ro="Evadează din obișnuit. Descoperă necunoscutul.">Escape the ordinary. Discover the unknown.</span>
     </div>
     <h1>
       <span class="t" data-en="Cultural" data-ro="Escapade">Cultural</span><br>
@@ -383,20 +384,20 @@ img { display: block; max-width: 100%; }
           <em><span class="t" data-en="a Trip." data-ro="Decât O Călătorie.">a Trip.</span></em>
         </h2>
         <p class="reveal d2 t"
-           data-en="Nonla Cultural Escape is a Romanian NGO dedicated to authentic travel. We believe travel should create genuine connections — with places, with cultures, and with people."
-           data-ro="Nonla Cultural Escape este un ONG românesc dedicat călătoriilor autentice. Credem că o călătorie trebuie să creeze conexiuni reale — cu locurile, cu culturile și cu oamenii.">
-          Nonla Cultural Escape is a Romanian NGO dedicated to authentic travel. We believe travel should create genuine connections — with places, with cultures, and with people.
+           data-en="Nonla Cultural Escape is a non-governmental organization founded in Romania with a global vision — offering a safe and inclusive space for cultural exchange and personal growth."
+           data-ro="Nonla Cultural Escape este o organizație neguvernamentală fondată în România cu o viziune globală — oferind un spațiu sigur și incluziv pentru schimb cultural și dezvoltare personală.">
+          Nonla Cultural Escape is a non-governmental organization founded in Romania with a global vision — offering a safe and inclusive space for cultural exchange and personal growth.
         </p>
         <p class="reveal d3 t"
-           data-en="We organize small-group trips to Vietnam where everything is handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese."
-           data-ro="Organizăm călătorii în grup mic în Vietnam unde totul este inclus — zboruri, cazare, transferuri și coordonatori experți care vorbesc română, engleză și vietnameză.">
-          We organize small-group trips to Vietnam where everything is handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese.
+           data-en="We organize small-group trips to Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders."
+           data-ro="Organizăm călătorii în grup mic în Vietnam cu totul inclus — zboruri, cazare, transferuri și coordonatori experți care vorbesc română, engleză și vietnameză. Misiunea noastră: conexiuni autentice peste granițe.">
+          We organize small-group trips to Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders.
         </p>
         <blockquote class="about-quote reveal d4">
           <span class="t"
-                data-en="Not just a trip — a shift in how you see the world."
-                data-ro="Nu doar o călătorie — o schimbare în modul în care privești lumea.">
-            Not just a trip — a shift in how you see the world.
+                data-en="Building connections through shared adventures and creating a supportive environment for everyone."
+                data-ro="Construim conexiuni prin aventuri comune și creăm un mediu de susținere pentru toată lumea.">
+            Building connections through shared adventures and creating a supportive environment for everyone.
           </span>
         </blockquote>
       </div>
