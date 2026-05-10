@@ -1,1135 +1,634 @@
 <?php
-/**
- * Nonla Cultural Escape — Homepage
- */
+$photos = get_stylesheet_directory_uri() . '/assets/photos/';
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
 <meta charset="<?php bloginfo('charset'); ?>">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Nonla Cultural Escape</title>
+<title>Vietnam Escape Vol. 5 — Nonla Cultural Escape</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600&family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital@1&display=swap" rel="stylesheet">
 <?php wp_head(); ?>
 <style>
-/* ─── Reset & Base ─── */
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
-  --black:   #080808;
-  --dark:    #111111;
-  --card:    #181818;
-  --border:  #2a2a2a;
-  --gold:    #e8a040;
-  --gold-2:  #c97b28;
-  --rust:    #c94c3e;
-  --white:   #f5f0eb;
-  --muted:   #888880;
-  --font-head: 'Bebas Neue', sans-serif;
-  --font-body: 'Inter', sans-serif;
-  --font-serif: 'Playfair Display', serif;
+  --black:  #080808;
+  --dark:   #111;
+  --card:   #161616;
+  --border: #252525;
+  --gold:   #e8a040;
+  --gold2:  #c97b28;
+  --rust:   #c0402f;
+  --white:  #f4efe9;
+  --muted:  #7a7570;
+  --head:   'Bebas Neue', sans-serif;
+  --body:   'Inter', sans-serif;
+  --serif:  'Playfair Display', serif;
 }
 
 html { scroll-behavior: smooth; }
-
-body {
-  background: var(--black);
-  color: var(--white);
-  font-family: var(--font-body);
-  font-size: 16px;
-  line-height: 1.6;
-  overflow-x: hidden;
-}
-
+body { background: var(--black); color: var(--white); font-family: var(--body); overflow-x: hidden; }
 a { color: inherit; text-decoration: none; }
 img { display: block; max-width: 100%; }
 
-/* ─── Nav ─── */
-.nl-nav {
-  position: fixed;
-  top: 0; left: 0; right: 0;
-  z-index: 100;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 24px 48px;
-  transition: background .4s, padding .4s, backdrop-filter .4s;
+/* ── NAV ── */
+.nav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 200;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 28px 52px;
+  transition: background .35s, padding .35s, backdrop-filter .35s;
 }
-.nl-nav.scrolled {
-  background: rgba(8,8,8,.85);
-  backdrop-filter: blur(12px);
-  padding: 16px 48px;
-  border-bottom: 1px solid var(--border);
+.nav.stuck {
+  background: rgba(8,8,8,.9); backdrop-filter: blur(16px);
+  padding: 16px 52px; border-bottom: 1px solid var(--border);
 }
-.nl-logo {
-  font-family: var(--font-head);
-  font-size: 26px;
-  letter-spacing: .08em;
-  color: var(--white);
-}
-.nl-logo span { color: var(--gold); }
-.nl-nav-links {
-  display: flex;
-  gap: 36px;
-  list-style: none;
-  font-size: 13px;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-weight: 500;
-}
-.nl-nav-links a {
-  color: var(--muted);
-  transition: color .2s;
-}
-.nl-nav-links a:hover { color: var(--white); }
-.nl-nav-cta {
-  background: var(--gold);
-  color: var(--black) !important;
-  padding: 10px 24px;
-  border-radius: 2px;
-  font-weight: 600;
-  font-size: 13px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
+.logo { font-family: var(--head); font-size: 24px; letter-spacing: .1em; }
+.logo span { color: var(--gold); }
+.nav-links { display: flex; gap: 32px; list-style: none; }
+.nav-links a { font-size: 12px; letter-spacing: .14em; text-transform: uppercase; color: var(--muted); transition: color .2s; }
+.nav-links a:hover { color: var(--white); }
+.nav-cta {
+  background: var(--gold); color: var(--black); font-size: 12px; font-weight: 700;
+  letter-spacing: .12em; text-transform: uppercase; padding: 11px 26px; border-radius: 2px;
   transition: background .2s, transform .2s;
 }
-.nl-nav-cta:hover { background: var(--gold-2); transform: translateY(-1px); }
+.nav-cta:hover { background: var(--gold2); transform: translateY(-1px); }
 
-/* ─── Hero ─── */
-.nl-hero {
-  position: relative;
-  min-height: 100vh;
-  display: flex;
-  align-items: center;
+/* ── HERO ── */
+.hero {
+  position: relative; min-height: 100vh; display: flex; align-items: flex-end;
   overflow: hidden;
 }
-.nl-hero-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 80% 60% at 70% 50%, rgba(232,160,64,.12) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 80% at 10% 80%, rgba(201,76,62,.10) 0%, transparent 55%),
-    var(--black);
+.hero-photo {
+  position: absolute; inset: 0;
+  background: url('<?php echo $photos; ?>hero.jpg') center center / cover no-repeat;
 }
-.nl-hero-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
-  background-size: 80px 80px;
-  mask-image: radial-gradient(ellipse 90% 80% at 60% 50%, black, transparent);
+.hero-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(
+    to bottom,
+    rgba(8,8,8,.55) 0%,
+    rgba(8,8,8,.2) 35%,
+    rgba(8,8,8,.5) 65%,
+    rgba(8,8,8,.95) 100%
+  );
 }
-.nl-hero-content {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 160px 48px 100px;
-  width: 100%;
+.hero-content {
+  position: relative; z-index: 2;
+  width: 100%; max-width: 1200px; margin: 0 auto;
+  padding: 0 52px 80px;
 }
-.nl-hero-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: .28em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-bottom: 20px;
+}
+.hero-eyebrow::before { content: ''; width: 28px; height: 1px; background: var(--gold); }
+.hero h1 {
+  font-family: var(--head);
+  font-size: clamp(80px, 11vw, 160px);
+  line-height: .88; letter-spacing: .015em; text-transform: uppercase;
   margin-bottom: 28px;
 }
-.nl-hero-eyebrow::before {
-  content: '';
-  display: block;
-  width: 32px;
-  height: 1px;
-  background: var(--gold);
+.hero h1 em { font-style: normal; -webkit-text-stroke: 1.5px var(--white); color: transparent; }
+.hero-row {
+  display: flex; align-items: flex-end; justify-content: space-between; gap: 40px; flex-wrap: wrap;
 }
-.nl-hero h1 {
-  font-family: var(--font-head);
-  font-size: clamp(72px, 10vw, 148px);
-  line-height: .92;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  margin-bottom: 32px;
-  max-width: 900px;
+.hero-sub {
+  font-size: 17px; color: rgba(244,239,233,.7); max-width: 420px;
+  line-height: 1.75; font-weight: 300;
 }
-.nl-hero h1 em {
-  font-style: normal;
-  -webkit-text-stroke: 1px var(--white);
-  color: transparent;
-}
-.nl-hero-sub {
-  font-size: 18px;
-  color: var(--muted);
-  max-width: 480px;
-  line-height: 1.7;
-  margin-bottom: 48px;
-  font-weight: 300;
-}
-.nl-hero-actions {
-  display: flex;
-  gap: 16px;
-  flex-wrap: wrap;
-  align-items: center;
-}
-.nl-btn-primary {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  background: var(--gold);
-  color: var(--black);
-  font-weight: 700;
-  font-size: 13px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  padding: 16px 36px;
-  border-radius: 2px;
+.hero-actions { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.btn-primary {
+  display: inline-flex; align-items: center; gap: 10px;
+  background: var(--gold); color: var(--black); font-weight: 700;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase;
+  padding: 15px 34px; border-radius: 2px;
   transition: background .2s, transform .2s, box-shadow .2s;
 }
-.nl-btn-primary:hover {
-  background: var(--gold-2);
-  transform: translateY(-2px);
-  box-shadow: 0 16px 40px rgba(232,160,64,.25);
+.btn-primary:hover { background: var(--gold2); transform: translateY(-2px); box-shadow: 0 14px 36px rgba(232,160,64,.3); }
+.btn-ghost {
+  display: inline-flex; align-items: center; gap: 8px;
+  font-size: 12px; letter-spacing: .12em; text-transform: uppercase; font-weight: 500;
+  color: rgba(244,239,233,.65); border-bottom: 1px solid var(--border);
+  padding: 15px 4px; transition: color .2s, border-color .2s;
 }
-.nl-btn-ghost {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  color: var(--white);
-  font-size: 13px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  font-weight: 500;
-  padding: 16px 20px;
-  border-bottom: 1px solid var(--border);
-  transition: color .2s, border-color .2s;
+.btn-ghost:hover { color: var(--white); border-color: var(--white); }
+.hero-stats {
+  display: flex; gap: 36px; flex-shrink: 0;
+  border-left: 1px solid var(--border); padding-left: 36px;
 }
-.nl-btn-ghost:hover { color: var(--gold); border-color: var(--gold); }
+.stat-n { font-family: var(--head); font-size: 44px; line-height: 1; color: var(--gold); }
+.stat-l { font-size: 10px; text-transform: uppercase; letter-spacing: .18em; color: var(--muted); margin-top: 4px; }
 
-.nl-hero-stats {
-  position: absolute;
-  bottom: 60px;
-  right: 48px;
-  display: flex;
-  gap: 48px;
+/* ── TICKER ── */
+.ticker-wrap { background: var(--gold); overflow: hidden; padding: 14px 0; }
+.ticker { display: flex; animation: tick 25s linear infinite; white-space: nowrap; }
+.ticker-item {
+  display: inline-flex; align-items: center; gap: 20px;
+  padding: 0 28px; font-size: 12px; font-weight: 700;
+  letter-spacing: .22em; text-transform: uppercase; color: var(--black);
 }
-.nl-stat-num {
-  font-family: var(--font-head);
-  font-size: 42px;
-  color: var(--white);
-  line-height: 1;
-}
-.nl-stat-label {
-  font-size: 11px;
-  color: var(--muted);
-  text-transform: uppercase;
-  letter-spacing: .15em;
-  margin-top: 4px;
-}
+.ticker-item .sep { width: 4px; height: 4px; background: rgba(0,0,0,.35); border-radius: 50%; }
+@keyframes tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
-/* ─── Marquee ─── */
-.nl-marquee-wrap {
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 18px 0;
-  overflow: hidden;
-  background: var(--dark);
+/* ── DESTINATIONS ── */
+.destinations-wrap { padding: 100px 0 0; }
+.section-inner { max-width: 1200px; margin: 0 auto; padding: 0 52px; }
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 10px;
+  font-size: 11px; letter-spacing: .25em; text-transform: uppercase;
+  color: var(--gold); font-weight: 600; margin-bottom: 18px;
 }
-.nl-marquee {
-  display: flex;
-  gap: 0;
-  animation: marquee 30s linear infinite;
-  white-space: nowrap;
+.eyebrow::before { content: ''; width: 22px; height: 1px; background: var(--gold); }
+.section-title {
+  font-family: var(--head); font-size: clamp(52px, 6vw, 88px);
+  line-height: .93; letter-spacing: .02em; text-transform: uppercase; margin-bottom: 52px;
 }
-.nl-marquee-item {
-  display: inline-flex;
-  align-items: center;
-  gap: 24px;
-  padding: 0 32px;
-  font-size: 13px;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--muted);
+.dest-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 3px; }
+.dest-card {
+  position: relative; overflow: hidden; aspect-ratio: 3/4; cursor: default;
 }
-.nl-marquee-item .dot {
-  width: 5px;
-  height: 5px;
-  border-radius: 50%;
-  background: var(--gold);
-  flex-shrink: 0;
+.dest-card img {
+  width: 100%; height: 100%; object-fit: cover;
+  transition: transform .6s ease; display: block;
 }
-@keyframes marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+.dest-card:hover img { transform: scale(1.06); }
+.dest-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(to top, rgba(8,8,8,.92) 0%, rgba(8,8,8,.3) 50%, transparent 100%);
+  display: flex; flex-direction: column; justify-content: flex-end;
+  padding: 28px 24px;
 }
+.dest-tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .2em;
+  text-transform: uppercase; color: var(--gold); margin-bottom: 6px;
+}
+.dest-name {
+  font-family: var(--head); font-size: 32px; letter-spacing: .04em;
+  text-transform: uppercase; line-height: 1; margin-bottom: 6px;
+}
+.dest-desc { font-size: 12px; color: rgba(244,239,233,.6); line-height: 1.5; font-weight: 300; }
 
-/* ─── Section Shared ─── */
-.nl-section {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 48px;
+/* ── ABOUT (2-col) ── */
+.about-wrap { padding: 100px 0; }
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+.about-photo-stack { position: relative; }
+.about-photo-main {
+  width: 100%; aspect-ratio: 4/5; object-fit: cover; border-radius: 3px;
 }
-.nl-section-eyebrow {
-  display: inline-flex;
-  align-items: center;
-  gap: 10px;
-  font-size: 11px;
-  letter-spacing: .25em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 20px;
+.about-photo-float {
+  position: absolute; bottom: -28px; right: -28px;
+  width: 55%; aspect-ratio: 1/1; object-fit: cover; border-radius: 3px;
+  border: 4px solid var(--black);
 }
-.nl-section-eyebrow::before {
-  content: '';
-  display: block;
-  width: 24px;
-  height: 1px;
-  background: var(--gold);
+.about-text { padding-left: 20px; }
+.about-text p {
+  font-size: 16px; color: var(--muted); line-height: 1.85; font-weight: 300; margin-bottom: 18px;
 }
-.nl-section-title {
-  font-family: var(--font-head);
-  font-size: clamp(48px, 6vw, 88px);
-  line-height: .95;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  margin-bottom: 24px;
+.about-text p strong { color: var(--white); font-weight: 500; }
+.about-quote {
+  font-family: var(--serif); font-style: italic; font-size: 22px;
+  color: var(--white); line-height: 1.5;
+  border-left: 2px solid var(--gold); padding-left: 22px; margin: 32px 0;
 }
+.includes-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 28px; }
+.include-item {
+  display: flex; align-items: flex-start; gap: 10px;
+  font-size: 13px; color: var(--muted); line-height: 1.5;
+}
+.include-item::before { content: '✓'; color: var(--gold); font-weight: 700; flex-shrink: 0; margin-top: 1px; }
 
-/* ─── About ─── */
-.nl-about-grid {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
+/* ── ITINERARY ── */
+.itin-wrap { background: var(--dark); border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); padding: 100px 0; }
+.itin-header { display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 52px; flex-wrap: wrap; gap: 24px; }
+.price-tag { text-align: right; }
+.price-tag .amount { font-family: var(--head); font-size: 64px; color: var(--gold); line-height: 1; }
+.price-tag .from { font-size: 11px; letter-spacing: .15em; text-transform: uppercase; color: var(--muted); margin-bottom: 4px; }
+.itin-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; }
+.itin-stop {
+  background: var(--card); border: 1px solid var(--border);
+  padding: 28px 22px; position: relative; overflow: hidden;
+  transition: border-color .2s, background .2s;
 }
-.nl-about-text p {
-  color: var(--muted);
-  font-size: 17px;
-  line-height: 1.8;
-  margin-bottom: 20px;
-  font-weight: 300;
-}
-.nl-about-text p strong { color: var(--white); font-weight: 500; }
-.nl-about-visual {
-  position: relative;
-}
-.nl-about-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 40px;
-}
-.nl-about-card-title {
-  font-family: var(--font-head);
-  font-size: 22px;
-  letter-spacing: .08em;
-  text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 24px;
-}
-.nl-about-pill-group {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 8px;
-  margin-bottom: 32px;
-}
-.nl-pill {
-  border: 1px solid var(--border);
-  border-radius: 100px;
-  padding: 6px 16px;
-  font-size: 12px;
-  letter-spacing: .08em;
-  color: var(--muted);
-}
-.nl-about-quote {
-  font-family: var(--font-serif);
-  font-size: 20px;
-  font-style: italic;
-  color: var(--white);
-  line-height: 1.5;
-  border-left: 2px solid var(--gold);
-  padding-left: 20px;
-}
-.nl-about-float {
-  position: absolute;
-  top: -24px;
-  right: -24px;
-  background: var(--rust);
-  color: var(--white);
-  padding: 16px 20px;
-  border-radius: 4px;
-  font-family: var(--font-head);
-  font-size: 13px;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-  line-height: 1.4;
-}
-
-/* ─── Featured Escape ─── */
-.nl-featured-wrap {
-  background: var(--dark);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-}
-.nl-featured {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 120px 48px;
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 80px;
-  align-items: center;
-}
-.nl-featured-label {
-  display: inline-block;
-  background: var(--rust);
-  color: var(--white);
-  font-size: 11px;
-  font-weight: 700;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  padding: 6px 14px;
-  border-radius: 2px;
-  margin-bottom: 24px;
-}
-.nl-featured h2 {
-  font-family: var(--font-head);
-  font-size: clamp(52px, 6vw, 84px);
-  line-height: .95;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-}
-.nl-featured-sub {
-  font-family: var(--font-serif);
-  font-style: italic;
-  font-size: 20px;
-  color: var(--gold);
-  margin-bottom: 32px;
-}
-.nl-featured-desc {
-  color: var(--muted);
-  font-size: 16px;
-  line-height: 1.8;
-  font-weight: 300;
-  margin-bottom: 40px;
-}
-.nl-featured-meta {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-bottom: 40px;
-}
-.nl-meta-item {
-  background: var(--card);
-  padding: 20px 24px;
-}
-.nl-meta-label {
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 6px;
-}
-.nl-meta-value {
-  font-size: 17px;
-  font-weight: 600;
-  color: var(--white);
-}
-.nl-meta-value.gold { color: var(--gold); }
-.nl-featured-visual {
-  position: relative;
-}
-.nl-featured-map {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 40px;
-  aspect-ratio: 4/3;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
-  position: relative;
-  overflow: hidden;
-}
-.nl-map-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(circle at 60% 40%, rgba(232,160,64,.15) 0%, transparent 50%),
-    radial-gradient(circle at 20% 70%, rgba(201,76,62,.1) 0%, transparent 40%);
-}
-.nl-map-grid {
-  position: absolute;
-  inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,.04) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,.04) 1px, transparent 1px);
-  background-size: 40px 40px;
-}
-.nl-route {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 8px;
-  z-index: 2;
-  text-align: center;
-}
-.nl-route-from, .nl-route-to {
-  background: var(--dark);
-  border: 1px solid var(--border);
-  padding: 8px 16px;
-  border-radius: 2px;
-  font-size: 12px;
-  font-weight: 600;
-  letter-spacing: .1em;
-  text-transform: uppercase;
-}
-.nl-route-from { border-color: var(--gold); color: var(--gold); }
-.nl-route-to { border-color: var(--rust); color: var(--rust); }
-.nl-route-arrow {
-  width: 1px;
-  height: 28px;
-  background: linear-gradient(var(--gold), var(--rust));
-  position: relative;
-}
-.nl-route-arrow::after {
-  content: '↓';
-  position: absolute;
-  bottom: -20px;
-  left: 50%;
-  transform: translateX(-50%);
-  color: var(--rust);
-  font-size: 14px;
-}
-.nl-map-label {
-  position: relative;
-  z-index: 2;
-  font-size: 42px;
-  font-family: var(--font-head);
-  letter-spacing: .05em;
-  opacity: .06;
-  text-transform: uppercase;
-  position: absolute;
-  bottom: 20px;
-  right: 24px;
-  font-size: 72px;
-  line-height: 1;
-}
-.nl-featured-includes {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-}
-.nl-include-item {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  font-size: 14px;
-  color: var(--muted);
-}
-.nl-include-item::before {
-  content: '✓';
-  color: var(--gold);
-  font-weight: 700;
-  font-size: 13px;
-  flex-shrink: 0;
-}
-
-/* ─── Why Nonla ─── */
-.nl-why-grid {
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 1px;
-  background: var(--border);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  overflow: hidden;
-  margin-top: 64px;
-}
-.nl-why-item {
-  background: var(--card);
-  padding: 40px 36px;
-  transition: background .2s;
-}
-.nl-why-item:hover { background: #1e1e1e; }
-.nl-why-icon {
-  font-size: 32px;
-  margin-bottom: 20px;
-  display: block;
-}
-.nl-why-title {
-  font-family: var(--font-head);
-  font-size: 22px;
-  letter-spacing: .05em;
-  text-transform: uppercase;
-  margin-bottom: 12px;
-  color: var(--white);
-}
-.nl-why-desc {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.7;
-  font-weight: 300;
-}
-
-/* ─── Destinations Ticker ─── */
-.nl-destinations-wrap {
-  background: var(--dark);
-  border-top: 1px solid var(--border);
-  border-bottom: 1px solid var(--border);
-  padding: 80px 0;
-}
-.nl-destinations-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 48px;
-}
-.nl-destinations-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: flex-end;
-  margin-bottom: 48px;
-}
-.nl-dest-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 16px;
-}
-.nl-dest-card {
-  background: var(--card);
-  border: 1px solid var(--border);
-  border-radius: 4px;
-  padding: 32px 28px;
-  position: relative;
-  overflow: hidden;
-  cursor: default;
-  transition: border-color .25s, transform .25s;
-}
-.nl-dest-card:hover {
-  border-color: var(--gold);
-  transform: translateY(-4px);
-}
-.nl-dest-card::after {
-  content: '';
-  position: absolute;
-  bottom: 0; left: 0; right: 0;
-  height: 2px;
+.itin-stop:hover { border-color: var(--gold); background: #1a1a1a; }
+.itin-stop::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 2px;
   background: linear-gradient(90deg, var(--gold), var(--rust));
-  transform: scaleX(0);
-  transform-origin: left;
-  transition: transform .3s;
+  transform: scaleX(0); transform-origin: left; transition: transform .3s;
 }
-.nl-dest-card:hover::after { transform: scaleX(1); }
-.nl-dest-vol {
-  font-size: 10px;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--gold);
-  font-weight: 600;
-  margin-bottom: 12px;
+.itin-stop:hover::after { transform: scaleX(1); }
+.stop-day { font-size: 10px; letter-spacing: .2em; text-transform: uppercase; color: var(--muted); margin-bottom: 10px; }
+.stop-city { font-family: var(--head); font-size: 26px; letter-spacing: .04em; text-transform: uppercase; margin-bottom: 8px; color: var(--white); }
+.stop-desc { font-size: 12px; color: var(--muted); line-height: 1.6; font-weight: 300; }
+.stop-icon { font-size: 22px; margin-bottom: 14px; }
+
+/* ── GALLERY ROW ── */
+.gallery-wrap { padding: 4px 0; }
+.gallery-row { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 4px; }
+.gallery-photo { overflow: hidden; }
+.gallery-photo img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
+.gallery-photo:hover img { transform: scale(1.04); }
+.gallery-photo.tall { aspect-ratio: 16/9; }
+.gallery-photo.short { aspect-ratio: 4/3; }
+
+/* ── WHY ── */
+.why-wrap { padding: 100px 0; }
+.why-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; background: var(--border); border: 1px solid var(--border); border-radius: 3px; overflow: hidden; margin-top: 52px; }
+.why-item { background: var(--card); padding: 36px 32px; transition: background .2s; }
+.why-item:hover { background: #1c1c1c; }
+.why-icon { font-size: 28px; margin-bottom: 18px; }
+.why-title { font-family: var(--head); font-size: 20px; letter-spacing: .05em; text-transform: uppercase; margin-bottom: 10px; }
+.why-desc { font-size: 13px; color: var(--muted); line-height: 1.7; font-weight: 300; }
+
+/* ── CTA ── */
+.cta-wrap {
+  position: relative; overflow: hidden;
+  background: url('<?php echo $photos; ?>halong.jpg') center 40% / cover no-repeat;
 }
-.nl-dest-name {
-  font-family: var(--font-head);
-  font-size: 26px;
-  letter-spacing: .04em;
-  text-transform: uppercase;
-  color: var(--white);
-  line-height: 1.1;
-  margin-bottom: 8px;
+.cta-overlay {
+  position: absolute; inset: 0;
+  background: linear-gradient(rgba(8,8,8,.82), rgba(8,8,8,.88));
 }
-.nl-dest-region {
-  font-size: 13px;
-  color: var(--muted);
-  margin-bottom: 20px;
+.cta-inner {
+  position: relative; z-index: 2; text-align: center;
+  max-width: 1200px; margin: 0 auto; padding: 130px 52px;
 }
-.nl-dest-status {
-  display: inline-block;
-  font-size: 10px;
-  font-weight: 700;
-  letter-spacing: .15em;
-  text-transform: uppercase;
-  padding: 4px 12px;
-  border-radius: 100px;
+.cta-inner h2 {
+  font-family: var(--head); font-size: clamp(60px, 9vw, 130px);
+  line-height: .9; letter-spacing: .02em; text-transform: uppercase; margin-bottom: 24px;
 }
-.nl-dest-status.upcoming {
-  background: rgba(232,160,64,.12);
-  border: 1px solid rgba(232,160,64,.3);
-  color: var(--gold);
-}
-.nl-dest-status.completed {
-  background: rgba(136,136,128,.1);
-  border: 1px solid var(--border);
-  color: var(--muted);
+.cta-inner h2 span { color: var(--gold); }
+.cta-inner p { font-size: 17px; color: var(--muted); max-width: 460px; margin: 0 auto 44px; font-weight: 300; line-height: 1.75; }
+.cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.dates-badge {
+  display: inline-flex; align-items: center; gap: 8px;
+  background: rgba(232,160,64,.12); border: 1px solid rgba(232,160,64,.3);
+  color: var(--gold); font-size: 12px; font-weight: 600; letter-spacing: .1em;
+  text-transform: uppercase; padding: 8px 18px; border-radius: 100px; margin-bottom: 28px;
 }
 
-/* ─── CTA ─── */
-.nl-cta-wrap {
-  position: relative;
-  overflow: hidden;
-}
-.nl-cta-bg {
-  position: absolute;
-  inset: 0;
-  background:
-    radial-gradient(ellipse 70% 90% at 50% 50%, rgba(232,160,64,.1) 0%, transparent 70%),
-    var(--black);
-}
-.nl-cta {
-  position: relative;
-  z-index: 2;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 140px 48px;
-  text-align: center;
-}
-.nl-cta h2 {
-  font-family: var(--font-head);
-  font-size: clamp(56px, 8vw, 120px);
-  line-height: .92;
-  letter-spacing: .02em;
-  text-transform: uppercase;
-  margin-bottom: 28px;
-}
-.nl-cta h2 span { color: var(--gold); }
-.nl-cta p {
-  font-size: 18px;
-  color: var(--muted);
-  max-width: 500px;
-  margin: 0 auto 48px;
-  font-weight: 300;
-  line-height: 1.7;
-}
-.nl-cta-actions { display: flex; gap: 16px; justify-content: center; flex-wrap: wrap; }
+/* ── FOOTER ── */
+.footer { background: var(--dark); border-top: 1px solid var(--border); }
+.footer-inner { max-width: 1200px; margin: 0 auto; padding: 60px 52px 36px; }
+.footer-top { display: grid; grid-template-columns: 2fr 1fr 1fr; gap: 60px; margin-bottom: 44px; }
+.footer-logo { font-family: var(--head); font-size: 22px; letter-spacing: .1em; margin-bottom: 14px; }
+.footer-logo span { color: var(--gold); }
+.footer-tagline { font-size: 13px; color: var(--muted); line-height: 1.7; max-width: 260px; font-weight: 300; }
+.footer-head { font-size: 10px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase; color: var(--muted); margin-bottom: 18px; }
+.footer-links { list-style: none; display: flex; flex-direction: column; gap: 11px; }
+.footer-links a { font-size: 13px; color: var(--muted); transition: color .2s; }
+.footer-links a:hover { color: var(--white); }
+.footer-bottom { border-top: 1px solid var(--border); padding-top: 24px; display: flex; justify-content: space-between; font-size: 12px; color: var(--muted); }
 
-/* ─── Footer ─── */
-.nl-footer {
-  background: var(--dark);
-  border-top: 1px solid var(--border);
-}
-.nl-footer-inner {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 64px 48px 40px;
-}
-.nl-footer-top {
-  display: grid;
-  grid-template-columns: 2fr 1fr 1fr;
-  gap: 64px;
-  margin-bottom: 48px;
-}
-.nl-footer-logo {
-  font-family: var(--font-head);
-  font-size: 24px;
-  letter-spacing: .08em;
-  margin-bottom: 16px;
-}
-.nl-footer-logo span { color: var(--gold); }
-.nl-footer-tagline {
-  font-size: 14px;
-  color: var(--muted);
-  line-height: 1.7;
-  font-weight: 300;
-  max-width: 280px;
-}
-.nl-footer-heading {
-  font-size: 11px;
-  font-weight: 600;
-  letter-spacing: .2em;
-  text-transform: uppercase;
-  color: var(--muted);
-  margin-bottom: 20px;
-}
-.nl-footer-links {
-  list-style: none;
-  display: flex;
-  flex-direction: column;
-  gap: 12px;
-}
-.nl-footer-links a {
-  font-size: 14px;
-  color: var(--muted);
-  transition: color .2s;
-}
-.nl-footer-links a:hover { color: var(--white); }
-.nl-footer-bottom {
-  border-top: 1px solid var(--border);
-  padding-top: 28px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  font-size: 12px;
-  color: var(--muted);
-}
-.nl-footer-legal { display: flex; gap: 24px; }
+/* ── REVEAL ── */
+.reveal { opacity: 0; transform: translateY(28px); transition: opacity .65s ease, transform .65s ease; }
+.reveal.on { opacity: 1; transform: none; }
+.d1 { transition-delay: .1s; } .d2 { transition-delay: .2s; }
+.d3 { transition-delay: .3s; } .d4 { transition-delay: .4s; }
+.d5 { transition-delay: .5s; }
 
-/* ─── Scroll Animations ─── */
-.nl-reveal {
-  opacity: 0;
-  transform: translateY(32px);
-  transition: opacity .7s ease, transform .7s ease;
-}
-.nl-reveal.visible {
-  opacity: 1;
-  transform: translateY(0);
-}
-.nl-reveal-delay-1 { transition-delay: .1s; }
-.nl-reveal-delay-2 { transition-delay: .2s; }
-.nl-reveal-delay-3 { transition-delay: .3s; }
-.nl-reveal-delay-4 { transition-delay: .4s; }
-.nl-reveal-delay-5 { transition-delay: .5s; }
-
-/* ─── Responsive ─── */
-@media (max-width: 900px) {
-  .nl-nav { padding: 20px 24px; }
-  .nl-nav.scrolled { padding: 14px 24px; }
-  .nl-nav-links { display: none; }
-  .nl-hero-content { padding: 140px 24px 80px; }
-  .nl-hero-stats { display: none; }
-  .nl-section { padding: 80px 24px; }
-  .nl-about-grid { grid-template-columns: 1fr; gap: 48px; }
-  .nl-about-float { display: none; }
-  .nl-featured { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
-  .nl-why-grid { grid-template-columns: 1fr; }
-  .nl-dest-grid { grid-template-columns: repeat(2, 1fr); }
-  .nl-cta { padding: 100px 24px; }
-  .nl-footer-top { grid-template-columns: 1fr; gap: 40px; }
-  .nl-footer-inner { padding: 48px 24px 32px; }
-  .nl-destinations-inner { padding: 0 24px; }
-  .nl-featured-meta { grid-template-columns: 1fr 1fr; }
+/* ── RESPONSIVE ── */
+@media (max-width: 960px) {
+  .nav { padding: 20px 24px; }
+  .nav.stuck { padding: 14px 24px; }
+  .nav-links { display: none; }
+  .hero-content { padding: 0 24px 64px; }
+  .hero-stats { display: none; }
+  .section-inner { padding: 0 24px; }
+  .dest-grid { grid-template-columns: repeat(2, 1fr); }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-photo-float { display: none; }
+  .about-text { padding-left: 0; }
+  .itin-grid { grid-template-columns: repeat(2, 1fr); }
+  .gallery-row { grid-template-columns: 1fr; }
+  .why-grid { grid-template-columns: 1fr; }
+  .footer-top { grid-template-columns: 1fr; gap: 36px; }
+  .footer-inner { padding: 48px 24px 28px; }
+  .cta-inner { padding: 100px 24px; }
+  .about-wrap { padding: 80px 0; }
+  .why-wrap { padding: 80px 0; }
+  .destinations-wrap { padding: 80px 0 0; }
 }
 @media (max-width: 540px) {
-  .nl-dest-grid { grid-template-columns: 1fr; }
-  .nl-featured-meta { grid-template-columns: 1fr; }
+  .dest-grid { grid-template-columns: 1fr; }
+  .itin-grid { grid-template-columns: 1fr; }
+  .includes-grid { grid-template-columns: 1fr; }
 }
 </style>
 </head>
 <body>
 
-<!-- ─── Navigation ─── -->
-<nav class="nl-nav" id="nl-nav">
-  <div class="nl-logo">NONLA<span>.</span></div>
-  <ul class="nl-nav-links">
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="logo">NONLA<span>.</span></div>
+  <ul class="nav-links">
+    <li><a href="#destinations">Destinations</a></li>
     <li><a href="#about">About</a></li>
-    <li><a href="#escapes">Escapes</a></li>
+    <li><a href="#itinerary">Itinerary</a></li>
     <li><a href="#why">Why Us</a></li>
-    <li><a href="#destinations">Past Trips</a></li>
   </ul>
-  <a href="#contact" class="nl-nav-cta">Join an Escape</a>
+  <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="nav-cta">Reserve a Spot</a>
 </nav>
 
-<!-- ─── Hero ─── -->
-<section class="nl-hero">
-  <div class="nl-hero-bg"></div>
-  <div class="nl-hero-grid"></div>
-
-  <div class="nl-hero-content">
-    <div class="nl-hero-eyebrow">Asociația Nonla Cultural Escape</div>
-    <h1>Escape<br>the <em>Ordinary</em></h1>
-    <p class="nl-hero-sub">
-      Curated cultural travel experiences for those who want to go further — not just in distance, but in understanding.
-    </p>
-    <div class="nl-hero-actions">
-      <a href="#escapes" class="nl-btn-primary">
-        See Current Escapes
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-      </a>
-      <a href="#about" class="nl-btn-ghost">Learn our story</a>
-    </div>
-  </div>
-
-  <div class="nl-hero-stats">
-    <div>
-      <div class="nl-stat-num">5+</div>
-      <div class="nl-stat-label">Projects</div>
-    </div>
-    <div>
-      <div class="nl-stat-num">3</div>
-      <div class="nl-stat-label">Continents</div>
-    </div>
-    <div>
-      <div class="nl-stat-num">100%</div>
-      <div class="nl-stat-label">Cultural Immersion</div>
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-photo"></div>
+  <div class="hero-overlay"></div>
+  <div class="hero-content">
+    <div class="hero-eyebrow">Nonla Cultural Escape · Vol. 5</div>
+    <h1>Vietnam<br><em>Escape</em></h1>
+    <div class="hero-row">
+      <div>
+        <p class="hero-sub">14 April – 29 April 2026 · 15 days across Vietnam's most breathtaking landscapes, cities, and waterways.</p>
+        <div class="hero-actions" style="margin-top: 28px;">
+          <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="btn-primary">
+            Reserve Your Spot
+            <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </a>
+          <a href="#itinerary" class="btn-ghost">See the itinerary</a>
+        </div>
+      </div>
+      <div class="hero-stats">
+        <div><div class="stat-n">15</div><div class="stat-l">Days</div></div>
+        <div><div class="stat-n">5</div><div class="stat-l">Cities</div></div>
+        <div><div class="stat-n">€1,895</div><div class="stat-l">All-inclusive</div></div>
+      </div>
     </div>
   </div>
 </section>
 
-<!-- ─── Marquee ─── -->
-<div class="nl-marquee-wrap">
-  <div class="nl-marquee">
-    <?php $items = ['Vietnam', 'Cultural Exchange', 'Sustainability', 'Community', 'Adventure', 'Authentic Experiences', 'Guided Travel', 'NGO Organized', 'Vietnam', 'Cultural Exchange', 'Sustainability', 'Community', 'Adventure', 'Authentic Experiences', 'Guided Travel', 'NGO Organized']; foreach ($items as $item): ?>
-    <span class="nl-marquee-item"><span class="dot"></span><?php echo $item; ?></span>
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker">
+    <?php
+    $items = ['Hanoi', 'Ha Long Bay', 'Ninh Binh', 'Phu Quoc', 'Ho Chi Minh City', '14–29 April 2026', '€1,895 All-Inclusive', 'Flights Included', 'Expert Coordinators', 'Hanoi', 'Ha Long Bay', 'Ninh Binh', 'Phu Quoc', 'Ho Chi Minh City', '14–29 April 2026', '€1,895 All-Inclusive', 'Flights Included', 'Expert Coordinators'];
+    foreach ($items as $item): ?>
+    <span class="ticker-item"><span class="sep"></span><?php echo $item; ?></span>
     <?php endforeach; ?>
   </div>
 </div>
 
-<!-- ─── About ─── -->
-<section id="about">
-  <div class="nl-section">
-    <div class="nl-about-grid">
-      <div class="nl-about-text">
-        <div class="nl-section-eyebrow nl-reveal">Who we are</div>
-        <div class="nl-section-title nl-reveal nl-reveal-delay-1">More Than<br>a Trip.</div>
-        <p class="nl-reveal nl-reveal-delay-2">
-          <strong>Nonla Cultural Escape</strong> is a Romanian non-governmental organization dedicated to <strong>cultural exchange and sustainable travel</strong>. We design experiences that go beyond sightseeing — immersing you in local culture, food, people, and perspective.
-        </p>
-        <p class="nl-reveal nl-reveal-delay-3">
-          Each "escape" is a fully organized project: flights, accommodation, transport, coordinators — everything handled, so you can focus on experiencing. Our trips run in small groups with <strong>2–4 expert coordinators</strong> who speak the local language, Romanian and English.
-        </p>
-        <p class="nl-reveal nl-reveal-delay-4">
-          We select only <strong>accommodations rated 8.5+ on Booking.com</strong>, tested by our team. Every detail is curated, every experience is intentional.
-        </p>
+<!-- DESTINATIONS -->
+<section class="destinations-wrap" id="destinations">
+  <div class="section-inner">
+    <div class="eyebrow reveal">5 Destinations</div>
+    <div class="section-title reveal d1">Where You're<br>Going.</div>
+  </div>
+  <div class="dest-grid">
+    <div class="dest-card">
+      <img src="<?php echo $photos; ?>hanoi.jpg" alt="Hanoi" loading="lazy">
+      <div class="dest-overlay">
+        <div class="dest-tag">Day 2–3</div>
+        <div class="dest-name">Hanoi</div>
+        <div class="dest-desc">The Old Quarter, Temple of Literature, street food & Vietnamese coffee culture</div>
       </div>
-      <div class="nl-about-visual nl-reveal nl-reveal-delay-2">
-        <div class="nl-about-float">NGO<br>Certified</div>
-        <div class="nl-about-card">
-          <div class="nl-about-card-title">Our Escapes Include</div>
-          <div class="nl-about-pill-group">
-            <span class="nl-pill">International Flights</span>
-            <span class="nl-pill">All Transfers</span>
-            <span class="nl-pill">13 Nights Accommodation</span>
-            <span class="nl-pill">Daily Breakfast</span>
-            <span class="nl-pill">Expert Coordinators</span>
-            <span class="nl-pill">Curated Experiences</span>
-            <span class="nl-pill">Small Groups</span>
-          </div>
-          <div class="nl-about-quote">
-            "Not just a trip — a shift in how you see the world."
-          </div>
-        </div>
+    </div>
+    <div class="dest-card">
+      <img src="<?php echo $photos; ?>halong.jpg" alt="Ha Long Bay" loading="lazy">
+      <div class="dest-overlay">
+        <div class="dest-tag">Day 3 · Day Trip</div>
+        <div class="dest-name">Lan Ha Bay</div>
+        <div class="dest-desc">UNESCO limestone karsts, emerald waters, boat trip & kayaking</div>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="<?php echo $photos; ?>ninhbinh.jpg" alt="Ninh Binh" loading="lazy">
+      <div class="dest-overlay">
+        <div class="dest-tag">Day 4–7</div>
+        <div class="dest-name">Ninh Binh</div>
+        <div class="dest-desc">Trang An river boats, Mua Cave viewpoint, bicycle rides through rice paddies</div>
+      </div>
+    </div>
+    <div class="dest-card">
+      <img src="<?php echo $photos; ?>phuquoc.jpg" alt="Phu Quoc" loading="lazy">
+      <div class="dest-overlay">
+        <div class="dest-tag">Day 8–11</div>
+        <div class="dest-name">Phu Quoc</div>
+        <div class="dest-desc">Tropical island, snorkeling, boat tour, hiking & beach life</div>
       </div>
     </div>
   </div>
-</section>
-
-<!-- ─── Featured Escape ─── -->
-<div class="nl-featured-wrap" id="escapes">
-  <div class="nl-featured">
-    <div>
-      <span class="nl-featured-label nl-reveal">Now Open — Vol. 5</span>
-      <h2 class="nl-reveal nl-reveal-delay-1">Vietnam<br>Escape</h2>
-      <div class="nl-featured-sub nl-reveal nl-reveal-delay-2">Hanoi · Ha Long Bay · Ninh Binh · Phu Quoc · Ho Chi Minh City</div>
-      <p class="nl-featured-desc nl-reveal nl-reveal-delay-2">
-        15 days across Vietnam's most breathtaking landscapes — from the UNESCO bay of Ha Long to the limestone valleys of Ninh Binh, tropical island life in Phu Quoc, and the electric energy of Ho Chi Minh City.
-      </p>
-      <div class="nl-featured-meta nl-reveal nl-reveal-delay-3">
-        <div class="nl-meta-item">
-          <div class="nl-meta-label">Departure</div>
-          <div class="nl-meta-value">14 April 2026</div>
-        </div>
-        <div class="nl-meta-item">
-          <div class="nl-meta-label">Return</div>
-          <div class="nl-meta-value">29 April 2026</div>
-        </div>
-        <div class="nl-meta-item">
-          <div class="nl-meta-label">Duration</div>
-          <div class="nl-meta-value">15 Days</div>
-        </div>
-        <div class="nl-meta-item">
-          <div class="nl-meta-label">Price</div>
-          <div class="nl-meta-value gold">€1,895</div>
-        </div>
-      </div>
-      <div class="nl-featured-includes nl-reveal nl-reveal-delay-4">
-        <div class="nl-include-item">International flights (Turkish Airlines, Bucharest ↔ Vietnam)</div>
-        <div class="nl-include-item">13 nights in 8.5+ rated accommodations</div>
-        <div class="nl-include-item">All airport & in-country transfers</div>
-        <div class="nl-include-item">Daily breakfast + guided cultural experiences</div>
-        <div class="nl-include-item">2–4 expert coordinators (RO/EN/VN)</div>
-      </div>
-      <div style="margin-top: 36px;" class="nl-reveal nl-reveal-delay-5">
-        <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="nl-btn-primary">
-          Reserve Your Spot
-          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </a>
-      </div>
-    </div>
-    <div class="nl-featured-visual nl-reveal nl-reveal-delay-2">
-      <div class="nl-featured-map">
-        <div class="nl-map-bg"></div>
-        <div class="nl-map-grid"></div>
-        <div class="nl-route">
-          <div class="nl-route-from">Bucharest</div>
-          <div class="nl-route-arrow"></div>
-          <div class="nl-route-to">Vietnam</div>
-        </div>
-        <div class="nl-map-label">VN</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- ─── Why Nonla ─── -->
-<section id="why">
-  <div class="nl-section">
-    <div class="nl-section-eyebrow nl-reveal">Why choose us</div>
-    <div class="nl-section-title nl-reveal nl-reveal-delay-1">The Nonla<br>Difference.</div>
-    <div class="nl-why-grid">
-      <div class="nl-why-item nl-reveal nl-reveal-delay-1">
-        <span class="nl-why-icon">🧭</span>
-        <div class="nl-why-title">Expert Coordination</div>
-        <p class="nl-why-desc">Every escape comes with 2–4 multilingual coordinators who speak Romanian, English, and the local language. No language barrier, no getting lost.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-reveal-delay-2">
-        <span class="nl-why-icon">🏨</span>
-        <div class="nl-why-title">Vetted Accommodations</div>
-        <p class="nl-why-desc">Every hotel and homestay is personally tested by our team and rated 8.5 or higher on Booking.com. Comfort is non-negotiable.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-reveal-delay-3">
-        <span class="nl-why-icon">✈️</span>
-        <div class="nl-why-title">All-Inclusive Pricing</div>
-        <p class="nl-why-desc">Flights, transfers, accommodation, breakfast, and experiences — all in one transparent price. No hidden fees. You just show up.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-reveal-delay-1">
-        <span class="nl-why-icon">🌿</span>
-        <div class="nl-why-title">Sustainable by Design</div>
-        <p class="nl-why-desc">As an NGO, our mission goes beyond tourism. We partner with local communities and prioritize responsible, low-impact travel.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-reveal-delay-2">
-        <span class="nl-why-icon">🎯</span>
-        <div class="nl-why-title">Cultural Depth</div>
-        <p class="nl-why-desc">We go beyond tourist hotspots. Every itinerary includes authentic local experiences — workshops, local restaurants, off-the-beaten-path discoveries.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-reveal-delay-3">
-        <span class="nl-why-icon">🤝</span>
-        <div class="nl-why-title">Community First</div>
-        <p class="nl-why-desc">Travel with people who share your curiosity. Small groups, real connections, and a community that extends well beyond the trip itself.</p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ─── Destinations ─── -->
-<div class="nl-destinations-wrap" id="destinations">
-  <div class="nl-destinations-inner">
-    <div class="nl-destinations-header">
+  <div style="background: var(--card); border-top: 3px solid var(--gold); padding: 28px 52px; display: flex; align-items: center; justify-content: space-between; flex-wrap: gap;">
+    <div style="display: flex; align-items: center; gap: 16px; padding: 0 0;">
+      <div style="font-size: 28px;">🏙️</div>
       <div>
-        <div class="nl-section-eyebrow nl-reveal">Our Projects</div>
-        <div class="nl-section-title nl-reveal nl-reveal-delay-1">All Escapes.</div>
+        <div style="font-family: var(--head); font-size: 22px; letter-spacing: .04em; text-transform: uppercase;">+ Ho Chi Minh City</div>
+        <div style="font-size: 12px; color: var(--muted); margin-top: 2px;">Day 12–15 · Reunification Palace, Ben Thanh market, rooftop bars & departure</div>
       </div>
     </div>
-    <div class="nl-dest-grid">
-      <div class="nl-dest-card nl-reveal nl-reveal-delay-1">
-        <div class="nl-dest-vol">Vol. 5 · 2026</div>
-        <div class="nl-dest-name">Vietnam</div>
-        <div class="nl-dest-region">Southeast Asia</div>
-        <span class="nl-dest-status upcoming">Upcoming</span>
+    <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="btn-primary" style="flex-shrink: 0;">Join This Escape →</a>
+  </div>
+</section>
+
+<!-- ABOUT -->
+<section class="about-wrap" id="about">
+  <div class="section-inner">
+    <div class="about-grid">
+      <div class="about-photo-stack reveal">
+        <img class="about-photo-main" src="<?php echo $photos; ?>tamcoc.jpg" alt="Tam Coc, Ninh Binh">
+        <img class="about-photo-float" src="<?php echo $photos; ?>boats.jpg" alt="Local boats">
       </div>
-      <div class="nl-dest-card nl-reveal nl-reveal-delay-2">
-        <div class="nl-dest-vol">Vol. 4 · 2025</div>
-        <div class="nl-dest-name">Japan</div>
-        <div class="nl-dest-region">East Asia</div>
-        <span class="nl-dest-status completed">Completed</span>
-      </div>
-      <div class="nl-dest-card nl-reveal nl-reveal-delay-3">
-        <div class="nl-dest-vol">Vol. 3 · 2025</div>
-        <div class="nl-dest-name">Morocco</div>
-        <div class="nl-dest-region">North Africa</div>
-        <span class="nl-dest-status completed">Completed</span>
-      </div>
-      <div class="nl-dest-card nl-reveal nl-reveal-delay-4">
-        <div class="nl-dest-vol">Vol. 2 · 2024</div>
-        <div class="nl-dest-name">Georgia</div>
-        <div class="nl-dest-region">Caucasus</div>
-        <span class="nl-dest-status completed">Completed</span>
+      <div class="about-text">
+        <div class="eyebrow reveal">Who organizes this</div>
+        <div class="section-title reveal d1">More Than<br>a Trip.</div>
+        <p class="reveal d2">
+          <strong>Nonla Cultural Escape</strong> is a Romanian NGO dedicated to authentic cultural travel. We don't do package tourism — every escape is a curated experience designed around real connection with the places and people we visit.
+        </p>
+        <p class="reveal d3">
+          Vietnam Vol. 5 comes with <strong>2–4 expert coordinators</strong> who speak Romanian, English and Vietnamese — on the ground with you from arrival to departure, every single day.
+        </p>
+        <div class="about-quote reveal d3">"Not just a trip — a shift in how you see the world."</div>
+        <div class="includes-grid reveal d4">
+          <div class="include-item">International flights (Turkish Airlines)</div>
+          <div class="include-item">13 nights, 8.5+ rated hotels</div>
+          <div class="include-item">All in-country transfers</div>
+          <div class="include-item">Daily breakfast included</div>
+          <div class="include-item">Boat trip + snorkeling</div>
+          <div class="include-item">Hiking + bicycle excursions</div>
+          <div class="include-item">Vietnamese coffee workshop</div>
+          <div class="include-item">Expert coordinators daily</div>
+        </div>
       </div>
     </div>
-    <p style="margin-top: 24px; font-size: 13px; color: var(--muted);">* Past destinations shown as examples — to be updated with actual project data.</p>
+  </div>
+</section>
+
+<!-- ITINERARY -->
+<div class="itin-wrap" id="itinerary">
+  <div class="section-inner">
+    <div class="itin-header">
+      <div>
+        <div class="eyebrow reveal">The full journey</div>
+        <div class="section-title reveal d1">15 Days.<br>5 Cities.</div>
+      </div>
+      <div class="price-tag reveal d2">
+        <div class="from">All-inclusive from</div>
+        <div class="amount">€1,895</div>
+        <div style="font-size: 11px; color: var(--muted); margin-top: 6px;">Flights · Hotels · Transfers · Breakfast</div>
+      </div>
+    </div>
+    <div class="itin-grid">
+      <div class="itin-stop reveal d1">
+        <div class="stop-icon">✈️</div>
+        <div class="stop-day">Day 1 · Apr 14</div>
+        <div class="stop-city">Bucharest</div>
+        <div class="stop-desc">Departure 21:45 · Turkish Airlines · via Istanbul</div>
+      </div>
+      <div class="itin-stop reveal d2">
+        <div class="stop-icon">🏛️</div>
+        <div class="stop-day">Day 2–3 · Apr 15–16</div>
+        <div class="stop-city">Hanoi</div>
+        <div class="stop-desc">Old Quarter, Temple of Literature, Lan Ha Bay day trip by boat</div>
+      </div>
+      <div class="itin-stop reveal d3">
+        <div class="stop-icon">⛰️</div>
+        <div class="stop-day">Day 4–7 · Apr 17–20</div>
+        <div class="stop-city">Ninh Binh</div>
+        <div class="stop-desc">Trang An river, Mua Cave, Tam Coc, bicycle through rice fields</div>
+      </div>
+      <div class="itin-stop reveal d4">
+        <div class="stop-icon">🏝️</div>
+        <div class="stop-day">Day 8–11 · Apr 21–24</div>
+        <div class="stop-city">Phu Quoc</div>
+        <div class="stop-desc">Coral Bay Resort, boat tour, snorkeling, hiking, beach free day</div>
+      </div>
+      <div class="itin-stop reveal d5">
+        <div class="stop-icon">🌆</div>
+        <div class="stop-day">Day 12–15 · Apr 25–29</div>
+        <div class="stop-city">HCMC</div>
+        <div class="stop-desc">Ho Chi Minh City, Reunification Palace, markets · Departure Apr 28</div>
+      </div>
+    </div>
   </div>
 </div>
 
-<!-- ─── CTA ─── -->
-<div class="nl-cta-wrap" id="contact">
-  <div class="nl-cta-bg"></div>
-  <div class="nl-cta">
-    <div class="nl-section-eyebrow nl-reveal" style="justify-content:center;">Ready to escape?</div>
-    <h2 class="nl-reveal nl-reveal-delay-1">Your Next<br><span>Adventure</span><br>Awaits.</h2>
-    <p class="nl-reveal nl-reveal-delay-2">
-      Get in touch to learn about upcoming escapes, secure your spot, or simply ask us anything. We respond fast.
-    </p>
-    <div class="nl-cta-actions nl-reveal nl-reveal-delay-3">
-      <a href="mailto:contact@nonlaescape.com" class="nl-btn-primary">
-        Contact Us
-        <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+<!-- GALLERY -->
+<div class="gallery-wrap">
+  <div class="gallery-row">
+    <div class="gallery-photo tall">
+      <img src="<?php echo $photos; ?>hero.jpg" alt="Trang An, Ninh Binh" loading="lazy">
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <div class="gallery-photo short">
+        <img src="<?php echo $photos; ?>garden.jpg" alt="Ninh Binh Garden" loading="lazy">
+      </div>
+      <div class="gallery-photo short">
+        <img src="<?php echo $photos; ?>halong.jpg" alt="Ha Long Bay" loading="lazy">
+      </div>
+    </div>
+    <div style="display: flex; flex-direction: column; gap: 4px;">
+      <div class="gallery-photo short">
+        <img src="<?php echo $photos; ?>tamcoc.jpg" alt="Tam Coc" loading="lazy">
+      </div>
+      <div class="gallery-photo short">
+        <img src="<?php echo $photos; ?>phuquoc.jpg" alt="Phu Quoc snorkeling" loading="lazy">
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- WHY -->
+<section class="why-wrap" id="why">
+  <div class="section-inner">
+    <div class="eyebrow reveal">Why Nonla</div>
+    <div class="section-title reveal d1">The Difference<br>You'll Feel.</div>
+    <div class="why-grid">
+      <div class="why-item reveal d1">
+        <div class="why-icon">🧭</div>
+        <div class="why-title">Local Expertise</div>
+        <p class="why-desc">2–4 coordinators speak Vietnamese, Romanian & English. No language barrier, no getting lost, no wasted days figuring things out.</p>
+      </div>
+      <div class="why-item reveal d2">
+        <div class="why-icon">🏨</div>
+        <div class="why-title">Vetted Stays</div>
+        <p class="why-desc">Wecozy Hanoi, Tam Coc Friendly Homestay, Coral Bay Resort — every property personally tested, rated 8.5+ on Booking.com.</p>
+      </div>
+      <div class="why-item reveal d3">
+        <div class="why-icon">✈️</div>
+        <div class="why-title">All-Inclusive</div>
+        <p class="why-desc">Flights, transfers, 13 nights accommodation, daily breakfast, and curated experiences — all in €1,895. You just show up.</p>
+      </div>
+      <div class="why-item reveal d1">
+        <div class="why-icon">🌿</div>
+        <div class="why-title">NGO Organized</div>
+        <p class="why-desc">We're a certified non-governmental organization. Sustainable travel, community partnerships, and cultural respect are in our DNA.</p>
+      </div>
+      <div class="why-item reveal d2">
+        <div class="why-icon">🍜</div>
+        <div class="why-title">Authentic Vietnam</div>
+        <p class="why-desc">Phở for €1.50, Vietnamese coffee workshops, market visits, and local restaurants. Real Vietnam, not the tourist version.</p>
+      </div>
+      <div class="why-item reveal d3">
+        <div class="why-icon">🤝</div>
+        <div class="why-title">Small Group</div>
+        <p class="why-desc">Intimate group travel means real friendships. We travel together, eat together, explore together. Community that lasts beyond the trip.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<div class="cta-wrap" id="contact">
+  <div class="cta-overlay"></div>
+  <div class="cta-inner">
+    <div class="dates-badge reveal">📅 14 April – 29 April 2026</div>
+    <h2 class="reveal d1">Vietnam<br>Is <span>Waiting.</span></h2>
+    <p class="reveal d2">Spots are limited. Get in touch to secure your place on Vietnam Escape Vol. 5 or ask us anything — we respond fast.</p>
+    <div class="cta-actions reveal d3">
+      <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="btn-primary">
+        Reserve Your Spot
+        <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>
-      <a href="mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5" class="nl-btn-ghost">Reserve Vietnam Vol. 5</a>
+      <a href="mailto:contact@nonlaescape.com" class="btn-ghost" style="color: rgba(244,239,233,.65);">contact@nonlaescape.com</a>
     </div>
   </div>
 </div>
 
-<!-- ─── Footer ─── -->
-<footer class="nl-footer">
-  <div class="nl-footer-inner">
-    <div class="nl-footer-top">
+<!-- FOOTER -->
+<footer class="footer">
+  <div class="footer-inner">
+    <div class="footer-top">
       <div>
-        <div class="nl-footer-logo">NONLA<span>.</span></div>
-        <p class="nl-footer-tagline">
-          A Romanian NGO dedicated to cultural exchange and sustainable travel. CIF: 49845083 · Câmpulung Muscel, Argeș County.
-        </p>
+        <div class="footer-logo">NONLA<span>.</span></div>
+        <p class="footer-tagline">Asociația Nonla Cultural Escape — Romanian NGO dedicated to cultural exchange and sustainable travel.<br><br>CIF: 49845083 · Câmpulung Muscel, Argeș County.</p>
       </div>
       <div>
-        <div class="nl-footer-heading">Navigate</div>
-        <ul class="nl-footer-links">
+        <div class="footer-head">Navigate</div>
+        <ul class="footer-links">
+          <li><a href="#destinations">Destinations</a></li>
           <li><a href="#about">About</a></li>
-          <li><a href="#escapes">Current Escape</a></li>
-          <li><a href="#why">Why Nonla</a></li>
-          <li><a href="#destinations">All Projects</a></li>
+          <li><a href="#itinerary">Itinerary</a></li>
+          <li><a href="#why">Why Us</a></li>
         </ul>
       </div>
       <div>
-        <div class="nl-footer-heading">Contact</div>
-        <ul class="nl-footer-links">
+        <div class="footer-head">Contact</div>
+        <ul class="footer-links">
           <li><a href="mailto:contact@nonlaescape.com">contact@nonlaescape.com</a></li>
-          <li><a href="<?php echo esc_url(home_url('/')); ?>legal">Legal</a></li>
+          <li><a href="<?php echo esc_url(home_url('/legal')); ?>">Legal Notice</a></li>
         </ul>
       </div>
     </div>
-    <div class="nl-footer-bottom">
+    <div class="footer-bottom">
       <span>© <?php echo date('Y'); ?> Asociația Nonla Cultural Escape. All rights reserved.</span>
-      <div class="nl-footer-legal">
-        <a href="<?php echo esc_url(home_url('/')); ?>legal">Legal Notice</a>
-      </div>
+      <span>Vietnam Escape Vol. 5</span>
     </div>
   </div>
 </footer>
 
 <script>
-// ─── Nav scroll effect
-const nav = document.getElementById('nl-nav');
-window.addEventListener('scroll', () => {
-  nav.classList.toggle('scrolled', window.scrollY > 40);
-}, { passive: true });
+// Nav scroll
+const nav = document.getElementById('nav');
+window.addEventListener('scroll', () => nav.classList.toggle('stuck', scrollY > 50), { passive: true });
 
-// ─── Scroll reveal
-const reveals = document.querySelectorAll('.nl-reveal');
-const observer = new IntersectionObserver((entries) => {
-  entries.forEach(e => {
-    if (e.isIntersecting) {
-      e.target.classList.add('visible');
-      observer.unobserve(e.target);
-    }
-  });
-}, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-
-reveals.forEach(el => observer.observe(el));
-
-// ─── Hero entrance (no delay needed, trigger immediately)
-document.querySelectorAll('.nl-hero .nl-reveal, .nl-hero-eyebrow, .nl-hero h1, .nl-hero-sub, .nl-hero-actions, .nl-hero-stats').forEach(el => {
-  el.classList.add('visible');
-});
+// Scroll reveal
+const obs = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('on'); obs.unobserve(e.target); } });
+}, { threshold: 0.1, rootMargin: '0px 0px -32px 0px' });
+document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
 
 <?php wp_footer(); ?>
