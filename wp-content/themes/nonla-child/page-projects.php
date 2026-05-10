@@ -1,49 +1,50 @@
 <?php
-$photos    = get_stylesheet_directory_uri() . '/assets/photos/';
-$reg_url   = get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
-$contact   = get_option('nonla_contact_email', 'contact@nonlaescape.com');
+$photos  = get_stylesheet_directory_uri() . '/assets/photos/';
+$reg_url = get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
+$contact = get_option('nonla_contact_email', 'contact@nonlaescape.com');
 
-// Add new projects here — no code changes needed elsewhere
-$projects = [
-  [
-    'series'       => 'Vietnam Escape',
-    'series_slug'  => 'vietnam-escape',
-    'edition'      => 'Vol. 6',
-    'year'         => '2026',
-    'status'       => 'upcoming',
-    'dates_en'     => 'Oct 27 – Nov 11, 2026',
-    'dates_ro'     => '27 Oct – 11 Nov 2026',
-    'duration_en'  => '15 days',
-    'duration_ro'  => '15 zile',
-    'destinations' => ['Hanoi', 'Ha Long Bay', 'Ninh Binh', 'Phu Quoc', 'Ho Chi Minh City'],
-    'price'        => 'TBA',
-    'price_note_en'=> '15 spots available',
-    'price_note_ro'=> '15 locuri disponibile',
-    'cover'        => 'halong.jpg',
-    'desc_en'      => 'From the peaceful mountain formations of the north to the lively beaches of the south — a two-week journey through Vietnam\'s most diverse landscapes and cultures. 15 spots available.',
-    'desc_ro'      => 'De la formațiunile montane liniștite din nord până la plajele animate din sud — o călătorie de două săptămâni prin peisajele și culturile cele mai diverse ale Vietnamului. 15 locuri disponibile.',
-    'contact'      => 'mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 6',
-  ],
-  [
-    'series'       => 'Vietnam Escape',
-    'series_slug'  => 'vietnam-escape',
-    'edition'      => 'Vol. 5',
-    'year'         => '2026',
-    'status'       => 'completed',
-    'dates_en'     => 'Apr 14 – 29, 2026',
-    'dates_ro'     => '14 Apr – 29 Apr 2026',
-    'duration_en'  => '15 days',
-    'duration_ro'  => '15 zile',
-    'destinations' => ['Hanoi', 'Lan Ha Bay', 'Ninh Binh', 'Phu Quoc', 'Ho Chi Minh City'],
-    'price'        => '€1,895',
-    'price_note_en'=> 'all-inclusive · flights · hotels',
-    'price_note_ro'=> 'all-inclusive · zboruri · hoteluri',
-    'cover'        => 'hero.jpg',
-    'desc_en'      => '15 days across Vietnam\'s most iconic destinations. Hanoi\'s ancient streets, Ha Long Bay\'s limestone karsts, Ninh Binh\'s river valleys, Phu Quoc\'s tropical island, and Ho Chi Minh City. Turkish Airlines, 8.5+ rated hotels, expert coordinators — all-inclusive.',
-    'desc_ro'      => '15 zile prin cele mai iconice destinații din Vietnam. Străzile antice ale Hanoiului, stâncile calcaroase din Ha Long Bay, văile fluviale din Ninh Binh, insula tropicală Phu Quoc și Ho Chi Minh City. Turkish Airlines, hoteluri evaluate 8.5+, coordonatori experți — all-inclusive.',
-    'contact'      => 'mailto:contact@nonlaescape.com?subject=Vietnam Escape Vol. 5',
-  ],
+$series_labels = [
+    'vietnam-escape'       => 'Vietnam Escape',
+    'vietnam-undiscovered' => 'Vietnam Undiscovered',
 ];
+
+// Pull projects from WordPress — add/edit them at WP Admin → Projects
+$proj_query = new WP_Query([
+    'post_type'      => 'nl_project',
+    'post_status'    => 'publish',
+    'posts_per_page' => -1,
+    'orderby'        => 'menu_order date',
+    'order'          => 'DESC',
+]);
+$projects = [];
+foreach ($proj_query->posts as $p) {
+    $series_slug    = get_post_meta($p->ID, 'series', true) ?: 'vietnam-escape';
+    $uploaded_cover = get_post_thumbnail_id($p->ID) ? get_the_post_thumbnail_url($p->ID, 'large') : '';
+    $cover_url      = get_post_meta($p->ID, 'cover_url', true);
+    $raw_dests      = get_post_meta($p->ID, 'destinations', true);
+    $destinations   = $raw_dests ? array_map('trim', explode(',', $raw_dests)) : [];
+    $edition        = get_post_meta($p->ID, 'edition', true);
+
+    $projects[] = [
+        'series'        => $series_labels[$series_slug] ?? 'Vietnam Escape',
+        'series_slug'   => $series_slug,
+        'edition'       => $edition,
+        'year'          => get_post_meta($p->ID, 'year', true),
+        'status'        => get_post_meta($p->ID, 'status', true) ?: 'upcoming',
+        'dates_en'      => get_post_meta($p->ID, 'dates_en', true),
+        'dates_ro'      => get_post_meta($p->ID, 'dates_ro', true),
+        'duration_en'   => get_post_meta($p->ID, 'duration_en', true),
+        'duration_ro'   => get_post_meta($p->ID, 'duration_ro', true),
+        'price'         => get_post_meta($p->ID, 'price', true),
+        'price_note_en' => get_post_meta($p->ID, 'price_note_en', true),
+        'price_note_ro' => get_post_meta($p->ID, 'price_note_ro', true),
+        'destinations'  => $destinations,
+        'cover'         => $uploaded_cover ?: ($cover_url ? $photos . $cover_url : $photos . 'hero.jpg'),
+        'desc_en'       => get_post_meta($p->ID, 'desc_en', true),
+        'desc_ro'       => get_post_meta($p->ID, 'desc_ro', true),
+        'contact'       => 'mailto:' . $contact . '?subject=' . urlencode(($series_labels[$series_slug] ?? 'Vietnam Escape') . ' ' . $edition),
+    ];
+}
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
@@ -298,7 +299,7 @@ img { display: block; max-width: 100%; }
   <?php foreach ($projects as $p): ?>
   <div class="project-card reveal" data-series="<?php echo esc_attr($p['series_slug']); ?>" data-status="<?php echo esc_attr($p['status']); ?>">
     <div class="project-cover">
-      <img src="<?php echo $photos . esc_attr($p['cover']); ?>" alt="<?php echo esc_attr($p['series'] . ' ' . $p['edition']); ?>" loading="lazy">
+      <img src="<?php echo esc_url($p['cover']); ?>" alt="<?php echo esc_attr($p['series'] . ' ' . $p['edition']); ?>" loading="lazy">
       <div class="project-status-badge <?php echo esc_attr($p['status']); ?>">
         <span class="t"
               data-en="<?php echo $p['status'] === 'completed' ? 'Completed' : 'Upcoming'; ?>"

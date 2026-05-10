@@ -1,75 +1,29 @@
 <?php
 $photos = get_stylesheet_directory_uri() . '/assets/photos/';
 
-// Team members — edit here to add/update team members
-// For member photos: add images to wp-content/themes/nonla-child/assets/team/
-$team_dir = get_stylesheet_directory_uri() . '/assets/team/';
-
-$team = [
-  [
-    'name'    => 'Alex Ivan',
-    'city'    => 'Ho Chi Minh City',
-    'role_en' => 'Founder · Cultural Ambassador',
-    'role_ro' => 'Fondator · Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/alex-profile-1-e1733645445625.jpg',
-  ],
-  [
-    'name'    => 'Trần Thị Thanh Thuỳ',
-    'city'    => 'Ho Chi Minh City',
-    'role_en' => 'Cultural Ambassador · Operations Coordinator',
-    'role_ro' => 'Ambasador Cultural · Coordonator Operațional',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/thuy-profile-1-e1733636971467.jpg',
-  ],
-  [
-    'name'    => 'Hiếu Phạm',
-    'city'    => 'Hanoi',
-    'role_en' => 'Cultural Ambassador',
-    'role_ro' => 'Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-14.59.20-1.jpeg',
-  ],
-  [
-    'name'    => 'Nguyễn Duy Uyên',
-    'city'    => 'Hanoi',
-    'role_en' => 'Cultural Ambassador',
-    'role_ro' => 'Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/uyen-profile-1-e1733641741146.jpg',
-  ],
-  [
-    'name'    => 'Nguyễn Ngọc Hà Phương',
-    'city'    => 'Hanoi',
-    'role_en' => 'Cultural Ambassador',
-    'role_ro' => 'Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/haphuong-profile-1-e1733643856255.jpg',
-  ],
-  [
-    'name'    => 'Nguyễn Đoàn Yến Nhi',
-    'city'    => 'Ho Chi Minh City',
-    'role_en' => 'Cultural Ambassador',
-    'role_ro' => 'Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/nhi-profile-1-e1733669989583.jpg',
-  ],
-  [
-    'name'    => 'Trịnh Thu Phương',
-    'city'    => 'Ho Chi Minh City',
-    'role_en' => 'Cultural Ambassador',
-    'role_ro' => 'Ambasador Cultural',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-13.53.44-2-1-scaled-e1733636020764.jpeg',
-  ],
-  [
-    'name'    => 'Aura Amironesei',
-    'city'    => 'Iași',
-    'role_en' => 'Legal Advisor',
-    'role_ro' => 'Consilier Juridic',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/aura-profile-1-1-2.jpg',
-  ],
-  [
-    'name'    => 'Constantin Anghel',
-    'city'    => 'Buzău',
-    'role_en' => 'Accountant',
-    'role_ro' => 'Contabil',
-    'photo'   => 'https://nonlaescape.com/wp-content/uploads/2024/12/WhatsApp-Image-2024-12-07-at-21.47.31-1-1-e1733635842883.jpeg',
-  ],
-];
+// Pull team members from WordPress — edit them at WP Admin → Team
+$team_query = new WP_Query([
+    'post_type'      => 'nl_team_member',
+    'post_status'    => 'publish',
+    'posts_per_page' => -1,
+    'meta_key'       => 'display_order',
+    'orderby'        => 'meta_value_num',
+    'order'          => 'ASC',
+]);
+$team = [];
+foreach ($team_query->posts as $p) {
+    $uploaded = get_post_meta($p->ID, 'photo', true);
+    $team[] = [
+        'name'    => $p->post_title,
+        'role_en' => get_post_meta($p->ID, 'role_en', true),
+        'role_ro' => get_post_meta($p->ID, 'role_ro', true),
+        'city'    => get_post_meta($p->ID, 'city', true),
+        'bio_en'  => get_post_meta($p->ID, 'bio_en', true),
+        'bio_ro'  => get_post_meta($p->ID, 'bio_ro', true),
+        'photo'   => $uploaded ?: get_post_meta($p->ID, 'photo_url', true),
+        'email'   => get_post_meta($p->ID, 'email', true),
+    ];
+}
 ?><!DOCTYPE html>
 <html <?php language_attributes(); ?>>
 <head>
