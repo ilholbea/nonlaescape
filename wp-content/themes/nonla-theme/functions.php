@@ -82,6 +82,10 @@ h1,h2,h3,h4 { font-family: "Cormorant Garamond", serif; }
 .nl-project-btn-disabled { display: inline-flex; margin-top: 20px; background: rgba(122,96,64,.12); color: var(--muted); font-size: 11px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; padding: 12px 24px; border-radius: 3px; }
 @media (max-width: 768px) { .nl-projects-grid { grid-template-columns: 1fr; } }
 
+/* Language toggle — add .lang-en / .lang-ro to any element to show/hide per language */
+.nl-lang-en .lang-ro { display: none !important; }
+.nl-lang-ro .lang-en { display: none !important; }
+
 /* Legal */
 .nl-legal-wrap { max-width: 800px; margin: 0 auto; }
 .nl-legal-wrap h2 { font-family: "Cormorant Garamond", serif; font-size: 32px; font-weight: 600; margin: 40px 0 16px; color: var(--text); }

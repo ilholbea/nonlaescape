@@ -201,14 +201,16 @@ $home_data = [
 
     // 1. HERO
     nl_section(nl_id($i++), [
-        'background_background' => 'classic',
-        'background_image'      => ['url' => $photos . 'hero.jpg', 'id' => ''],
-        'background_size'       => 'cover',
-        'background_position'   => 'center center',
-        'height'                => 'min-height',
-        'min_height'            => ['size' => 100, 'unit' => 'vh'],
-        'overlay_color'         => 'rgba(20,10,4,0.55)',
-        'background_overlay'    => 'classic',
+        'background_background'         => 'classic',
+        'background_image'              => ['url' => $photos . 'hero.jpg', 'id' => ''],
+        'background_size'               => 'cover',
+        'background_position'           => 'center center',
+        'height'                        => 'min-height',
+        'min_height'                    => ['size' => 100, 'unit' => 'vh'],
+        'background_overlay_background' => 'classic',
+        'background_overlay_color'      => 'rgba(20,10,4,0.6)',
+        'background_overlay_opacity'    => ['unit' => 'px', 'size' => 1],
+        'padding'                       => ['top' => '0', 'right' => '0', 'bottom' => '0', 'left' => '0', 'unit' => 'px', 'isLinked' => false],
     ], [
         nl_column(nl_id($i++), 100, [
             nl_html(nl_id($i++), '<div style="font-size:11px;letter-spacing:.28em;text-transform:uppercase;color:#D4A030;font-weight:500;display:flex;align-items:center;gap:10px;margin-bottom:22px;"><span style="width:28px;height:1px;background:#D4A030;display:block;"></span>Escape the ordinary. Discover the unknown.</div>'),
@@ -232,7 +234,7 @@ $home_data = [
   <div><div style="font-family:Bebas Neue,sans-serif;font-size:44px;color:#D4A030;">5</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,253,247,.45);margin-top:4px;">Editions</div></div>
   <div><div style="font-family:Bebas Neue,sans-serif;font-size:44px;color:#D4A030;">100+</div><div style="font-size:10px;text-transform:uppercase;letter-spacing:.18em;color:rgba(255,253,247,.45);margin-top:4px;">Travelers</div></div>
 </div>'),
-        ], ['padding' => ['top' => '0', 'bottom' => '90', 'unit' => 'px', 'isLinked' => false]]),
+        ], ['padding' => ['top' => '120', 'right' => '52', 'bottom' => '90', 'left' => '52', 'unit' => 'px', 'isLinked' => false]]),
     ]),
 
     // 2. TICKER
@@ -434,11 +436,12 @@ $home_data = [
     // 8. CTA
     nl_section(nl_id($i++), [
         'background_background' => 'classic',
-        'background_image'      => ['url' => $photos . 'ninhbinh.jpg', 'id' => ''],
-        'background_size'       => 'cover',
-        'background_position'   => 'center 35%',
-        'overlay_color'         => 'rgba(20,10,4,0.76)',
-        'background_overlay'    => 'classic',
+        'background_image'              => ['url' => $photos . 'ninhbinh.jpg', 'id' => ''],
+        'background_size'               => 'cover',
+        'background_position'           => 'center 35%',
+        'background_overlay_background' => 'classic',
+        'background_overlay_color'      => 'rgba(20,10,4,0.76)',
+        'background_overlay_opacity'    => ['unit' => 'px', 'size' => 1],
         'padding' => ['top' => '120', 'bottom' => '120', 'unit' => 'px', 'isLinked' => false],
     ], [
         nl_column(nl_id($i++), 100, [
