@@ -64,7 +64,7 @@
 }
 </style>
 
-<nav class="nl-nav" id="nl-nav">
+<nav class="nl-nav <?php echo is_front_page() ? '' : 'stuck'; ?>" id="nl-nav">
   <a href="<?php echo esc_url(home_url('/')); ?>" class="nl-nav-logo">NONLA<span>.</span></a>
   <ul class="nl-nav-links">
     <li><a href="<?php echo esc_url(home_url('/#about')); ?>">About</a></li>
@@ -84,7 +84,9 @@
 <script>
 (function(){
   var nav = document.getElementById('nl-nav');
-  window.addEventListener('scroll', function(){ nav.classList.toggle('stuck', window.scrollY > 50); }, {passive:true});
+  var isHome = document.body.classList.contains('home');
+  if (!isHome) nav.classList.add('stuck');
+  window.addEventListener('scroll', function(){ if (isHome) nav.classList.toggle('stuck', window.scrollY > 50); }, {passive:true});
 
   var LANG_KEY = 'nl_lang';
   window.nlLang = function(l) {
