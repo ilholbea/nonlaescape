@@ -73,11 +73,7 @@
     <li><a href="<?php echo esc_url(home_url('/legal')); ?>">Legal</a></li>
   </ul>
   <div class="nl-nav-right">
-    <div class="nl-lang">
-      <button class="nl-lang-btn active" data-lang="en" onclick="nlLang('en')">EN</button>
-      <button class="nl-lang-btn" data-lang="ro" onclick="nlLang('ro')">RO</button>
-    </div>
-    <a href="<?php echo esc_url(home_url('/projects')); ?>" class="nl-nav-cta">Our Escapes</a>
+<a href="<?php echo esc_url(home_url('/projects')); ?>" class="nl-nav-cta">Our Escapes</a>
   </div>
 </nav>
 
