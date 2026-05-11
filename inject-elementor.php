@@ -254,20 +254,20 @@ $home_data = [
 <div class="nl-ticker-wrap"><div class="nl-ticker">
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Vietnam Escape</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Vietnam Undiscovered</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>ONG Românesc</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Grupuri Mici</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Small Groups</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Authentic Experiences</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Expert Coordinators</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>All-Inclusive</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Zboruri Incluse</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Cultural Immersion</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>15 Days</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Vietnam Escape</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Vietnam Undiscovered</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>ONG Românesc</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Grupuri Mici</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Small Groups</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Authentic Experiences</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Expert Coordinators</span>
 <span class="nl-ticker-item"><span class="nl-ticker-dot"></span>All-Inclusive</span>
-<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Zboruri Incluse</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>Cultural Immersion</span>
+<span class="nl-ticker-item"><span class="nl-ticker-dot"></span>15 Days</span>
 </div></div>'),
         ]),
     ]),

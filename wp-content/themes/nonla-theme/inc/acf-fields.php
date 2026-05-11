@@ -41,6 +41,7 @@ add_action('acf/init', function () {
             ['key' => 'field_nl_proj_cover',        'label' => 'Cover Image',             'name' => 'cover_image',    'type' => 'image', 'return_format' => 'url', 'preview_size' => 'medium'],
             ['key' => 'field_nl_proj_desc_en',      'label' => 'Description (English)',   'name' => 'desc_en',        'type' => 'textarea', 'rows' => 4],
             ['key' => 'field_nl_proj_desc_ro',      'label' => 'Description (Romanian)',  'name' => 'desc_ro',        'type' => 'textarea', 'rows' => 4],
+            ['key' => 'field_nl_proj_register_form_url',      'label' => 'Register Form URL',  'name' => 'register_form_url',        'type' => 'text'],
         ],
     ]);
 });
