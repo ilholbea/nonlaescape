@@ -45,10 +45,11 @@ function nl_inject($slug, $data) {
     $page = get_page_by_path($slug);
     if (!$page) { WP_CLI::warning("Page '$slug' not found, skipping."); return; }
     $json = wp_json_encode($data);
-    update_post_meta($page->ID, '_elementor_data', $json);
+    update_post_meta($page->ID, '_elementor_data', wp_slash($json));
     update_post_meta($page->ID, '_elementor_edit_mode', 'builder');
     update_post_meta($page->ID, '_elementor_template_type', 'wp-page');
     update_post_meta($page->ID, '_elementor_version', '3.21.0');
+    wp_cache_delete($page->ID, 'post_meta');
     WP_CLI::success("Injected Elementor data → '{$page->post_title}' (ID {$page->ID})");
 }
 
