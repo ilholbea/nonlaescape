@@ -66,7 +66,7 @@ function nl_inject($page, $data) {
 
 // ── VARIABLES ─────────────────────────────────────────────────────────────────
 
-$photos       = get_theme_root_uri() . '/nonla-child/assets/photos/';
+$photos       = get_stylesheet_directory_uri() . '/assets/photos/';
 $home_url     = home_url('/');
 $projects_url = home_url('/projects');
 $team_url     = home_url('/team');
