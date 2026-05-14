@@ -44,6 +44,13 @@ add_action('wp_footer', function () { ?>
 </script>
 <?php }, 20);
 
+// ── CLEAN UP ADMIN MENU ───────────────────────────────────────────────────────
+
+add_action('admin_menu', function () {
+    remove_menu_page('edit.php');           // Posts
+    remove_menu_page('edit-comments.php'); // Comments
+}, 999);
+
 // ── NONLA SETTINGS ────────────────────────────────────────────────────────────
 
 add_action('admin_menu', function () {
