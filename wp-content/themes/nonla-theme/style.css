@@ -461,6 +461,39 @@ img { display: block; max-width: 100%; }
 .nl-team-cta h2 em { font-style: italic; color: var(--terra); }
 .nl-team-cta p { font-size: 16px; color: var(--text2); line-height: 1.75; font-weight: 300; margin-bottom: 32px; }
 
+/* ── TESTIMONIALS ────────────────────────────────────────────────────────── */
+
+.nl-testimonials-wrap { padding: 100px 0; background: var(--parch); }
+.nl-testimonials-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; margin-top: 48px; }
+.nl-testimonial-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    padding: 40px 36px; display: flex; flex-direction: column;
+    transition: box-shadow .25s, transform .25s;
+}
+.nl-testimonial-card:hover { box-shadow: 0 16px 48px var(--shadow); transform: translateY(-3px); }
+.nl-testimonial-quote-mark {
+    font-family: "Cormorant Garamond", serif; font-size: 64px; line-height: .7;
+    color: var(--terra); opacity: .3; margin-bottom: 16px; font-style: italic;
+}
+.nl-testimonial-text {
+    font-family: "Cormorant Garamond", serif; font-style: italic;
+    font-size: 20px; line-height: 1.6; color: var(--text);
+    flex: 1; margin-bottom: 28px;
+}
+.nl-testimonial-text p { margin: 0; }
+.nl-testimonial-author { display: flex; align-items: center; gap: 14px; padding-top: 20px; border-top: 1px solid var(--border); }
+.nl-testimonial-author-photo {
+    width: 44px; height: 44px; border-radius: 50%;
+    object-fit: cover; flex-shrink: 0;
+}
+.nl-testimonial-author-photo-placeholder {
+    width: 44px; height: 44px; border-radius: 50%;
+    background: var(--parch); display: flex; align-items: center; justify-content: center;
+    font-size: 20px; flex-shrink: 0;
+}
+.nl-testimonial-author-name { font-size: 15px; font-weight: 600; color: var(--text); line-height: 1.3; }
+.nl-testimonial-author-role { font-size: 12px; color: var(--muted); letter-spacing: .06em; margin-top: 2px; }
+
 /* ── LEGAL ────────────────────────────────────────────────────────────────── */
 
 .nl-legal-wrap { max-width: 800px; margin: 0 auto; padding: 80px 52px; }
@@ -497,6 +530,8 @@ img { display: block; max-width: 100%; }
     .nl-dest-grid { grid-template-columns: repeat(2, 1fr); }
     .nl-why-grid { grid-template-columns: 1fr; gap: 14px; }
     .nl-why-wrap { padding: 80px 0; }
+    .nl-testimonials-grid { grid-template-columns: 1fr; }
+    .nl-testimonials-wrap { padding: 80px 0; }
     .nl-gallery-row { grid-template-columns: 1fr; }
     .nl-cta-inner { padding: 90px 24px; }
     .nl-footer-top { grid-template-columns: 1fr; gap: 36px; }
