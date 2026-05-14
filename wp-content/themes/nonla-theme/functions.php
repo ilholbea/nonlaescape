@@ -316,3 +316,36 @@ add_shortcode('nonla_projects', function () {
     </div>
     <?php return ob_get_clean();
 });
+
+add_shortcode('nl_places', function () {
+    if (!function_exists('get_field')) return '';
+
+    $front_id = (int) get_option('page_on_front');
+    $max      = (int) get_field('places_max_items', $front_id) ?: 4;
+    $items    = get_field('places_items', $front_id) ?: [];
+    $items = array_slice($items, 0, $max);
+
+    if (empty($items)) return '';
+
+    ob_start(); ?>
+    <div class="nl-dest-grid">
+      <?php foreach ($items as $item):
+          $image = $item['image'] ?? '';
+          $tag   = $item['tag'] ?? '';
+          $name  = $item['name'] ?? '';
+          $desc  = $item['description'] ?? '';
+          ?>
+      <div class="nl-dest-card">
+        <?php if ($image): ?>
+        <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy">
+        <?php endif; ?>
+        <div class="nl-dest-overlay">
+          <?php if ($tag):  ?><div class="nl-dest-tag"><?php echo esc_html($tag); ?></div><?php endif; ?>
+          <?php if ($name): ?><div class="nl-dest-name"><?php echo esc_html($name); ?></div><?php endif; ?>
+          <?php if ($desc): ?><div class="nl-dest-desc"><?php echo esc_html($desc); ?></div><?php endif; ?>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php return ob_get_clean();
+});

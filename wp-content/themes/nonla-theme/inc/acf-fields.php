@@ -3,6 +3,68 @@
 add_action('acf/init', function () {
     if (!function_exists('acf_add_local_field_group')) return;
 
+    // ── PLACES (attached to the front page) ────────────────────────
+    acf_add_local_field_group([
+        'key'      => 'group_nl_places',
+        'title'    => 'Places That Stay With You',
+        'location' => [[['param' => 'page_type', 'operator' => '==', 'value' => 'front_page']]],
+        'fields'   => [
+            [
+                'key'           => 'field_nl_places_max',
+                'label'         => 'Number of Places to Show',
+                'name'          => 'places_max_items',
+                'type'          => 'number',
+                'default_value' => 4,
+                'min'           => 1,
+                'max'           => 12,
+                'instructions'  => 'How many place cards to display on the homepage.',
+            ],
+            [
+                'key'          => 'field_nl_places_items',
+                'label'        => 'Places',
+                'name'         => 'places_items',
+                'type'         => 'repeater',
+                'layout'       => 'block',
+                'button_label' => 'Add Place',
+                'sub_fields'   => [
+                    [
+                        'key'           => 'field_nl_place_image',
+                        'label'         => 'Photo',
+                        'name'          => 'image',
+                        'type'          => 'image',
+                        'return_format' => 'url',
+                        'preview_size'  => 'medium',
+                        'column_width'  => 20,
+                    ],
+                    [
+                        'key'          => 'field_nl_place_tag',
+                        'label'        => 'Tag (city / region)',
+                        'name'         => 'tag',
+                        'type'         => 'text',
+                        'placeholder'  => 'e.g. Hanoi',
+                        'column_width' => 20,
+                    ],
+                    [
+                        'key'          => 'field_nl_place_name',
+                        'label'        => 'Place Name',
+                        'name'         => 'name',
+                        'type'         => 'text',
+                        'placeholder'  => 'e.g. Old Quarter',
+                        'column_width' => 20,
+                    ],
+                    [
+                        'key'          => 'field_nl_place_desc',
+                        'label'        => 'Short Description',
+                        'name'         => 'description',
+                        'type'         => 'text',
+                        'placeholder'  => 'e.g. Ancient streets, street food & coffee',
+                        'column_width' => 40,
+                    ],
+                ],
+            ],
+        ],
+    ]);
+
     // ── TEAM MEMBER FIELDS ──────────────────────────────────────────
     acf_add_local_field_group([
         'key'      => 'group_nl_team_member',
