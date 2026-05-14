@@ -24,7 +24,7 @@
     </div>
     <div class="nl-footer-bottom">
       <span>© <?php echo date('Y'); ?> Asociația Nonla Cultural Escape. <span class="t" data-en="All rights reserved." data-ro="Toate drepturile rezervate.">All rights reserved.</span></span>
-      <span class="t" data-en="Cultural Escapes Through Vietnam" data-ro="Escapade Culturale Prin Vietnam">Cultural Escapes Through Vietnam</span>
+      <span class="t" data-en="Cultural Escapes Through Vietnam" data-ro="Călătorii Culturale Prin Vietnam">Cultural Escapes Through Vietnam</span>
     </div>
   </div>
 </footer>

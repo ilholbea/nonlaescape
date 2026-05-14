@@ -67,6 +67,7 @@ function nl_inject($page, $data) {
 // ── VARIABLES ─────────────────────────────────────────────────────────────────
 
 $photos       = get_stylesheet_directory_uri() . '/assets/photos/';
+$videos       = get_stylesheet_directory_uri() . '/assets/videos/';
 $home_url     = home_url('/');
 $projects_url = home_url('/projects');
 $team_url     = home_url('/team');
@@ -84,15 +85,17 @@ $i = 1;
 // ═══════════════════════════════════════════════════════════════════════════════
 
 $hero_html = <<<HTML
-<section class="nl-hero" id="about">
-  <div class="nl-hero-photo" style="background-image:url('{$photos}hero.jpg');"></div>
+<section class="nl-hero">
+  <video class="nl-hero-video" autoplay muted loop playsinline preload="auto">
+    <source src="{$videos}hero-video-web.mp4" type="video/mp4">
+  </video>
   <div class="nl-hero-overlay"></div>
   <div class="nl-hero-content">
     <div class="nl-hero-eyebrow">
       <span class="t" data-en="Escape the ordinary. Discover the unknown." data-ro="Evadează din obișnuit. Descoperă necunoscutul.">Escape the ordinary. Discover the unknown.</span>
     </div>
     <h1>
-      <span class="t" data-en="Cultural" data-ro="Escapade">Cultural</span><br>
+      <span class="t" data-en="Cultural" data-ro="Călătorii">Cultural</span><br>
       <em><span class="t" data-en="Escapes" data-ro="Culturale">Escapes</span></em><br>
       <span class="t" data-en="Through Vietnam" data-ro="Prin Vietnam">Through Vietnam</span>
     </h1>
@@ -132,15 +135,26 @@ $hero_html = <<<HTML
 </section>
 HTML;
 
-$ticker_items = ['Vietnam Escape', 'Vietnam Undiscovered', 'ONG Românesc', 'Grupuri Mici', 'Authentic Experiences', 'Expert Coordinators', 'All-Inclusive', 'Zboruri Incluse'];
+$ticker_items = [
+    ['Vietnam Escape',        'Vietnam Escape'],
+    ['Vietnam Undiscovered',  'Vietnam Nedescoperit'],
+    ['Small Groups',          'Grupuri Mici'],
+    ['Authentic Experiences', 'Experiențe Autentice'],
+    ['Expert Coordinators',   'Coordonatori Experți'],
+    ['All-Inclusive',         'Totul Inclus'],
+    ['Cultural Travel',       'Călătorii Culturale'],
+    ['Since 2020',            'Din 2020'],
+];
 $ticker_inner = '';
-foreach (array_merge($ticker_items, $ticker_items) as $item) {
-    $ticker_inner .= '<span class="nl-ticker-item"><span class="nl-ticker-sep"></span>' . esc_html($item) . '</span>';
+foreach (array_merge($ticker_items, $ticker_items) as [$en, $ro]) {
+    $ticker_inner .= '<span class="nl-ticker-item"><span class="nl-ticker-sep"></span>'
+        . '<span class="t" data-en="' . esc_attr($en) . '" data-ro="' . esc_attr($ro) . '">' . esc_html($en) . '</span>'
+        . '</span>';
 }
-$ticker_html = '<div class="nl-ticker-wrap"><div class="nl-ticker">' . $ticker_inner . '</div></div>';
+$ticker_html = '<div class="nl-ticker-wrap"><div class="nl-ticker">' . $ticker_inner . '</div>[nl_countdown]</div>';
 
 $about_html = <<<HTML
-<section class="nl-about-wrap">
+<section class="nl-about-wrap" id="about">
   <div class="nl-section-inner">
     <div class="nl-about-grid">
       <div class="nl-about-photo-stack nl-reveal">
@@ -182,7 +196,7 @@ $series_html = <<<HTML
 <section class="nl-series-wrap">
   <div class="nl-section-inner">
     <div class="nl-eyebrow nl-reveal">
-      <span class="t" data-en="Our Escapes" data-ro="Escapadele Noastre">Our Escapes</span>
+      <span class="t" data-en="Our Escapes" data-ro="Călătoriile Noastre">Our Escapes</span>
     </div>
     <h2 class="nl-section-title nl-reveal nl-d1">
       <span class="t" data-en="Two Series." data-ro="Două Serii.">Two Series.</span><br>
@@ -253,11 +267,11 @@ $cta_html = <<<HTML
     </div>
     <h2 class="nl-reveal nl-d1">
       <span class="t" data-en="Find Your" data-ro="Găsește-ți">Find Your</span><br>
-      <em><span class="t" data-en="Escape." data-ro="Escapada.">Escape.</span></em>
+      <em><span class="t" data-en="Escape." data-ro="Călătorie.">Escape.</span></em>
     </h2>
     <p class="nl-reveal nl-d2 t"
        data-en="Browse our Vietnam escapes — past, present, and upcoming — and find the one that calls to you."
-       data-ro="Explorează escapadele noastre din Vietnam — trecute, prezente și viitoare — și găsește-o pe cea care te cheamă.">
+       data-ro="Explorează călătoriile noastre din Vietnam — trecute, prezente și viitoare — și găsește-o pe cea care te cheamă.">
       Browse our Vietnam escapes — past, present, and upcoming — and find the one that calls to you.
     </p>
     <div class="nl-cta-actions nl-reveal nl-d3">
@@ -294,7 +308,7 @@ $proj_header_html = <<<HTML
       <a href="{$home_url}">Nonla</a> / <span class="t" data-en="Projects" data-ro="Proiecte">Projects</span>
     </div>
     <h1 class="nl-page-title nl-reveal">
-      <span class="t" data-en="Our" data-ro="Escapadele">Our</span><br>
+      <span class="t" data-en="Our" data-ro="Călătoriile">Our</span><br>
       <em><span class="t" data-en="Escapes." data-ro="Noastre.">Escapes.</span></em>
     </h1>
     <p class="nl-page-subtitle nl-reveal t"
@@ -323,11 +337,11 @@ $team_header_html = <<<HTML
     </div>
     <h1 class="nl-page-title nl-reveal">
       <span class="t" data-en="The People" data-ro="Oamenii">The People</span><br>
-      <em><span class="t" data-en="Behind the Escapes." data-ro="Din Spatele Escapadelor.">Behind the Escapes.</span></em>
+      <em><span class="t" data-en="Behind the Escapes." data-ro="Din Spatele Călătoriilor.">Behind the Escapes.</span></em>
     </h1>
     <p class="nl-page-subtitle nl-reveal t"
        data-en="Meet the coordinators who make it all happen — on the ground in Vietnam, every single day of the escape."
-       data-ro="Cunoaște coordonatorii care fac totul posibil — pe teren în Vietnam, în fiecare zi a escapadei.">
+       data-ro="Cunoaște coordonatorii care fac totul posibil — pe teren în Vietnam, în fiecare zi a călătoriei.">
       Meet the coordinators who make it all happen — on the ground in Vietnam, every single day of the escape.
     </p>
   </div>
@@ -350,7 +364,7 @@ $team_cta_html = <<<HTML
       Our coordinators aren't just guides — they're travel companions who speak your language, know Vietnam deeply, and are with you from the first flight to the last goodbye.
     </p>
     <a href="{$projects_url}" class="nl-btn-primary nl-reveal nl-d3">
-      <span class="t" data-en="See Our Escapes" data-ro="Vezi Escapadele Noastre">See Our Escapes</span>
+      <span class="t" data-en="See Our Escapes" data-ro="Vezi Călătoriile Noastre">See Our Escapes</span>
       {$arrow}
     </a>
   </div>

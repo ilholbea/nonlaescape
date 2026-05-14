@@ -305,7 +305,7 @@ add_shortcode('nonla_projects', function () {
         <div class="nl-empty-state">
           <p class="t"
              data-en="No projects found. New escapes are announced soon — check back or get in touch."
-             data-ro="Niciun proiect găsit. Escapadele noi sunt anunțate în curând — revino sau contactează-ne.">
+             data-ro="Niciun proiect găsit. Călătoriile noi sunt anunțate în curând — revino sau contactează-ne.">
             No projects found. New escapes are announced soon — check back or get in touch.
           </p>
         </div>
@@ -335,14 +335,11 @@ add_shortcode('nl_places', function () {
           $name  = $place->post_title;
           $desc  = get_field('description', $place->ID);
           ?>
-      <div class="nl-dest-card">
-        <?php if ($photo): ?>
-        <img src="<?php echo esc_url($photo); ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy">
-        <?php endif; ?>
+      <div class="nl-dest-card"<?php if ($photo): ?> style="background-image:url('<?php echo esc_url($photo); ?>')"<?php endif; ?>>
         <div class="nl-dest-overlay">
           <?php if ($tag):  ?><div class="nl-dest-tag"><?php echo esc_html($tag); ?></div><?php endif; ?>
           <?php if ($name): ?><div class="nl-dest-name"><?php echo esc_html($name); ?></div><?php endif; ?>
-          <?php if ($desc): ?><div class="nl-dest-desc"><?php echo esc_html($desc); ?></div><?php endif; ?>
+          <?php if ($desc): ?><div class="nl-dest-desc"><?php echo wp_strip_all_tags($desc); ?></div><?php endif; ?>
         </div>
       </div>
       <?php endforeach; ?>
@@ -446,7 +443,7 @@ add_shortcode('nl_why_items', function () {
       <div class="nl-why-item nl-reveal <?php echo esc_attr($delay_class); ?>">
         <?php if ($icon): ?><div class="nl-why-icon"><?php echo esc_html($icon); ?></div><?php endif; ?>
         <div class="nl-why-title"><?php echo esc_html($title); ?></div>
-        <?php if ($desc): ?><p class="nl-why-desc"><?php echo esc_html($desc); ?></p><?php endif; ?>
+        <?php if ($desc): ?><p class="nl-why-desc"><?php echo esc_html(wp_strip_all_tags($desc)); ?></p><?php endif; ?>
       </div>
       <?php endforeach; ?>
     </div>
@@ -491,5 +488,75 @@ add_shortcode('nl_testimonials', function () {
       </div>
       <?php endforeach; ?>
     </div>
+    <?php return ob_get_clean();
+});
+
+add_shortcode('nl_countdown', function () {
+    if (!function_exists('get_field')) return '';
+
+    $projects = get_posts([
+        'post_type'      => 'nl_project',
+        'posts_per_page' => 1,
+        'meta_query'     => [['key' => 'status', 'value' => 'upcoming']],
+        'orderby'        => 'meta_value',
+        'meta_key'       => 'year',
+        'order'          => 'ASC',
+    ]);
+
+    if (empty($projects)) return '';
+
+    $pid      = $projects[0]->ID;
+    $dates_en = get_field('dates_en', $pid);
+    $year_acf = get_field('year', $pid);
+
+    // Extract start date — with or without year in dates_en
+    if (preg_match('/([A-Za-z]+\s+\d{1,2})(?:\s*[–\-]\s*(?:[A-Za-z]+\s+)?\d{1,2})?,?\s*(\d{4})/', $dates_en, $m)) {
+        $ts = strtotime($m[1] . ', ' . $m[2]);
+    } elseif (preg_match('/([A-Za-z]+\s+\d{1,2})/', $dates_en, $m) && $year_acf) {
+        $ts = strtotime($m[1] . ', ' . $year_acf);
+    } else {
+        return '';
+    }
+    if (!$ts || $ts <= time()) return '';
+
+    ob_start(); ?>
+    <div class="nl-countdown" data-ts="<?php echo esc_attr($ts * 1000); ?>">
+        <div class="nl-cd-label t" data-en="Next Trip" data-ro="Următoarea Călătorie">Next Trip</div>
+        <div class="nl-cd-units">
+            <div class="nl-cd-unit"><span class="nl-cd-n" data-unit="months">--</span><span class="nl-cd-l t" data-en="Mo" data-ro="Lu">Mo</span></div>
+            <div class="nl-cd-sep"></div>
+            <div class="nl-cd-unit"><span class="nl-cd-n" data-unit="days">--</span><span class="nl-cd-l t" data-en="Days" data-ro="Zile">Days</span></div>
+            <div class="nl-cd-sep"></div>
+            <div class="nl-cd-unit"><span class="nl-cd-n" data-unit="hours">--</span><span class="nl-cd-l t" data-en="Hrs" data-ro="Ore">Hrs</span></div>
+            <div class="nl-cd-sep"></div>
+            <div class="nl-cd-unit"><span class="nl-cd-n" data-unit="minutes">--</span><span class="nl-cd-l t" data-en="Min" data-ro="Min">Min</span></div>
+            <div class="nl-cd-sep"></div>
+            <div class="nl-cd-unit"><span class="nl-cd-n" data-unit="seconds">--</span><span class="nl-cd-l t" data-en="Sec" data-ro="Sec">Sec</span></div>
+        </div>
+    </div>
+    <script>
+    (function () {
+        var el = document.querySelector('.nl-countdown');
+        if (!el) return;
+        var target = parseInt(el.dataset.ts, 10);
+        function tick() {
+            var diff = target - Date.now();
+            if (diff <= 0) { el.remove(); return; }
+            var totalS = Math.floor(diff / 1000);
+            var months  = Math.floor(totalS / (30 * 24 * 3600));
+            var days    = Math.floor((totalS % (30 * 24 * 3600)) / (24 * 3600));
+            var hours   = Math.floor((totalS % (24 * 3600)) / 3600);
+            var minutes = Math.floor((totalS % 3600) / 60);
+            var seconds = totalS % 60;
+            el.querySelector('[data-unit="months"]').textContent  = String(months).padStart(2, '0');
+            el.querySelector('[data-unit="days"]').textContent    = String(days).padStart(2, '0');
+            el.querySelector('[data-unit="hours"]').textContent   = String(hours).padStart(2, '0');
+            el.querySelector('[data-unit="minutes"]').textContent = String(minutes).padStart(2, '0');
+            el.querySelector('[data-unit="seconds"]').textContent = String(seconds).padStart(2, '0');
+        }
+        tick();
+        setInterval(tick, 1000);
+    })();
+    </script>
     <?php return ob_get_clean();
 });
