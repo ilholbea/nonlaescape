@@ -188,38 +188,7 @@ $series_html = <<<HTML
       <span class="t" data-en="Two Series." data-ro="Două Serii.">Two Series.</span><br>
       <em><span class="t" data-en="One Vietnam." data-ro="Un Vietnam.">One Vietnam.</span></em>
     </h2>
-    <div class="nl-series-grid">
-      <div class="nl-series-card nl-reveal nl-d2">
-        <div class="nl-series-label">
-          <span class="t" data-en="Annual Group Escape" data-ro="Escapadă Anuală de Grup">Annual Group Escape</span>
-        </div>
-        <div class="nl-series-name">Vietnam Escape</div>
-        <p class="nl-series-desc t"
-           data-en="Our flagship annual escape — 15 days through Vietnam's iconic destinations. From Hanoi's ancient streets to Phu Quoc's tropical waters, everything is included: flights, hotels, transfers, and daily guided experiences."
-           data-ro="Escapada noastră anuală emblematică — 15 zile prin destinațiile iconice din Vietnam. De la străzile antice ale Hanoiului la apele tropicale din Phu Quoc, totul este inclus: zboruri, hoteluri, transferuri și experiențe ghidate zilnic.">
-          Our flagship annual escape — 15 days through Vietnam's iconic destinations. From Hanoi's ancient streets to Phu Quoc's tropical waters, everything is included: flights, hotels, transfers, and daily guided experiences.
-        </p>
-        <a href="{$projects_url}" class="nl-series-link">
-          <span class="t" data-en="See Editions" data-ro="Vezi Edițiile">See Editions</span>
-          {$arrow_sm}
-        </a>
-      </div>
-      <div class="nl-series-card nl-reveal nl-d3">
-        <div class="nl-series-label">
-          <span class="t" data-en="Off The Beaten Path" data-ro="Dincolo de Traseele Bătătorite">Off The Beaten Path</span>
-        </div>
-        <div class="nl-series-name">Vietnam Undiscovered</div>
-        <p class="nl-series-desc t"
-           data-en="For those who want to go deeper. Remote villages, hidden valleys, and lesser-known corners of Vietnam that most travelers never reach. More adventurous, more intimate."
-           data-ro="Pentru cei care vor să meargă mai adânc. Sate îndepărtate, văi ascunse și colțuri mai puțin cunoscute din Vietnam pe care cei mai mulți nu le văd niciodată. Mai aventuros, mai intim.">
-          For those who want to go deeper. Remote villages, hidden valleys, and lesser-known corners of Vietnam that most travelers never reach. More adventurous, more intimate.
-        </p>
-        <a href="{$projects_url}" class="nl-series-link">
-          <span class="t" data-en="See Editions" data-ro="Vezi Edițiile">See Editions</span>
-          {$arrow_sm}
-        </a>
-      </div>
-    </div>
+    [nl_series]
   </div>
 </section>
 HTML;
@@ -249,65 +218,29 @@ $why_html = <<<HTML
       <span class="t" data-en="The Difference" data-ro="Diferența">The Difference</span><br>
       <em><span class="t" data-en="You'll Feel." data-ro="Pe Care O Vei Simți.">You'll Feel.</span></em>
     </h2>
-    <div class="nl-why-grid">
-      <div class="nl-why-item nl-reveal nl-d1">
-        <div class="nl-why-icon">🧭</div>
-        <div class="nl-why-title t" data-en="Local Expertise" data-ro="Expertiză Locală">Local Expertise</div>
-        <p class="nl-why-desc t" data-en="2–4 coordinators speak Vietnamese, Romanian &amp; English. No language barrier, no wasted days." data-ro="2–4 coordonatori vorbesc vietnameză, română și engleză. Fără bariera lingvistică, fără zile pierdute.">2–4 coordinators speak Vietnamese, Romanian &amp; English. No language barrier, no wasted days.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-d2">
-        <div class="nl-why-icon">🏨</div>
-        <div class="nl-why-title t" data-en="Vetted Stays" data-ro="Cazări Verificate">Vetted Stays</div>
-        <p class="nl-why-desc t" data-en="Every property personally tested and rated 8.5+ on Booking.com. Comfort you can count on." data-ro="Fiecare proprietate testată personal și evaluată 8.5+ pe Booking.com. Confort garantat.">Every property personally tested and rated 8.5+ on Booking.com. Comfort you can count on.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-d3">
-        <div class="nl-why-icon">✈️</div>
-        <div class="nl-why-title t" data-en="All-Inclusive" data-ro="All-Inclusive">All-Inclusive</div>
-        <p class="nl-why-desc t" data-en="Flights, transfers, accommodation, daily breakfast and curated experiences. You just show up." data-ro="Zboruri, transferuri, cazare, mic dejun zilnic și experiențe curate. Tu trebuie doar să apari.">Flights, transfers, accommodation, daily breakfast and curated experiences. You just show up.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-d1">
-        <div class="nl-why-icon">🌿</div>
-        <div class="nl-why-title t" data-en="NGO Organized" data-ro="Organizat de ONG">NGO Organized</div>
-        <p class="nl-why-desc t" data-en="We're a certified NGO. Sustainable travel, community partnerships, and cultural respect are in our DNA." data-ro="Suntem un ONG certificat. Turismul sustenabil, parteneriatele comunitare și respectul cultural sunt în ADN-ul nostru.">We're a certified NGO. Sustainable travel, community partnerships, and cultural respect are in our DNA.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-d2">
-        <div class="nl-why-icon">🍜</div>
-        <div class="nl-why-title t" data-en="Authentic Vietnam" data-ro="Vietnam Autentic">Authentic Vietnam</div>
-        <p class="nl-why-desc t" data-en="Phở for €1.50, coffee workshops, market visits, local restaurants. Real Vietnam, not the tourist version." data-ro="Phở de 1,50€, ateliere de cafea, vizite la piețe, restaurante locale. Vietnam autentic, nu varianta turistică.">Phở for €1.50, coffee workshops, market visits, local restaurants. Real Vietnam, not the tourist version.</p>
-      </div>
-      <div class="nl-why-item nl-reveal nl-d3">
-        <div class="nl-why-icon">🤝</div>
-        <div class="nl-why-title t" data-en="Small Group" data-ro="Grup Mic">Small Group</div>
-        <p class="nl-why-desc t" data-en="Intimate group travel means real friendships. We travel, eat, and explore together. Community that lasts." data-ro="Călătoria în grup mic înseamnă prietenii reale. Călătorim, mâncăm și explorăm împreună. O comunitate care durează.">Intimate group travel means real friendships. We travel, eat, and explore together. Community that lasts.</p>
-      </div>
+    [nl_why_items]
+  </div>
+</section>
+HTML;
+
+$testimonials_html = <<<HTML
+<section class="nl-testimonials-wrap">
+  <div class="nl-section-inner">
+    <div class="nl-eyebrow nl-reveal">
+      <span class="t" data-en="What Travelers Say" data-ro="Ce Spun Călătorii">What Travelers Say</span>
     </div>
+    <h2 class="nl-section-title nl-reveal nl-d1">
+      <span class="t" data-en="Their" data-ro="Povestea">Their</span><br>
+      <em><span class="t" data-en="Stories." data-ro="Lor.">Stories.</span></em>
+    </h2>
+    [nl_testimonials]
   </div>
 </section>
 HTML;
 
 $gallery_html = <<<HTML
 <div class="nl-gallery-wrap">
-  <div class="nl-gallery-row">
-    <div class="nl-gallery-photo nl-gallery-photo-tall">
-      <img src="{$photos}hero.jpg" alt="Trang An, Ninh Binh" loading="lazy">
-    </div>
-    <div class="nl-gallery-col">
-      <div class="nl-gallery-photo nl-gallery-photo-short">
-        <img src="{$photos}garden.jpg" alt="Ninh Binh Garden" loading="lazy">
-      </div>
-      <div class="nl-gallery-photo nl-gallery-photo-short">
-        <img src="{$photos}halong.jpg" alt="Ha Long Bay" loading="lazy">
-      </div>
-    </div>
-    <div class="nl-gallery-col">
-      <div class="nl-gallery-photo nl-gallery-photo-short">
-        <img src="{$photos}tamcoc.jpg" alt="Tam Coc" loading="lazy">
-      </div>
-      <div class="nl-gallery-photo nl-gallery-photo-short">
-        <img src="{$photos}phuquoc.jpg" alt="Phu Quoc" loading="lazy">
-      </div>
-    </div>
-  </div>
+  [nl_gallery_items]
 </div>
 HTML;
 
@@ -339,14 +272,15 @@ $cta_html = <<<HTML
 HTML;
 
 $home_data = [
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $hero_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $ticker_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $about_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $series_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $why_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $gallery_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $cta_html)], nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $hero_html)],         nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $ticker_html)],       nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $about_html)],        nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $series_html)],       nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)],         nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $why_html)],          nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $testimonials_html)], nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $gallery_html)],      nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $cta_html)],          nl_col_settings())]),
 ];
 
 // ═══════════════════════════════════════════════════════════════════════════════

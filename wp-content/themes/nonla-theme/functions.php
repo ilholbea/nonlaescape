@@ -1,8 +1,5 @@
 <?php
 
-require_once get_stylesheet_directory() . '/inc/post-types.php';
-require_once get_stylesheet_directory() . '/inc/acf-fields.php';
-
 add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('nonla-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap', [], null);
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
@@ -320,29 +317,176 @@ add_shortcode('nonla_projects', function () {
 add_shortcode('nl_places', function () {
     if (!function_exists('get_field')) return '';
 
-    $front_id = (int) get_option('page_on_front');
-    $max      = (int) get_field('places_max_items', $front_id) ?: 4;
-    $items    = get_field('places_items', $front_id) ?: [];
-    $items = array_slice($items, 0, $max);
+    $places = get_posts([
+        'post_type'      => 'nl_place',
+        'posts_per_page' => -1,
+        'meta_key'       => 'display_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+    ]);
 
-    if (empty($items)) return '';
+    if (empty($places)) return '';
 
     ob_start(); ?>
     <div class="nl-dest-grid">
-      <?php foreach ($items as $item):
-          $image = $item['image'] ?? '';
-          $tag   = $item['tag'] ?? '';
-          $name  = $item['name'] ?? '';
-          $desc  = $item['description'] ?? '';
+      <?php foreach ($places as $place):
+          $photo = get_field('photo', $place->ID);
+          $tag   = get_field('tag', $place->ID);
+          $name  = $place->post_title;
+          $desc  = get_field('description', $place->ID);
           ?>
       <div class="nl-dest-card">
-        <?php if ($image): ?>
-        <img src="<?php echo esc_url($image); ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy">
+        <?php if ($photo): ?>
+        <img src="<?php echo esc_url($photo); ?>" alt="<?php echo esc_attr($name); ?>" loading="lazy">
         <?php endif; ?>
         <div class="nl-dest-overlay">
           <?php if ($tag):  ?><div class="nl-dest-tag"><?php echo esc_html($tag); ?></div><?php endif; ?>
           <?php if ($name): ?><div class="nl-dest-name"><?php echo esc_html($name); ?></div><?php endif; ?>
           <?php if ($desc): ?><div class="nl-dest-desc"><?php echo esc_html($desc); ?></div><?php endif; ?>
+        </div>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php return ob_get_clean();
+});
+
+add_shortcode('nl_series', function () {
+    $items = get_posts([
+        'post_type'      => 'nl_series',
+        'posts_per_page' => -1,
+        'meta_key'       => 'display_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+    ]);
+
+    if (empty($items)) return '';
+
+    $projects_url = get_permalink(get_page_by_path('projects'));
+    $arrow_sm = '<svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7.5 2.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+    ob_start(); ?>
+    <div class="nl-series-grid">
+      <?php foreach ($items as $i => $item):
+          $label       = get_field('label', $item->ID);
+          $description = get_field('description', $item->ID);
+          $link_url    = get_field('link_url', $item->ID) ?: $projects_url;
+          $delay_class = 'nl-d' . ($i + 2);
+          ?>
+      <div class="nl-series-card nl-reveal <?php echo esc_attr($delay_class); ?>">
+        <?php if ($label): ?>
+        <div class="nl-series-label"><?php echo esc_html($label); ?></div>
+        <?php endif; ?>
+        <div class="nl-series-name"><?php echo esc_html($item->post_title); ?></div>
+        <?php if ($description): ?>
+        <div class="nl-series-desc"><?php echo wp_kses_post($description); ?></div>
+        <?php endif; ?>
+        <a href="<?php echo esc_url($link_url); ?>" class="nl-series-link">
+          <span class="t" data-en="See Editions" data-ro="Vezi Edițiile">See Editions</span>
+          <?php echo $arrow_sm; ?>
+        </a>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php return ob_get_clean();
+});
+
+add_shortcode('nl_gallery_items', function () {
+    $items = get_posts([
+        'post_type'      => 'nl_gallery_item',
+        'posts_per_page' => -1,
+        'meta_key'       => 'display_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+    ]);
+
+    if (empty($items)) return '';
+
+    ob_start(); ?>
+    <div class="nl-gallery-row">
+      <?php foreach ($items as $i => $item):
+          $photo   = get_field('photo', $item->ID);
+          $caption = get_field('caption', $item->ID);
+          $class   = $i === 0 ? 'nl-gallery-photo-tall' : 'nl-gallery-photo-short';
+          if ($i === 0): ?>
+      <div class="nl-gallery-photo <?php echo $class; ?>">
+        <?php if ($photo): ?><img src="<?php echo esc_url($photo); ?>" alt="<?php echo esc_attr($caption ?: $item->post_title); ?>" loading="lazy"><?php endif; ?>
+      </div>
+      <?php else:
+          $col = ($i <= 2) ? 0 : 1;
+          if ($i === 1 || $i === 3): ?><div class="nl-gallery-col"><?php endif; ?>
+      <div class="nl-gallery-photo <?php echo $class; ?>">
+        <?php if ($photo): ?><img src="<?php echo esc_url($photo); ?>" alt="<?php echo esc_attr($caption ?: $item->post_title); ?>" loading="lazy"><?php endif; ?>
+      </div>
+      <?php if ($i === 2 || $i === 4 || $i === count($items) - 1): ?></div><?php endif; ?>
+      <?php endif; ?>
+      <?php endforeach; ?>
+    </div>
+    <?php return ob_get_clean();
+});
+
+add_shortcode('nl_why_items', function () {
+    $items = get_posts([
+        'post_type'      => 'nl_why_item',
+        'posts_per_page' => -1,
+        'meta_key'       => 'display_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+    ]);
+
+    if (empty($items)) return '';
+
+    ob_start(); ?>
+    <div class="nl-why-grid">
+      <?php foreach ($items as $i => $item):
+          $icon  = get_field('icon', $item->ID);
+          $title = $item->post_title;
+          $desc  = get_field('description', $item->ID);
+          $delay_class = 'nl-d' . (($i % 3) + 1);
+          ?>
+      <div class="nl-why-item nl-reveal <?php echo esc_attr($delay_class); ?>">
+        <?php if ($icon): ?><div class="nl-why-icon"><?php echo esc_html($icon); ?></div><?php endif; ?>
+        <div class="nl-why-title"><?php echo esc_html($title); ?></div>
+        <?php if ($desc): ?><p class="nl-why-desc"><?php echo esc_html($desc); ?></p><?php endif; ?>
+      </div>
+      <?php endforeach; ?>
+    </div>
+    <?php return ob_get_clean();
+});
+
+add_shortcode('nl_testimonials', function () {
+    $items = get_posts([
+        'post_type'      => 'nl_testimonial',
+        'posts_per_page' => -1,
+        'meta_key'       => 'display_order',
+        'orderby'        => 'meta_value_num',
+        'order'          => 'ASC',
+    ]);
+
+    if (empty($items)) return '';
+
+    ob_start(); ?>
+    <div class="nl-testimonials-grid">
+      <?php foreach ($items as $item):
+          $quote       = get_field('quote', $item->ID);
+          $author_name = get_field('author_name', $item->ID);
+          $author_role = get_field('author_role', $item->ID);
+          $author_photo= get_field('author_photo', $item->ID);
+          ?>
+      <div class="nl-testimonial-card nl-reveal">
+        <div class="nl-testimonial-quote-mark">"</div>
+        <div class="nl-testimonial-text"><?php echo wp_kses_post($quote); ?></div>
+        <div class="nl-testimonial-author">
+          <?php if ($author_photo): ?>
+          <img class="nl-testimonial-author-photo" src="<?php echo esc_url($author_photo); ?>" alt="<?php echo esc_attr($author_name); ?>">
+          <?php else: ?>
+          <div class="nl-testimonial-author-photo-placeholder">👤</div>
+          <?php endif; ?>
+          <div>
+            <div class="nl-testimonial-author-name"><?php echo esc_html($author_name); ?></div>
+            <?php if ($author_role): ?>
+            <div class="nl-testimonial-author-role"><?php echo esc_html($author_role); ?></div>
+            <?php endif; ?>
+          </div>
         </div>
       </div>
       <?php endforeach; ?>
