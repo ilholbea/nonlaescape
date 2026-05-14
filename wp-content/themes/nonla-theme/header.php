@@ -16,6 +16,7 @@
     <li><a href="<?php echo esc_url(home_url('/home')); ?>"><span class="t" data-en="Home" data-ro="Acasa">Home</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/projects')); ?>"><span class="t" data-en="Projects" data-ro="Proiecte">Projects</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/team')); ?>"><span class="t" data-en="Team" data-ro="Echipă">Team</span></a></li>
+    <li><a href="<?php echo esc_url(home_url('/gallery')); ?>"><span class="t" data-en="Gallery" data-ro="Galerie">Gallery</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/legal')); ?>"><span class="t" data-en="Legal" data-ro="Contact">Legal</span></a></li>
   </ul>
   <div class="nl-nav-right">

@@ -89,11 +89,12 @@ require __DIR__ . '/sections/series.php';
 require __DIR__ . '/sections/places.php';
 require __DIR__ . '/sections/why.php';
 require __DIR__ . '/sections/testimonials.php';
-require __DIR__ . '/sections/gallery.php';
+// gallery moved to pages/gallery.php
 require __DIR__ . '/sections/cta.php';
 
 // ── PAGE INCLUDES (inner pages) ───────────────────────────────────────────────
 
+require __DIR__ . '/pages/gallery.php';
 require __DIR__ . '/pages/projects.php';
 require __DIR__ . '/pages/team.php';
 require __DIR__ . '/pages/legal.php';
@@ -110,7 +111,6 @@ $home_data = [
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)],         nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $why_html)],          nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $testimonials_html)], nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $gallery_html)],      nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $cta_html)],          nl_col_settings())]),
 ];
 
@@ -123,6 +123,7 @@ update_option('page_on_front', $home_page->ID);
 update_option('show_on_front', 'page');
 nl_inject($home_page, $home_data);
 
+nl_inject(nl_get_or_create('gallery', 'Gallery'), $gallery_data);
 nl_inject(nl_get_or_create('projects', 'Projects'), $proj_data);
 nl_inject(nl_get_or_create('team', 'Team'), $team_data);
 nl_inject(nl_get_or_create('legal', 'Legal Notice'), $legal_data);
