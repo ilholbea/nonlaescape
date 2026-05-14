@@ -235,40 +235,7 @@ $dest_html = <<<HTML
       <em><span class="t" data-en="With You." data-ro="Cu Tine.">With You.</span></em>
     </h2>
   </div>
-  <div class="nl-dest-grid">
-    <div class="nl-dest-card">
-      <img src="{$photos}hanoi.jpg" alt="Hanoi" loading="lazy">
-      <div class="nl-dest-overlay">
-        <div class="nl-dest-tag">Hanoi</div>
-        <div class="nl-dest-name"><span class="t" data-en="Old Quarter" data-ro="Cartierul Vechi">Old Quarter</span></div>
-        <div class="nl-dest-desc t" data-en="Ancient streets, Temple of Literature, street food &amp; Vietnamese coffee" data-ro="Străzi antice, Temple of Literature, mâncare stradală și cafea vietnameză">Ancient streets, Temple of Literature, street food &amp; Vietnamese coffee</div>
-      </div>
-    </div>
-    <div class="nl-dest-card">
-      <img src="{$photos}halong.jpg" alt="Ha Long Bay" loading="lazy">
-      <div class="nl-dest-overlay">
-        <div class="nl-dest-tag">Lan Ha Bay</div>
-        <div class="nl-dest-name">Ha Long</div>
-        <div class="nl-dest-desc t" data-en="UNESCO limestone karsts, emerald waters, boat trips &amp; kayaking" data-ro="Carști calcaroși UNESCO, ape smarald, excursii cu barca și kayaking">UNESCO limestone karsts, emerald waters, boat trips &amp; kayaking</div>
-      </div>
-    </div>
-    <div class="nl-dest-card">
-      <img src="{$photos}ninhbinh.jpg" alt="Ninh Binh" loading="lazy">
-      <div class="nl-dest-overlay">
-        <div class="nl-dest-tag">Ninh Binh</div>
-        <div class="nl-dest-name">Trang An</div>
-        <div class="nl-dest-desc t" data-en="River boats, Mua Cave, bicycle rides through endless rice paddies" data-ro="Bărci pe râu, Mua Cave, pedalat printre câmpuri nesfârșite de orez">River boats, Mua Cave, bicycle rides through endless rice paddies</div>
-      </div>
-    </div>
-    <div class="nl-dest-card">
-      <img src="{$photos}phuquoc.jpg" alt="Phu Quoc" loading="lazy">
-      <div class="nl-dest-overlay">
-        <div class="nl-dest-tag">Phu Quoc</div>
-        <div class="nl-dest-name"><span class="t" data-en="Island Life" data-ro="Viață de Insulă">Island Life</span></div>
-        <div class="nl-dest-desc t" data-en="Tropical island, snorkeling, boat tours, hiking &amp; pure beach days" data-ro="Insulă tropicală, snorkeling, tururi cu barca, drumeții și zile de plajă">Tropical island, snorkeling, boat tours, hiking &amp; pure beach days</div>
-      </div>
-    </div>
-  </div>
+  [nl_places]
 </section>
 HTML;
 

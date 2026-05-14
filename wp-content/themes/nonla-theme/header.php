@@ -15,6 +15,7 @@
     <li><a href="<?php echo esc_url(home_url('/projects')); ?>"><span class="t" data-en="Projects" data-ro="Proiecte">Projects</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/team')); ?>"><span class="t" data-en="Team" data-ro="Echipă">Team</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/#contact')); ?>"><span class="t" data-en="Contact" data-ro="Contact">Contact</span></a></li>
+    <li><a href="<?php echo esc_url(home_url('/legal')); ?>"><span class="t" data-en="Legal" data-ro="Contact">Legal</span></a></li>
   </ul>
   <div class="nl-nav-right">
     <div class="nl-lang">
