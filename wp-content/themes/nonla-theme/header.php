@@ -9,12 +9,13 @@
 <?php wp_body_open(); ?>
 
 <nav class="nl-nav <?php echo is_front_page() ? '' : 'stuck'; ?>" id="nl-nav">
-  <a href="<?php echo esc_url(home_url('/')); ?>" class="nl-nav-logo">NONLA<span>.</span></a>
+  <a href="<?php echo esc_url(home_url('/')); ?>" class="nl-nav-logo">
+    <img src="<?php echo esc_url(get_stylesheet_directory_uri() . '/assets/photos/nonla-logo.png'); ?>" alt="Nonla" class="nl-nav-logo-img">
+  </a>
   <ul class="nl-nav-links">
-    <li><a href="<?php echo esc_url(home_url('/#about')); ?>"><span class="t" data-en="About" data-ro="Despre">About</span></a></li>
+    <li><a href="<?php echo esc_url(home_url('/home')); ?>"><span class="t" data-en="Home" data-ro="Acasa">Home</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/projects')); ?>"><span class="t" data-en="Projects" data-ro="Proiecte">Projects</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/team')); ?>"><span class="t" data-en="Team" data-ro="Echipă">Team</span></a></li>
-    <li><a href="<?php echo esc_url(home_url('/#contact')); ?>"><span class="t" data-en="Contact" data-ro="Contact">Contact</span></a></li>
     <li><a href="<?php echo esc_url(home_url('/legal')); ?>"><span class="t" data-en="Legal" data-ro="Contact">Legal</span></a></li>
   </ul>
   <div class="nl-nav-right">
@@ -23,7 +24,7 @@
       <button class="nl-lang-btn" data-lang="ro" onclick="applyLang('ro')">RO</button>
     </div>
     <a href="<?php echo esc_url(home_url('/projects')); ?>" class="nl-nav-cta">
-      <span class="t" data-en="Our Escapes" data-ro="Escapadele Noastre">Our Escapes</span>
+      <span class="t" data-en="Our Escapes" data-ro="Călătoriile Noastre">Our Escapes</span>
     </a>
   </div>
 </nav>
