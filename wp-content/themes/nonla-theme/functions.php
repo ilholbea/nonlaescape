@@ -3,6 +3,7 @@
 // ── SHORTCODES & CPTs ─────────────────────────────────────────────────────────
 
 require_once __DIR__ . '/shortcodes/cpt-registration.php';
+require_once __DIR__ . '/shortcodes/project-acf-fields.php';
 require_once __DIR__ . '/shortcodes/team.php';
 require_once __DIR__ . '/shortcodes/projects.php';
 require_once __DIR__ . '/shortcodes/places.php';

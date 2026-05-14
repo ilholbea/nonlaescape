@@ -36,16 +36,24 @@ pages/legal.php            ← Legal page header + legal text
 Each shortcode is its own file — edit and save, no inject needed:
 
 ```
-shortcodes/team.php          ← [nonla_team]
-shortcodes/projects.php      ← [nonla_projects]
-shortcodes/places.php        ← [nl_places]
-shortcodes/series.php        ← [nl_series]
-shortcodes/gallery.php       ← [nl_gallery_items]
-shortcodes/why.php           ← [nl_why_items]
-shortcodes/testimonials.php  ← [nl_testimonials]
-shortcodes/countdown.php     ← [nl_countdown]
+shortcodes/team.php              ← [nonla_team]
+shortcodes/projects.php          ← [nonla_projects] — project cards list
+shortcodes/places.php            ← [nl_places]
+shortcodes/series.php            ← [nl_series]
+shortcodes/gallery.php           ← [nl_gallery_items]
+shortcodes/why.php               ← [nl_why_items]
+shortcodes/testimonials.php      ← [nl_testimonials]
+shortcodes/countdown.php         ← [nl_countdown]
 shortcodes/cpt-registration.php  ← CPT definitions (rarely touched)
+shortcodes/project-acf-fields.php ← ACF fields for itinerary + accommodations
 ```
+
+### Project detail pages
+Each `nl_project` gets its own URL (`/project/{slug}/`) rendered by `single-nl_project.php`.
+
+Two child CPTs feed the detail sections — add entries in WP Admin:
+- **Itinerary Days** → post title = EN day title, set Project + Day # + Date + RO title + descriptions
+- **Accommodations** → post title = hotel name, Featured Image = main photo, set Project + City + Order + descriptions + Booking URL + extra photos
 
 ### Content (places, team, projects, testimonials…)
 WP Admin → the relevant post type. Changes are live immediately.

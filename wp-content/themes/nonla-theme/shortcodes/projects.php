@@ -133,7 +133,11 @@ add_shortcode('nonla_projects', function () {
                 <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
               <?php endif; ?>
-              <a href="mailto:<?php echo esc_attr($contact); ?>?subject=<?php echo urlencode($series . ' ' . $edition); ?>" class="nl-btn-outline">
+              <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="nl-btn-outline">
+                <span class="t" data-en="View Details" data-ro="Vezi Detalii">View Details</span>
+                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7.5 2.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <a href="mailto:<?php echo esc_attr($contact); ?>?subject=<?php echo urlencode($series . ' ' . $edition); ?>" class="nl-btn-ghost-dark">
                 <?php if ($status === 'completed'): ?>
                 <span class="t" data-en="Ask About Next Edition" data-ro="Întreabă despre Ediția Viitoare">Ask About Next Edition</span>
                 <?php else: ?>
