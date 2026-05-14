@@ -65,7 +65,7 @@ add_action('admin_init', function () {
     ]);
     register_setting('nonla_settings', 'nonla_contact_email', [
         'sanitize_callback' => 'sanitize_email',
-        'default'           => 'contact@nonlaescape.com',
+        'default'           => 'nonlaescape@gmail.com',
     ]);
 });
 
@@ -77,7 +77,7 @@ function nonla_settings_page() {
         echo '<div class="notice notice-success"><p>Settings saved.</p></div>';
     }
     $reg_url = get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
-    $contact = get_option('nonla_contact_email', 'contact@nonlaescape.com');
+    $contact = get_option('nonla_contact_email', 'nonlaescape@gmail.com');
     ?>
     <div class="wrap">
         <h1>Nonla Settings</h1>

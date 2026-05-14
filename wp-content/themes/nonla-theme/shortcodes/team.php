@@ -65,8 +65,8 @@ add_shortcode('nonla_team', function () {
            data-ro="Profilurile echipei vin în curând. Între timp, contactați-ne direct.">
           Team profiles are coming soon. In the meantime, get in touch directly.
         </p>
-        <a href="mailto:<?php echo esc_attr(get_option('nonla_contact_email', 'contact@nonlaescape.com')); ?>" class="nl-btn-primary" style="margin-top:24px;display:inline-flex;">
-          <?php echo esc_html(get_option('nonla_contact_email', 'contact@nonlaescape.com')); ?>
+        <a href="mailto:<?php echo esc_attr(get_option('nonla_contact_email', 'nonlaescape@gmail.com')); ?>" class="nl-btn-primary" style="margin-top:24px;display:inline-flex;">
+          <?php echo esc_html(get_option('nonla_contact_email', 'nonlaescape@gmail.com')); ?>
         </a>
       </div>
       <?php endif; ?>

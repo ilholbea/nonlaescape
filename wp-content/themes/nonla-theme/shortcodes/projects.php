@@ -3,7 +3,7 @@
 
 add_shortcode('nonla_projects', function () {
     $reg_url = get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
-    $contact = get_option('nonla_contact_email', 'contact@nonlaescape.com');
+    $contact = get_option('nonla_contact_email', 'nonlaescape@gmail.com');
 
     $series_labels = [
         'vietnam-escape'       => 'Vietnam Escape',

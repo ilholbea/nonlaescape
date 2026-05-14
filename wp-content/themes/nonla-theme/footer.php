@@ -19,7 +19,7 @@
       <div>
         <div class="nl-footer-head">Contact</div>
         <ul class="nl-footer-links">
-          <li><a href="mailto:<?php echo esc_attr(get_option('nonla_contact_email', 'contact@nonlaescape.com')); ?>"><?php echo esc_html(get_option('nonla_contact_email', 'contact@nonlaescape.com')); ?></a></li>
+          <li><a href="mailto:<?php echo esc_attr(get_option('nonla_contact_email', 'nonlaescape@gmail.com')); ?>"><?php echo esc_html(get_option('nonla_contact_email', 'nonlaescape@gmail.com')); ?></a></li>
         </ul>
       </div>
     </div>
