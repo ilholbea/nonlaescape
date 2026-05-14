@@ -41,7 +41,7 @@ class Shutterpress_Gallery_Debug {
 	 */
 	private $log_file = '';
 	/**
-	 * Whether logging is enabled, null indicates the value has not been initialised yet.
+	 * Whether logging is enabled, null indicates the value has not been initialized yet.
 	 *
 	 * @var bool|null
 	 */

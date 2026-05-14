@@ -96,9 +96,9 @@ class Shutterpress_Gallery_Public {
 		wp_enqueue_script( 'js-cookie', SP_GALLERY_URL . 'includes/js/js.cookie.min.js', array(), '3.0.1', true );
 		wp_enqueue_script( 'lightgallery', SP_GALLERY_URL . 'includes/js/lightgallery.bundle.js', array( 'jquery' ), '2.7.1', true );
 		wp_enqueue_script( 'imagesloaded' );
-		wp_enqueue_script( 'infinite-scroll', SP_GALLERY_URL . 'includes/js/infinite-scroll.pkgd.min.js', array( 'jquery' ), null, true );
-		wp_enqueue_script( 'isotope', SP_GALLERY_URL . 'includes/js/isotope.pkgd.min.js', array( 'jquery' ), null, true );
-		wp_enqueue_script( 'shutterpress-gallery-isotope', SP_GALLERY_URL . 'src/public/js/shutterpress-gallery-isotope.js', array( 'isotope', 'jquery' ), null, true );
+		wp_enqueue_script( 'infinite-scroll', SP_GALLERY_URL . 'includes/js/infinite-scroll.pkgd.min.js', array( 'jquery' ), '4.0.1', true );
+		wp_enqueue_script( 'isotope', SP_GALLERY_URL . 'includes/js/isotope.pkgd.min.js', array( 'jquery' ), '3.0.6', true );
+		wp_enqueue_script( 'shutterpress-gallery-isotope', SP_GALLERY_URL . 'src/public/js/shutterpress-gallery-isotope.js', array( 'isotope', 'jquery' ), $this->version, true );
 	}
 
 	/**
@@ -147,7 +147,7 @@ class Shutterpress_Gallery_Public {
 
 			$gallery->set_attributes();
 
-			$parts = array( $gallery->get_buttons(), $gallery->get_the_gallery(), $gallery->get_infinite_scroll_loader(), $gallery->get_gallery_pagination() );
+			$parts = array( $gallery->get_the_gallery(), $gallery->get_infinite_scroll_loader(), $gallery->get_gallery_pagination() );
 
 			foreach ( $parts as $part ) {
 				if ( is_wp_error( $part ) ) {
@@ -218,22 +218,21 @@ class Shutterpress_Gallery_Public {
 	 * provided attributes. It sets up the necessary rendering attributes, and then
 	 * calls the `sp_gallery_get_the_gallery()` method to generate the gallery HTML.
 	 *
-	 * @param array       $attributes An associative array of shortcode attributes.
-	 * @param string|null $content    Shortcode content when used with enclosing form, unused.
-	 * @param object|null $renderer   Optional gallery renderer instance for tests or injection.
+	 * @param array              $attributes    An associative array of shortcode attributes.
+	 * @param string|object|null $content      Shortcode content when used with enclosing form, unused.
+	 *                                         Tests may pass a renderer object here for injection.
+	 * @param string             $shortcode_tag The shortcode tag name supplied by WordPress.
 	 *
 	 * @return string The rendered gallery HTML.
 	 */
-	public function sp_gallery_render_gallery_shortcode( array $attributes, $content = null, $renderer = null ) {
+	public function sp_gallery_render_gallery_shortcode( array $attributes, $content = null, string $shortcode_tag = '' ) {
+		$renderer = null;
 
-		if ( $renderer === null && is_object( $content ) ) {
+		if ( is_object( $content ) ) {
 			$renderer = $content;
 			$content  = null;
 		}
 
-		if ( ! is_object( $renderer ) ) {
-			$renderer = null;
-		}
 		$this->debug->log( 'Rendering gallery shortcode', $attributes );
 
 		$use_lightbox = isset( $attributes['use_lightbox'] ) ? $this->sp_gallery_is_truthy( $attributes['use_lightbox'] ) : null;
@@ -271,7 +270,6 @@ class Shutterpress_Gallery_Public {
 		if ( ! empty( $renderer->get_gallery_images() ) ) {
 			$renderer->set_attributes( $gallery_attributes );
 
-			$output .= $renderer->get_buttons();
 			$output .= $renderer->get_the_gallery();
 			$output .= $renderer->get_infinite_scroll_loader();
 			$output .= $renderer->get_gallery_pagination();
@@ -294,17 +292,23 @@ class Shutterpress_Gallery_Public {
 	 * @return void
 	 */
 	public function sp_gallery_localize_frontend_data() {
-		$localize_data = array(
-			'rest_url' => esc_url_raw( rest_url() ),
-			'nonce'    => wp_create_nonce( 'wp_rest' ),
+		$virtualiser_enabled      = get_option( 'sp_gallery_enable_virtualiser', 1 );
+		$virtualiser_low_conflict = get_option( 'sp_gallery_virtualiser_low_conflict_mode', 0 );
+		$localize_data            = array(
+			'rest_url'                      => esc_url_raw( rest_url() ),
+			'nonce'                         => wp_create_nonce( 'wp_rest' ),
+			'virtualiser_enabled'           => ! empty( $virtualiser_enabled ),
+			'virtualiser_low_conflict_mode' => ! empty( $virtualiser_low_conflict ),
 		);
-		if ( get_option( 'sp_gallery_debug' ) === '1' ) {
+		$debug_enabled            = get_option( 'sp_gallery_debug', false );
+		$debug_enabled            = is_string( $debug_enabled ) ? in_array( strtolower( trim( $debug_enabled ) ), array( '1', 'true', 'yes', 'on' ), true ) : ! empty( $debug_enabled );
+		if ( $debug_enabled ) {
 			$localize_data['debug'] = true;
 		}
 
 		$localize_data = apply_filters( 'sp_gallery_localize_data', $localize_data );
 
-		$this->debug->log( 'Localising Data', array( $localize_data ) );
+		$this->debug->log( 'Localizing Data', array( $localize_data ) );
 
 		wp_localize_script( $this->plugin_name . '-public', 'shutterpressData', $localize_data );
 	}

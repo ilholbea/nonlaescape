@@ -17,6 +17,8 @@ export function bindLikeButtonClicks() {
     // Optimistic UI
     $this.toggleClass('sp-gallery-liked-image');
     jQuery('.sp-gallery-item-' + imageId).toggleClass('sp-gallery-item-liked');
+    const liked = $this.hasClass('sp-gallery-liked-image');
+    jQuery('.sp-gallery-item-' + imageId + ' .sp-gallery-item-lightbox').attr('data-liked', liked ? '1' : '0');
 
     if (isLoggedIn) {
       fetch(`${shutterpressData.rest_url}shutterpress/v1/toggle-like`, {
@@ -40,7 +42,6 @@ export function bindLikeButtonClicks() {
         });
     } else {
       try {
-        const liked = $this.hasClass('sp-gallery-liked-image');
         setLikedImages(updateGuestLikedImages(imageId, liked));
         handleLikedImages(getLikedImages());
         if (shutterpressData.debug) console.log('Liked Images:', getLikedImages());

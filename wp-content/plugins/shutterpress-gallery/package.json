@@ -1,10 +1,13 @@
 {
+  "name": "shutterpress-gallery",
+  "version": "1.8.0",
+  "main": "webpack.config.js",
   "dependencies": {
     "imagesloaded": "^5.0.0",
     "infinite-scroll": "^5.0.0",
     "isotope-cells-by-row": "^1.1.4",
     "js-cookie": "^3.0.5",
-    "lightgallery": "git+https://github.com/shutterpress/lightGallery.git#2.8.3-release",
+    "lightgallery": "github:shutterpress/lightGallery#master",
     "masonry-layout": "^4.2.2"
   },
   "devDependencies": {
@@ -27,9 +30,6 @@
     "start": "wp-scripts start",
     "build": "wp-scripts build"
   },
-  "name": "shutterpress-gallery",
-  "version": "1.0.0",
-  "main": "webpack.config.js",
   "directories": {
     "test": "tests"
   },

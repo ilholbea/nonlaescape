@@ -67,8 +67,11 @@ class Shutterpress_Gallery_Activator {
 			add_option( 'sp_gallery_install_id', wp_generate_uuid4() );
 		}
 
+		add_option( 'sp_gallery_enable_virtualiser', 1 );
+		add_option( 'sp_gallery_virtualiser_low_conflict_mode', 0 );
+
 		
-		if ( class_exists( 'Shutterpress_Gallery_Tracking' ) && get_option( 'sp_gallery_install_id' ) && ! get_option( 'sp_gallery_activation_tracked' ) ) {
+		if ( class_exists( Shutterpress_Gallery_Tracking::class ) && get_option( 'sp_gallery_install_id' ) && ! get_option( 'sp_gallery_activation_tracked' ) ) {
 			$install_timestamp = get_option( 'sp_gallery_first_installed' ) ? get_option( 'sp_gallery_first_installed' ) : null;
 			$now               = time();
 

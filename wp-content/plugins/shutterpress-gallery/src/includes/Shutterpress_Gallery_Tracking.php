@@ -41,7 +41,7 @@ class Shutterpress_Gallery_Tracking {
 	/**
 	 * Class constructor.
 	 *
-	 * Prepares the tracking client by initialising the debug logger used to
+	 * Prepares the tracking client by initializing the debug logger used to
 	 * record request context and errors.
 	 *
 	 * @since 1.3.7

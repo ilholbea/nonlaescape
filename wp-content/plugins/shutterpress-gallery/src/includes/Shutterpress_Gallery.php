@@ -27,7 +27,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  * Core plugin bootstrap for ShutterPress Gallery.
  *
  * Loads dependencies, registers admin and public hooks, and provides accessors
- * for the plugin name, loader, and version. Also initialises the debug logger
+ * for the plugin name, loader, and version. Also initializes the debug logger
  * for normal web requests.
  *
  * @since 1.0.0
@@ -57,7 +57,7 @@ class Shutterpress_Gallery {
 	/**
 	 * Class constructor.
 	 *
-	 * Defines plugin constants, sets the plugin name and version, initialises the
+	 * Defines plugin constants, sets the plugin name and version, initializes the
 	 * debug logger, loads dependencies, and registers admin and public hooks. It
 	 * also starts the debug logger for normal web requests that are not AJAX,
 	 * CLI, REST, or wp‑cron.
@@ -173,6 +173,9 @@ class Shutterpress_Gallery {
 		$this->loader->sp_gallery_add_action( 'elementor/elements/categories_registered', $plugin_admin, 'sp_gallery_add_elementor_category' );
 		$this->loader->sp_gallery_add_action( 'rest_api_init', $plugin_admin_rest, 'register_save_field_route' );
 		$this->loader->sp_gallery_add_action( 'rest_api_init', $plugin_admin_rest, 'register_dismiss_notice_route' );
+		$this->loader->sp_gallery_add_filter( 'manage_edit-shutterpress-gallery_columns', $plugin_admin, 'sp_gallery_add_image_count_column' );
+		$this->loader->sp_gallery_add_filter( 'manage_shutterpress-gallery_posts_columns', $plugin_admin, 'sp_gallery_add_image_count_column' );
+		$this->loader->sp_gallery_add_action( 'manage_shutterpress-gallery_posts_custom_column', $plugin_admin, 'sp_gallery_render_image_count_column', 10, 2 );
 		$this->loader->sp_gallery_add_filter( 'rwmb_meta_boxes', $plugin_admin_meta_boxes, 'register_meta_boxes', 10 );
 		$this->loader->sp_gallery_add_filter( 'plugin_action_links', $plugin_admin, 'sp_gallery_upgrade_link', 99, 2 );
 	}

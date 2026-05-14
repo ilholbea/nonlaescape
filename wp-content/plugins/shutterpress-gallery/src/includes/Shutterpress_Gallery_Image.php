@@ -37,6 +37,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  */
 class Shutterpress_Gallery_Image {
 
+	protected static array $svg_cache = array();
 	protected int $attachment_id;
 	protected ?object $post = null;
 	protected int $post_id;
@@ -271,6 +272,66 @@ class Shutterpress_Gallery_Image {
 	}
 
 	/**
+	 * Picks the smallest usable image size for the gallery tile width.
+	 *
+	 * The gallery previously hardcoded `large`, which can fall back to oversized
+	 * scaled originals when that intermediate size is missing. This selects the
+	 * first available intermediate size that can satisfy the tile width instead.
+	 *
+	 * @since 1.7.13
+	 *
+	 * @param array $attributes Gallery render attributes.
+	 *
+	 * @return string
+	 */
+	private function get_gallery_render_size( array $attributes ): string {
+		$display_width = isset( $attributes['display_width'] ) ? (int) $attributes['display_width'] : 0;
+
+		if ( $display_width <= 0 ) {
+			return 'large';
+		}
+
+		
+		$target_width = max( $display_width, (int) ceil( $display_width * 1.5 ) );
+		$candidates   = array(
+			'thumbnail'    => 150,
+			'medium'       => 300,
+			'medium_large' => 768,
+			'large'        => 1024,
+			'1536x1536'    => 1536,
+			'2048x2048'    => 2048,
+		);
+		$metadata     = wp_get_attachment_metadata( $this->image_id );
+		$meta_sizes   = isset( $metadata['sizes'] ) && is_array( $metadata['sizes'] ) ? $metadata['sizes'] : array();
+		$available    = array();
+
+		foreach ( $candidates as $size => $width ) {
+			if ( ! isset( $meta_sizes[ $size ]['width'] ) ) {
+				continue;
+			}
+
+			$available[ $size ] = (int) $meta_sizes[ $size ]['width'];
+		}
+
+		if ( isset( $metadata['width'] ) && (int) $metadata['width'] > 0 ) {
+			$available['full'] = (int) $metadata['width'];
+		}
+
+		foreach ( $available as $size => $width ) {
+			if ( $width >= $target_width ) {
+				return $size;
+			}
+		}
+
+		if ( empty( $available ) ) {
+			return 'large';
+		}
+
+		end( $available );
+		return (string) key( $available );
+	}
+
+	/**
 	 * Checks whether the image exists (i.e., the attachment post is valid).
 	 *
 	 * @since 1.3.4
@@ -302,12 +363,14 @@ class Shutterpress_Gallery_Image {
 		$alt           = $this->get_alt();
 		$caption       = $this->get_caption();
 		$title         = $this->get_title();
-		$src_large     = $this->get_url( 'large' );
-		$srcset        = $this->get_srcset( 'large' );
+		$render_size   = $this->get_gallery_render_size( $attributes );
+		$src_large     = $this->get_url( $render_size );
+		$srcset        = $this->get_srcset( $render_size );
 		$lightbox_src  = $this->get_url( '2048x2048' );
+		if ( ! $lightbox_src ) {
+			$lightbox_src = $this->get_url( 'full' );
+		}
 		$download_src  = $this->get_download_url( $gallery_id );
-		$width         = $this->get_image_size()['width'];
-		$height        = $this->get_image_size()['height'];
 		$size          = $this->get_image_size();
 		$width         = isset( $size['width'] ) ? (int) $size['width'] : 0;
 		$height        = isset( $size['height'] ) ? (int) $size['height'] : 0;
@@ -319,10 +382,55 @@ class Shutterpress_Gallery_Image {
 
 		$ratio = $width / $height;
 
-		$data_download_url = '';
+		$lightbox_data_attrs = array(
+			'data-src'                  => $lightbox_src ?: '',
+			'data-image-id'             => absint( $this->image_id ),
+			'data-liked'                => '0',
+			'data-external-thumb-image' => $src_large ?: '',
+			'data-caption'              => $caption ?: '',
+		);
 
 		if ( (bool) $attributes['show_download_icon'] === true ) {
-			$data_download_url = 'data-download-url="' . esc_url( $download_src ) . '"';
+			$lightbox_data_attrs['data-download-url'] = $download_src ?: '';
+		}
+
+		/**
+		 * Filters the Lightbox anchor data attributes for each gallery image.
+		 *
+		 * Allows extensions (e.g. Pro) to add or override `data-*` attributes
+		 * on the Lightbox link element.
+		 *
+		 * @since 1.7.13
+		 *
+		 * @param array  $lightbox_data_attrs Associative array of anchor attributes.
+		 * @param int    $image_id            Current image attachment ID.
+		 * @param int    $gallery_id          Current gallery post ID.
+		 */
+		$lightbox_data_attrs = apply_filters(
+			'sp_gallery_lightbox_data_attributes',
+			$lightbox_data_attrs,
+			(int) $this->image_id,
+			(int) $gallery_id
+		);
+
+			$lightbox_data_attr_html = '';
+			if ( is_array( $lightbox_data_attrs ) ) {
+				foreach ( $lightbox_data_attrs as $attr_name => $attr_value ) {
+					if ( ! is_scalar( $attr_value ) ) {
+						continue;
+					}
+
+				$attr_name = sanitize_key( (string) $attr_name );
+				if ( '' === $attr_name ) {
+					continue;
+				}
+
+				if ( 0 !== strpos( $attr_name, 'data-' ) ) {
+					$attr_name = 'data-' . ltrim( $attr_name, '-' );
+				}
+
+				$lightbox_data_attr_html .= ' ' . $attr_name . '="' . esc_attr( (string) $attr_value ) . '"';
+			}
 		}
 
 		$output = '';
@@ -369,7 +477,7 @@ class Shutterpress_Gallery_Image {
 		$use_lightbox = ( ! empty( $attributes['use_lightbox'] ) ) && ! empty( $lightbox_src );
 
 		$open  = $use_lightbox
-			? '<a href="' . ( $lightbox_src ? esc_url( $lightbox_src ) : '' ) . '" class="sp-gallery-item-lightbox" data-src="' . ( $lightbox_src ? esc_url( $lightbox_src ) : '' ) . '" ' . $data_download_url . ' data-image-id="' . absint( $this->image_id ) . '" data-external-thumb-image="' . ( $src_large ? esc_url( $src_large ) : '' ) . '" data-caption="' . ( $caption ? esc_attr( $caption ) : '' ) . '" data-elementor-open-lightbox="no">'
+			? '<a href="' . ( $lightbox_src ? esc_url( $lightbox_src ) : '' ) . '" class="sp-gallery-item-lightbox"' . $lightbox_data_attr_html . ' data-elementor-open-lightbox="no">'
 			: '';
 		$close = $use_lightbox ? '</a>' : '';
 
@@ -391,7 +499,7 @@ class Shutterpress_Gallery_Image {
 				$icon_path = realpath( $base_dir . $icon_slug . '.svg' );
 
 				if ( $icon_path && is_readable( $icon_path ) ) {
-					$raw_svg = file_get_contents( $icon_path ); 
+					$raw_svg = $this->get_cached_svg( $icon_path );
 					if ( $raw_svg ) {
 						$output .= '<div class="sp-gallery-overlay-icon-container">';
 						$output .= wp_kses( $raw_svg, $this->allowed_svg );
@@ -400,31 +508,31 @@ class Shutterpress_Gallery_Image {
 				}
 			}
 
-			
-			$title = '';
-			if ( $show_title ) {
-				$t = $this->get_title();
-				if ( $t !== '' && $t !== null ) {
-					$title   = $t;
-					$output .= '<div class="sp-gallery-image-title">' . esc_html( $title ) . '</div>';
+				
+				$overlay_title = '';
+				if ( $show_title ) {
+					$t = $title;
+					if ( '' !== (string) $t ) {
+						$overlay_title = (string) $t;
+						$output       .= '<div class="sp-gallery-image-title">' . esc_html( $overlay_title ) . '</div>';
+					}
+				}
+
+				
+				$overlay_caption = '';
+				if ( $show_caption ) {
+					$c = $caption;
+					if ( '' !== (string) $c ) {
+						$overlay_caption = (string) $c;
+						$output         .= '<div class="sp-gallery-image-caption">' . esc_html( $overlay_caption ) . '</div>';
+					}
+				}
+
+				
+				if ( '' !== $overlay_title && '' !== $overlay_caption ) {
+					$output .= '<div class="sp-gallery-center-line"></div>';
 				}
 			}
-
-			
-			$caption = '';
-			if ( $show_caption ) {
-				$c = $this->get_caption();
-				if ( $c !== '' && $c !== null ) {
-					$caption = $c;
-					$output .= '<div class="sp-gallery-image-caption">' . ( $caption ? esc_html( $caption ) : '' ) . '</div>';
-				}
-			}
-
-			
-			if ( $title !== '' && $caption !== '' ) {
-				$output .= '<div class="sp-gallery-center-line"></div>';
-			}
-		}
 
 		
 		$output .= $this->get_image_icons_html( $gallery_id, $attributes, $download_src );
@@ -460,7 +568,7 @@ class Shutterpress_Gallery_Image {
 		if ( $show_like_icon ) {
 			$icons['like'] = array(
 				'type'       => 'toggle',
-				'icon'       => file_get_contents( plugin_dir_path( __FILE__ ) . '../includes/images/heart.svg' ),
+				'icon'       => $this->get_cached_svg( plugin_dir_path( __FILE__ ) . '../includes/images/heart.svg' ),
 				'class'      => 'sp-gallery-like-icon',
 				'action'     => 'add_to_favorites',
 				'aria-label' => 'Add to favorites',
@@ -471,7 +579,7 @@ class Shutterpress_Gallery_Image {
 		if ( $show_download_icon ) {
 			$icons['download'] = array(
 				'type'       => 'download',
-				'icon'       => file_get_contents( SP_GALLERY_DIR . 'src/includes/images/' . $attributes['icons']['download'] . '.svg' ), 
+				'icon'       => $this->get_cached_svg( SP_GALLERY_DIR . 'src/includes/images/' . $attributes['icons']['download'] . '.svg' ),
 				'class'      => 'sp-gallery-download-icon sp-gallery-image-icon',
 				'action'     => 'download_image',
 				'aria-label' => 'Download Image',
@@ -504,6 +612,29 @@ class Shutterpress_Gallery_Image {
 
 		$output .= '</div></div>';
 		return $output;
+	}
+
+	/**
+	 * Reads an SVG file once per request and reuses the contents for later renders.
+	 *
+	 * @param string $path Absolute path to the SVG file.
+	 *
+	 * @return string
+	 */
+	private function get_cached_svg( string $path ): string {
+		if ( isset( self::$svg_cache[ $path ] ) ) {
+			return self::$svg_cache[ $path ];
+		}
+
+		if ( ! is_readable( $path ) ) {
+			self::$svg_cache[ $path ] = '';
+			return self::$svg_cache[ $path ];
+		}
+
+		$svg = file_get_contents( $path ); 
+		self::$svg_cache[ $path ] = is_string( $svg ) ? $svg : '';
+
+		return self::$svg_cache[ $path ];
 	}
 
 	/**

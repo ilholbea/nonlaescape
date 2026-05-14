@@ -440,8 +440,6 @@ class Shutterpress_Gallery_Elementor_Widget extends Widget_Base {
 				$output .= '</style>';
 			}
 
-			$output .= $renderer->get_buttons();
-
 			$gallery_output = $renderer->get_the_gallery();
 			if ( ! is_wp_error( $gallery_output ) ) {
 				$output .= $gallery_output;

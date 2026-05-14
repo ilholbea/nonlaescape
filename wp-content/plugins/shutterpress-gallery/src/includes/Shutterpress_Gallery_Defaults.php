@@ -3,7 +3,7 @@
  * Default settings for ShutterPress Gallery.
  *
  * Single source of truth for gallery option defaults used by admin UI,
- * REST endpoints, sanitisation, and rendering.
+ * REST endpoints, sanitization, and rendering.
  *
  * @package Shutterpress\Gallery
  *
@@ -20,7 +20,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  * Provides default option values for ShutterPress galleries and templates.
  *
  * Exposes a getter for the defaults array, and a helper that derives
- * a coarse sanitisation schema from those values so other code stays in sync.
+ * a coarse sanitization schema from those values so other code stays in sync.
  *
  * Keys include booleans, integers, color strings, responsive arrays,
  * and free text such as `custom_css`.
@@ -151,8 +151,8 @@ class Shutterpress_Gallery_Defaults {
 	/**
 	 * Class constructor.
 	 *
-	 * Prepares the defaults provider by initialising utility helpers used for
-	 * sanitising colours and other values when deriving templates and schema.
+	 * Prepares the defaults provider by initializing utility helpers used for
+	 * sanitizing colors and other values when deriving templates and schema.
 	 *
 	 * @since 1.7.0
 	 * @return void
@@ -178,7 +178,7 @@ class Shutterpress_Gallery_Defaults {
 		);
 
 		
-		$config = apply_filters( 'shutterpress_gallery_template_defaults', $config );
+		$config = apply_filters( 'sp_gallery_template_defaults', $config );
 
 		return $config;
 	}
@@ -197,7 +197,7 @@ class Shutterpress_Gallery_Defaults {
 	 */
 	public function get_plugin_defaults(): array {
 
-		$defaults = apply_filters( 'shutterpress_gallery_plugin_defaults', $this->plugin_defaults );
+		$defaults = apply_filters( 'sp_gallery_plugin_defaults', $this->plugin_defaults );
 
 		return $defaults;
 	}
@@ -218,7 +218,7 @@ class Shutterpress_Gallery_Defaults {
 	/**
 	 * Retrieve the template validation schema.
 	 *
-	 * Defines the expected type for each template option, used for sanitisation.
+	 * Defines the expected type for each template option, used for sanitization.
 	 *
 	 * @since 1.7.0
 	 *
@@ -232,7 +232,7 @@ class Shutterpress_Gallery_Defaults {
 	 * Sanitize a single template option value.
 	 *
 	 * Applies type-specific cleaning based on the schema. Falls back to
-	 * text sanitisation if the key is unknown.
+	 * text sanitization if the key is unknown.
 	 *
 	 * @since 1.7.0
 	 *

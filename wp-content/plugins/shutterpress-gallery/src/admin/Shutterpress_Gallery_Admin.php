@@ -136,6 +136,9 @@ class Shutterpress_Gallery_Admin {
 	 * @return void
 	 */
 	public function enqueue_gutenberg_block_assets() {
+		if ( ! $this->sp_gallery_should_enqueue_block_editor_assets() ) {
+			return;
+		}
 
 		if ( $this->utils->sp_gallery_is_elementor_in_edit_mode() ) {
 			return;
@@ -171,6 +174,28 @@ class Shutterpress_Gallery_Admin {
 		wp_localize_script( 'shutterpress-gallery-editor', 'shutterpressData', $localize_data );
 
 		wp_set_script_translations( 'shutterpress-gallery-editor', 'shutterpress-gallery', SP_GALLERY_DIR . 'languages' );
+	}
+
+	/**
+	 * Determines whether block editor assets should be enqueued for the current request.
+	 *
+	 * This allows editor preview assets to load inside the block editor canvas while
+	 * preventing the editor bundle from leaking onto normal frontend requests.
+	 *
+	 * @since 1.7.12
+	 *
+	 * @return bool
+	 */
+	private function sp_gallery_should_enqueue_block_editor_assets(): bool {
+		if ( is_admin() ) {
+			return true;
+		}
+
+		if ( function_exists( 'wp_should_load_block_editor_scripts_and_styles' ) ) {
+			return wp_should_load_block_editor_scripts_and_styles();
+		}
+
+		return false;
 	}
 
 	/**
@@ -499,7 +524,7 @@ class Shutterpress_Gallery_Admin {
 			'capability_type'       => 'page',
 			'map_meta_cap'          => true,
 			'hierarchical'          => true,
-			'can_export'            => false,
+			'can_export'            => true,
 			'rewrite'               => array(
 				'slug'       => $slug,
 				'with_front' => true,
@@ -543,8 +568,137 @@ class Shutterpress_Gallery_Admin {
 		);
 
 		register_post_type( 'shutterpress-gallery', $args );
+		register_taxonomy(
+			'sp_gallery_category',
+			array( 'shutterpress-gallery' ),
+			array(
+				'labels'            => array(
+					'name'              => esc_html__( 'Gallery Categories', 'shutterpress-gallery' ),
+					'singular_name'     => esc_html__( 'Gallery Category', 'shutterpress-gallery' ),
+					'search_items'      => esc_html__( 'Search Gallery Categories', 'shutterpress-gallery' ),
+					'all_items'         => esc_html__( 'All Gallery Categories', 'shutterpress-gallery' ),
+					'parent_item'       => esc_html__( 'Parent Gallery Category', 'shutterpress-gallery' ),
+					'parent_item_colon' => esc_html__( 'Parent Gallery Category:', 'shutterpress-gallery' ),
+					'edit_item'         => esc_html__( 'Edit Gallery Category', 'shutterpress-gallery' ),
+					'update_item'       => esc_html__( 'Update Gallery Category', 'shutterpress-gallery' ),
+					'add_new_item'      => esc_html__( 'Add New Gallery Category', 'shutterpress-gallery' ),
+					'new_item_name'     => esc_html__( 'New Gallery Category Name', 'shutterpress-gallery' ),
+					'menu_name'         => esc_html__( 'Gallery Categories', 'shutterpress-gallery' ),
+				),
+				'hierarchical'      => true,
+				'public'            => true,
+				'show_ui'           => true,
+				'show_admin_column' => true,
+				'show_in_rest'      => true,
+				'rewrite'           => array( 'slug' => 'gallery-category' ),
+			)
+		);
+		register_taxonomy(
+			'sp_gallery_tag',
+			array( 'shutterpress-gallery' ),
+			array(
+				'labels'            => array(
+					'name'                       => esc_html__( 'Gallery Tags', 'shutterpress-gallery' ),
+					'singular_name'              => esc_html__( 'Gallery Tag', 'shutterpress-gallery' ),
+					'search_items'               => esc_html__( 'Search Gallery Tags', 'shutterpress-gallery' ),
+					'popular_items'              => esc_html__( 'Popular Gallery Tags', 'shutterpress-gallery' ),
+					'all_items'                  => esc_html__( 'All Gallery Tags', 'shutterpress-gallery' ),
+					'edit_item'                  => esc_html__( 'Edit Gallery Tag', 'shutterpress-gallery' ),
+					'update_item'                => esc_html__( 'Update Gallery Tag', 'shutterpress-gallery' ),
+					'add_new_item'               => esc_html__( 'Add New Gallery Tag', 'shutterpress-gallery' ),
+					'new_item_name'              => esc_html__( 'New Gallery Tag Name', 'shutterpress-gallery' ),
+					'separate_items_with_commas' => esc_html__( 'Separate gallery tags with commas', 'shutterpress-gallery' ),
+					'add_or_remove_items'        => esc_html__( 'Add or remove gallery tags', 'shutterpress-gallery' ),
+					'choose_from_most_used'      => esc_html__( 'Choose from the most used gallery tags', 'shutterpress-gallery' ),
+					'menu_name'                  => esc_html__( 'Gallery Tags', 'shutterpress-gallery' ),
+				),
+				'hierarchical'      => false,
+				'public'            => true,
+				'show_ui'           => true,
+				'show_admin_column' => true,
+				'show_in_rest'      => true,
+				'rewrite'           => array( 'slug' => 'gallery-tag' ),
+			)
+		);
 		register_post_type( 'sp_gallery_template', $template_args );
 		return true;
+	}
+
+	/**
+	 * Adds an image count column to the gallery admin list table.
+	 *
+	 * Inserts the column before the default date column so gallery managers can
+	 * quickly see how many images each gallery contains.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param array<string, string> $columns Existing list table columns.
+	 *
+	 * @return array<string, string> Modified list table columns.
+	 */
+	public function sp_gallery_add_image_count_column( array $columns ): array {
+		if ( ! $this->sp_gallery_is_gallery_list_screen() ) {
+			return $columns;
+		}
+
+		$updated_columns = array();
+
+		foreach ( $columns as $key => $label ) {
+			if ( $key === 'date' ) {
+				$updated_columns['sp_gallery_image_count'] = esc_html__( 'Images', 'shutterpress-gallery' );
+			}
+
+			$updated_columns[ $key ] = $label;
+		}
+
+		if ( ! isset( $updated_columns['sp_gallery_image_count'] ) ) {
+			$updated_columns['sp_gallery_image_count'] = esc_html__( 'Images', 'shutterpress-gallery' );
+		}
+
+		return $updated_columns;
+	}
+
+	/**
+	 * Renders the image count column content for gallery rows.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @param string $column  Current column key.
+	 * @param int    $post_id Gallery post ID.
+	 *
+	 * @return void
+	 */
+	public function sp_gallery_render_image_count_column( string $column, int $post_id ): void {
+		if ( $column !== 'sp_gallery_image_count' || get_post_type( $post_id ) !== 'shutterpress-gallery' ) {
+			return;
+		}
+
+		echo esc_html( (string) $this->gallery->get_gallery_images_count( $post_id ) );
+	}
+
+	/**
+	 * Determines whether the current admin list table is for galleries.
+	 *
+	 * @since 1.0.0
+	 *
+	 * @return bool
+	 */
+	private function sp_gallery_is_gallery_list_screen(): bool {
+		if ( function_exists( 'get_current_screen' ) ) {
+			$screen = get_current_screen();
+			if ( $screen ) {
+				return $screen->post_type === 'shutterpress-gallery';
+			}
+		}
+
+		$post_type = isset( $_GET['post_type'] ) ? sanitize_key( wp_unslash( $_GET['post_type'] ) ) : '';
+		if ( $post_type ) {
+			return $post_type === 'shutterpress-gallery';
+		}
+
+		global $typenow;
+
+		return $typenow === 'shutterpress-gallery';
 	}
 
 	/**
@@ -817,7 +971,7 @@ class Shutterpress_Gallery_Admin {
 	 * @param mixed  $new_value  The new value of the custom field.
 	 * @param mixed  $old_value  The old value of the custom field.
 	 *
-	 * @return mixed Always returns $null to preserve filter behaviour.
+	 * @return mixed Always returns $null to preserve filter behavior.
 	 */
 	public function sp_gallery_sort_images( $null_value, $field, $new_value, $old_value ) {
 
@@ -857,14 +1011,14 @@ class Shutterpress_Gallery_Admin {
 	 * @param string $old_value  The old primary color value.
 	 * @param int    $object_id  The ID of the gallery post being updated.
 	 *
-	 * @return mixed Always returns $null to preserve filter behaviour.
+	 * @return mixed Always returns $null to preserve filter behavior.
 	 */
 	public function sp_gallery_after_color_primary_save( $null_value, $field, $new_value, $old_value, $object_id ) {
 		if ( ! empty( $new_value ) ) {
 			$utils        = new Shutterpress_Gallery_Utils();
 			$accent_color = $utils->get_accent_color( $new_value, 0.3 );
 			update_post_meta( $object_id, $this->meta_box_prefix . 'color_accent', $accent_color );
-		} elseif ( empty( $new_value ) ) {
+		} else {
 			delete_post_meta( $object_id, $this->meta_box_prefix . 'color_accent' );
 		}
 

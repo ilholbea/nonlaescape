@@ -22,7 +22,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
 /**
  * Utility helpers for ShutterPress Gallery.
  *
- * Provides sanitisation helpers, colour conversion, palette discovery from
+ * Provides sanitization helpers, color conversion, palette discovery from
  * WordPress and Elementor, editor context detection, token generation and
  * verification for secure downloads, and shared KSES allowlists for HTML and SVG.
  *
@@ -44,7 +44,7 @@ class Shutterpress_Gallery_Utils {
 	 */
 
 	/**
-	 * Allowed SVG elements and attributes for `wp_kses` sanitisation.
+	 * Allowed SVG elements and attributes for `wp_kses` sanitization.
 	 *
 	 * @var array
 	 */
@@ -64,6 +64,7 @@ class Shutterpress_Gallery_Utils {
 			'stroke-miterlimit' => true,
 			'role'              => true,
 			'aria-hidden'       => true,
+			'class'				=> true,
 		),
 		'g'        => array(
 			'transform' => true,
@@ -171,7 +172,7 @@ class Shutterpress_Gallery_Utils {
 	);
 
 	/**
-	 * Allowed HTML elements and attributes for `wp_kses` sanitisation.
+	 * Allowed HTML elements and attributes for `wp_kses` sanitization.
 	 *
 	 * @var array
 	 */
@@ -693,16 +694,16 @@ class Shutterpress_Gallery_Utils {
 	}
 
 	/**
-	 * Retrieves the primary colour used by WordPress or Elementor.
+	 * Retrieves the primary color used by WordPress or Elementor.
 	 *
-	 * Checks Elementor's system and global colour sets for common primary or
-	 * accent colour slugs, then falls back to WordPress palette entries named
+	 * Checks Elementor's system and global color sets for common primary or
+	 * accent color slugs, then falls back to WordPress palette entries named
 	 * 'primary' or 'secondary'. If none are found, returns the provided fallback.
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $fallback Fallback colour in hex format when no match is found. Default '#EE2E4F'.
-	 * @return string The detected or fallback primary colour string.
+	 * @param string $fallback Fallback color in hex format when no match is found. Default '#EE2E4F'.
+	 * @return string The detected or fallback primary color string.
 	 */
 	public function get_primary_color( string $fallback = '#EE2E4F' ): string {
 		
@@ -723,7 +724,7 @@ class Shutterpress_Gallery_Utils {
 	}
 
 	/**
-	 * Generates a darker or lighter accent colour based on the input colour and percentage.
+	 * Generates a darker or lighter accent color based on the input color and percentage.
 	 *
 	 * Accepts hex, rgb(), or rgba() formats and adjusts each RGB channel by the given percentage,
 	 * reducing brightness to create a darker accent. Alpha transparency is preserved where applicable.
@@ -735,10 +736,10 @@ class Shutterpress_Gallery_Utils {
 	 *
 	 * @since 1.7.0
 	 *
-	 * @param string $color   The base colour in hex (#rgb or #rrggbb), rgb(), or rgba() format.
+	 * @param string $color   The base color in hex (#rgb or #rrggbb), rgb(), or rgba() format.
 	 * @param float  $percent The adjustment percentage as a decimal (e.g. 0.2 for 20% darker).
 	 *
-	 * @return string The adjusted accent colour in the same format as the input.
+	 * @return string The adjusted accent color in the same format as the input.
 	 */
 	public function get_accent_color( string $color, float $percent ): string {
 		$r     = 0;
@@ -859,7 +860,7 @@ class Shutterpress_Gallery_Utils {
 	/**
 	 * Saves a single metabox field value for the gallery.
 	 *
-	 * Handles saving and sanitisation for a single metabox field, including re-sorting images
+	 * Handles saving and sanitization for a single metabox field, including re-sorting images
 	 * if the image sorting field is changed, or updating checked values for multi-value fields.
 	 * Also triggers appropriate hooks after save and after images are added.
 	 *

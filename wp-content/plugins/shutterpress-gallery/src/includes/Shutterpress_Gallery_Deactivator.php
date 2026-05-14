@@ -47,7 +47,7 @@ class Shutterpress_Gallery_Deactivator {
 		
 		flush_rewrite_rules();
 
-		if ( class_exists( 'Shutterpress_Gallery_Tracking' ) ) {
+		if ( class_exists( Shutterpress_Gallery_Tracking::class ) ) {
 			$now = time();
 
 			$tracking = new Shutterpress_Gallery_Tracking();

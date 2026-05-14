@@ -48,7 +48,7 @@ add_action( 'init', '<?php echo esc_html( $callback ); ?>' );
 	} else {
 		esc_html_e( 'No post types to display at this time', 'custom-post-type-ui' );
 	}
-	echo esc_html( trim( ob_get_clean() ) );
+	echo trim( ob_get_clean() ); // phpcs:ignore.
 }
 
 /**
@@ -264,6 +264,6 @@ function cptui_get_single_post_type_registery( $post_type = [] ) {
 <?php endif; ?>
 	];
 
-	register_post_type( "<?php echo esc_html( esc_html( $post_type['name'] ) ); ?>", $args );
+	register_post_type( "<?php echo esc_html( $post_type['name'] ); ?>", $args );
 <?php
 }

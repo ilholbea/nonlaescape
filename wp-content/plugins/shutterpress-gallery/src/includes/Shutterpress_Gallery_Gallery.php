@@ -32,6 +32,8 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  */
 class Shutterpress_Gallery_Gallery {
 
+	protected static array $svg_cache = array();
+
 	
 	protected ?int $gallery_id = 0;
 	protected int $post_id;
@@ -105,6 +107,8 @@ class Shutterpress_Gallery_Gallery {
 	
 	public string $custom_css;
 
+	protected array $gallery_images_cache       = array();
+	protected array $gallery_images_count_cache = array();
 	protected Shutterpress_Gallery_Debug $debug;
 	protected Shutterpress_Gallery_Utils $utils;
 
@@ -189,6 +193,8 @@ class Shutterpress_Gallery_Gallery {
 		$defaults = array_merge( $defaults, $defaults_class->get_template_defaults(), $defaults_class->get_plugin_defaults() );
 
 		$tpl = $this->template ?? null;
+
+		$this->debug->log('TPL',[ 'tpl' => $tpl ], '');
 
 		if ( $tpl && $tpl->post_status === 'publish' ) {
 			$defaults = $this->merge_template_defaults( $defaults, $tpl );
@@ -340,7 +346,10 @@ class Shutterpress_Gallery_Gallery {
 			return '';
 		}
 
-		$name = get_post_field( 'post_name', $gallery_id ) ? get_post_field( 'post_name', $gallery_id ) : '';
+		$name = get_post_field( 'post_name', $gallery_id );
+		if ( ! is_string( $name ) ) {
+			$name = '';
+		}
 		$this->debug->log(
 			'gallery->get_name',
 			array(
@@ -365,7 +374,21 @@ class Shutterpress_Gallery_Gallery {
 	 */
 	public function get_gallery_images( $gallery_id = null ) {
 		$gallery_id = absint( $gallery_id ? absint( $gallery_id ) : $this->gallery_id );
-		return get_post_meta( $gallery_id, '_sp_gallery_images_array', true ) ? get_post_meta( $gallery_id, '_sp_gallery_images_array', true ) : false;
+
+		if ( ! $gallery_id ) {
+			return false;
+		}
+
+		if ( array_key_exists( $gallery_id, $this->gallery_images_cache ) ) {
+			return $this->gallery_images_cache[ $gallery_id ];
+		}
+
+		$images = get_post_meta( $gallery_id, '_sp_gallery_images_array', true );
+		$images = ! empty( $images ) ? $images : false;
+
+		$this->gallery_images_cache[ $gallery_id ] = $images;
+
+		return $images;
 	}
 
 	/**
@@ -387,9 +410,16 @@ class Shutterpress_Gallery_Gallery {
 			return 0;
 		}
 
-		$gallery_images = $this->get_gallery_images( $gallery_id );
+		if ( array_key_exists( $gallery_id, $this->gallery_images_count_cache ) ) {
+			return $this->gallery_images_count_cache[ $gallery_id ];
+		}
 
-		return ! empty( $gallery_images ) ? count( $gallery_images ) : 0;
+		$gallery_images = $this->get_gallery_images( $gallery_id );
+		$count          = ! empty( $gallery_images ) ? count( $gallery_images ) : 0;
+
+		$this->gallery_images_count_cache[ $gallery_id ] = $count;
+
+		return $count;
 	}
 
 	/**
@@ -570,7 +600,7 @@ class Shutterpress_Gallery_Gallery {
 		}
 
 		$result = get_option( 'sp_gallery_images_per_page', 50 );
-		return $result ?? $this->images_per_page;
+		return null !== $result ? (int) $result : (int) $this->images_per_page;
 	}
 
 	/**
@@ -620,7 +650,14 @@ class Shutterpress_Gallery_Gallery {
 			return false;
 		}
 
-		return update_post_meta( $gallery_id, '_sp_gallery_images_array', $images ) !== false;
+		$updated = update_post_meta( $gallery_id, '_sp_gallery_images_array', $images ) !== false;
+
+		if ( $updated ) {
+			$this->gallery_images_cache[ $gallery_id ]       = $images;
+			$this->gallery_images_count_cache[ $gallery_id ] = count( $images );
+		}
+
+		return $updated;
 	}
 
 	/**
@@ -921,7 +958,7 @@ class Shutterpress_Gallery_Gallery {
 		$output = '';
 
 		if ( $wrapper === true ) {
-			$svg       = file_get_contents( SP_GALLERY_DIR . 'src/includes/images/' . $this->icons['download'] . '.svg' );
+			$svg       = $this->get_cached_svg( SP_GALLERY_DIR . 'src/includes/images/' . $this->icons['download'] . '.svg' );
 			$clean_svg = '';
 			if ( $svg ) {
 				$clean_svg = wp_kses( $svg, $this->utils->allowed_svg );
@@ -943,13 +980,14 @@ class Shutterpress_Gallery_Gallery {
 				'mobile'  => $this->icon_size_mobile,
 			);
 
-			$data = array(
-				'id'            => (int) $this->gallery_id,
-				'layout'        => (string) $this->layout,
-				'lightbox'      => (int) $this->use_lightbox,
-				'downloads'     => (int) $this->show_download_icon,
-				'colors'        => wp_json_encode( $colors ),
-				'gap'           => (int) $this->gap,
+				$data = array(
+					'id'            => (int) $this->gallery_id,
+					'layout'        => (string) $this->layout,
+					'lightbox'      => (int) $this->use_lightbox,
+					'likes'         => (int) $this->show_like_icon,
+					'downloads'     => (int) $this->show_download_icon,
+					'colors'        => wp_json_encode( $colors ),
+					'gap'           => (int) $this->gap,
 				'pages'         => (int) $total_pages,
 				'breakpoints'   => wp_json_encode( $breakpoints ),
 				'is'            => (int) $this->infinite_scroll,
@@ -1072,23 +1110,45 @@ class Shutterpress_Gallery_Gallery {
 				$styles .= sprintf( '%s: %s; ', trim( $var ), trim( (string) $val ) );
 			}
 
-			$attr_html = ' id="sp-gallery-' . absint( $gallery_id ) . '" class="' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '"';
+				$attr_html = ' id="sp-gallery-' . absint( $gallery_id ) . '" class="' . esc_attr( $classes ) . '" style="' . esc_attr( $styles ) . '"';
 
-			foreach ( $data as $k => $v ) {
-				if ( is_array( $v ) || ( is_object( $v ) && ! method_exists( $v, '__toString' ) ) ) {
-					$v = wp_json_encode( $v );
+				/**
+				 * Filters gallery container data attributes before rendering.
+				 *
+				 * Use this to add or override `data-*` attributes on the main gallery wrapper.
+				 * Keys should be provided without the `data-` prefix.
+				 *
+				 * @since 1.7.13
+				 *
+				 * @param array                      $data       Gallery data attributes.
+				 * @param Shutterpress_Gallery_Gallery $gallery    Current gallery object.
+				 * @param int                        $gallery_id Current gallery ID.
+				 */
+				$data = apply_filters( 'sp_gallery_container_data_attributes', $data, $this, (int) $gallery_id );
+
+				foreach ( $data as $k => $v ) {
+					if ( is_array( $v ) || ( is_object( $v ) && ! method_exists( $v, '__toString' ) ) ) {
+						$v = wp_json_encode( $v );
+					}
+
+					$key = sanitize_key( (string) $k );
+					if ( '' === $key ) {
+						continue;
+					}
+
+					$attr_html .= ' data-' . $key . '="' . esc_attr( (string) $v ) . '"';
 				}
-
-				$attr_html .= ' data-' . $k . '="' . esc_attr( (string) $v ) . '"';
-			}
 
 			$output = '<div' . $attr_html . '>';
 		}
 
-		if ( $this->pagination === true ) {
-			if ( $page === -1 ) {
+		if ( $page === -1 ) {
+			if ( $this->pagination === true ) {
 				
 				$page = isset( $_GET[ $page_counter ] ) ? max( 1, intval( $_GET[ $page_counter ] ) ) : 1; 
+			} elseif ( $this->infinite_scroll === true ) {
+				
+				$page = 1;
 			}
 		}
 
@@ -1153,31 +1213,84 @@ class Shutterpress_Gallery_Gallery {
 
 		$cap = isset( $this->attributes['display_width'] ) && $this->attributes['display_width'] > 0 ? (int) $this->attributes['display_width'] : 2048;
 
-		try {
-			add_filter(
-				'max_srcset_image_width',
-				function () use ( $cap ) {
-					return $cap;
-				}
-			);
+			$button_bar_output = '';
+			$after_images_output  = '';
 
-			foreach ( $attachments as $attachment ) {
-				$image        = new Shutterpress_Gallery_Image( $attachment->ID );
-				$item_classes = 'sp-gallery-item sp-gallery-' . $layout . '-item sp-gallery-' . $this->gallery_type . '-item sp-gallery-item-' . $attachment->ID;
-				$output      .= $image->get_image_html( $gallery_id, $item_classes, $sizes, $this->attributes );
-			}
-		} finally {
-			remove_filter(
-				'max_srcset_image_width',
-				function () use ( $cap ) {
-					return $cap;
+			$max_srcset_image_width_filter = static function () use ( $cap ) {
+				return $cap;
+			};
+
+			try {
+				add_filter( 'max_srcset_image_width', $max_srcset_image_width_filter );
+
+				
+				ob_start();
+				do_action( 'sp_gallery_button_bar', (int) $gallery_id, $this, $attachments, $this->attributes );
+				$button_bar_output = (string) ob_get_clean();
+
+				foreach ( $attachments as $attachment ) {
+					$image        = new Shutterpress_Gallery_Image( $attachment->ID );
+					$item_classes = 'sp-gallery-item sp-gallery-' . $layout . '-item sp-gallery-' . $this->gallery_type . '-item sp-gallery-item-' . $attachment->ID;
+					$output      .= $image->get_image_html( $gallery_id, $item_classes, $sizes, $this->attributes );
 				}
+
+				
+				ob_start();
+				do_action( 'sp_gallery_after_images', (int) $gallery_id, $this, $attachments, $this->attributes );
+				$after_images_output = (string) ob_get_clean();
+			} finally {
+				remove_filter( 'max_srcset_image_width', $max_srcset_image_width_filter );
+			}
+			if ( $wrapper === true ) {
+				$output .= '</div>';
+			}
+			$button_bar_content = $this->get_buttons() . $button_bar_output;
+			$button_bar_data    = array(
+				'gallery-id' => absint( $gallery_id ),
 			);
+			$button_bar_data    = apply_filters( 'sp_gallery_button_bar_data_attributes', $button_bar_data, $gallery_id, $this->template_id  );
+			$button_bar_attrs   = '';
+			foreach ( $button_bar_data as $key => $value ) {
+				if ( '' === $value || null === $value ) {
+					continue;
+				}
+
+				$button_bar_attrs .= ' data-' . esc_attr( $key ) . '="' . esc_attr( $value ) . '"';
+			}
+			$button_bar         = '';
+			if ( '' !== trim( $button_bar_content ) ) {
+				$button_bar = '<div id="sp-gallery-button-bar-' . absint( $gallery_id ) . '" class="sp-gallery-button-bar-container"' . $button_bar_attrs . '>' . $button_bar_content . '</div>';
+			}
+
+			$after_container = '';
+			if ( '' !== trim( $after_images_output ) ) {
+				$after_container = '<div id="sp-gallery-after-images-' . absint( $gallery_id ) . '" class="sp-gallery-after-images-container" data-gallery-id="' . absint( $gallery_id ) . '">' . $after_images_output . '</div>';
+			}
+
+			return $button_bar . $output . $after_container;
 		}
-		if ( $wrapper === true ) {
-			$output .= '</div>';
+
+	/**
+	 * Reads an SVG file once per request and reuses it for later gallery renders.
+	 *
+	 * @param string $path Absolute path to the SVG file.
+	 *
+	 * @return string
+	 */
+	private function get_cached_svg( string $path ): string {
+		if ( isset( self::$svg_cache[ $path ] ) ) {
+			return self::$svg_cache[ $path ];
 		}
-		return $output;
+
+		if ( ! is_readable( $path ) ) {
+			self::$svg_cache[ $path ] = '';
+			return self::$svg_cache[ $path ];
+		}
+
+		$svg = file_get_contents( $path ); 
+		self::$svg_cache[ $path ] = is_string( $svg ) ? $svg : '';
+
+		return self::$svg_cache[ $path ];
 	}
 
 	/**
@@ -1198,7 +1311,7 @@ class Shutterpress_Gallery_Gallery {
 		$output            = '';
 
 		$output .= "
-#sp-gallery-buttons-{$gallery_id}, #sp-gallery-{$gallery_id}, #sp-gallery-page-load-container-{$gallery_id}, #sp-gallery-pagination-{$gallery_id} {
+#sp-gallery-buttons-{$gallery_id}, #sp-gallery-{$gallery_id}, #sp-gallery-page-load-container-{$gallery_id}, #sp-gallery-pagination-{$gallery_id}, #sp-gallery-button-bar-{$gallery_id}, #sp-gallery-after-images-{$gallery_id}  {
     --sp-gallery-color-primary: {$this->color_primary};
     --sp-gallery-color-accent: {$this->color_accent};
 }";

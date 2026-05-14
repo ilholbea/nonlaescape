@@ -20,7 +20,7 @@ class Optimize extends Base {
 
 	const ITEM_TIMESTAMP_PURGE_CSS = 'timestamp_purge_css';
 
-	const DUMMY_CSS_REGEX = "#<link rel=['\"]stylesheet['\"] id=['\"]litespeed-cache-dummy-css['\"] href=['\"].+assets/css/litespeed-dummy\.css[?\w.=-]*['\"][ \w='\"/]*>#isU";
+	const DUMMY_CSS_REGEX = "#<link [ \w='\"/]*id=['\"]litespeed-cache-dummy-css['\"] href=['\"].+assets/css/litespeed-dummy\.css[?\w.=-]*['\"][ \w='\"/]*>#isU";
 
 	private $content;
 	private $content_ori;
@@ -274,10 +274,14 @@ class Optimize extends Base {
 	 */
 	private function _optimize() {
 		global $wp;
-		$this->_request_url = get_permalink();
-		// Backup, in case get_permalink() fails.
-		if (!$this->_request_url) {
-			$this->_request_url = home_url($wp->request);
+		
+		// get current request url
+		$permalink_structure = get_option( 'permalink_structure' );
+		if ( ! empty( $permalink_structure ) ) {
+			$this->_request_url = trailingslashit( home_url( $wp->request ) );
+		} else {
+			$qs_add             = $wp->query_string ? '?' . (string) $wp->query_string : '' ;
+			$this->_request_url = home_url( $wp->request ) . $qs_add;
 		}
 
 		$this->cfg_css_min            = defined('LITESPEED_GUEST_OPTM') || $this->conf(self::O_OPTM_CSS_MIN);
@@ -521,6 +525,9 @@ class Optimize extends Base {
 		if ($this->conf(self::O_OPTM_NOSCRIPT_RM)) {
 			// $this->content = preg_replace( '#<noscript>.*</noscript>#isU', '', $this->content );
 		}
+
+		// Inline font-face optimize
+		$this->content = $this->__optimizer->optm_font_face( $this->content );
 
 		// HTML minify
 		if (defined('LITESPEED_GUEST_OPTM') || $this->conf(self::O_OPTM_HTML_MIN)) {
@@ -994,9 +1001,7 @@ class Optimize extends Base {
 
 		if ($this->cfg_js_defer === 2) {
 			// Drop type attribute from $attrs
-			if (strpos($attrs, ' type=') !== false) {
-				$attrs = preg_replace('# type=([\'"])([^\1]+)\1#isU', '', $attrs);
-			}
+			$attrs = Utility::remove_attr( $attrs, 'type' );
 			// Replace DOMContentLoaded
 			$con = str_replace('DOMContentLoaded', 'DOMContentLiteSpeedLoaded', $con);
 			return '<script' . $attrs . ' type="litespeed/javascript">' . $con . '</script>';
@@ -1231,9 +1236,7 @@ class Optimize extends Base {
 	 * @since  3.5
 	 */
 	private function _js_defer( $ori, $src ) {
-		if (strpos($ori, ' async') !== false) {
-			$ori = preg_replace('# async(?:=([\'"])(?:[^\1]*?)\1)?#is', '', $ori);
-		}
+		$ori = Utility::remove_attr( $ori, 'async' );
 
 		if (strpos($ori, 'defer') !== false) {
 			return false;
@@ -1258,9 +1261,7 @@ class Optimize extends Base {
 		}
 
 		if ($this->cfg_js_defer === 2 || Utility::str_hit_array($src, $this->cfg_js_delay_inc)) {
-			if (strpos($ori, ' type=') !== false) {
-				$ori = preg_replace('# type=([\'"])([^\1]+)\1#isU', '', $ori);
-			}
+			$ori = Utility::remove_attr( $ori, 'type' );
 			return str_replace(' src=', ' type="litespeed/javascript" data-src=', $ori);
 		}
 
@@ -1273,9 +1274,7 @@ class Optimize extends Base {
 	 * @since 5.6
 	 */
 	private function _js_delay( $ori, $src ) {
-		if (strpos($ori, ' async') !== false) {
-			$ori = str_replace(' async', '', $ori);
-		}
+		$ori = Utility::remove_attr( $ori, 'async' );
 
 		if (strpos($ori, 'defer') !== false) {
 			return false;
@@ -1293,9 +1292,7 @@ class Optimize extends Base {
 			return;
 		}
 
-		if (strpos($ori, ' type=') !== false) {
-			$ori = preg_replace('# type=([\'"])([^\1]+)\1#isU', '', $ori);
-		}
+		$ori = Utility::remove_attr( $ori, 'type' );
 		return str_replace(' src=', ' type="litespeed/javascript" data-src=', $ori);
 	}
 }

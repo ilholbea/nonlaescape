@@ -44,7 +44,7 @@ class Shutterpress_Gallery_REST {
 	/**
 	 * Class constructor.
 	 *
-	 * Sets up the REST controller by initialising the debug logger used to
+	 * Sets up the REST controller by initializing the debug logger used to
 	 * record request details and error context during REST operations.
 	 *
 	 * @since 1.4.0
