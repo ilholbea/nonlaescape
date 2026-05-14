@@ -1,9 +1,19 @@
-.sp-gallery-settings-page input[type='number'] {
+:root {
+  --sp-admin-color: #2271b1;
+  --sp-success-green: rgba(70, 180, 80, 0.16);
+  --sp-success-green-text: #155724;
+  --sp-maybe-orange: rgba(255, 140, 0, 0.16);
+  --sp-maybe-orange-text: #8f5400;
+  --sp-warning-red: rgba(238, 46, 79, 0.14);
+  --sp-warning-red-text: #721c24;
+}
+
+.sp-gallery-settings-page input[type="number"] {
   width: 100px;
 }
 
-.sp-gallery-settings-page input[type='text'],
-.sp-gallery-settings-page input[type='email'] {
+.sp-gallery-settings-page input[type="text"],
+.sp-gallery-settings-page input[type="email"] {
   width: 400px;
 }
 
@@ -128,7 +138,7 @@
   }
 
   .rwmb-field.sp-gallery-template-number {
-    .rwmb-input input[type='number'] {
+    .rwmb-input input[type="number"] {
       width: auto;
     }
   }
@@ -292,12 +302,29 @@
     }
   }
 }
-.sp-help input[type='email'] {
+.sp-help input[type="email"] {
   min-width: 260px;
 }
 .sp-help .sp-kv {
   margin: 0;
   padding-left: 18px;
+}
+
+#performance {
+  &:has(#sp_gallery_enable_virtualiser_input:not(:checked)) {
+    .sp-gallery-low-conflict-mode {
+      color: rgba(0, 0, 0, 0.3);
+      pointer-events: none;
+
+      input {
+        opacity: 0.3;
+      }
+
+      .description {
+        color: rgba(0, 0, 0, 0.3);
+      }
+    }
+  }
 }
 
 @media (max-width: 1200px) {

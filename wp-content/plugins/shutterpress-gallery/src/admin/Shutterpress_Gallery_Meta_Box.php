@@ -23,9 +23,9 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  * The Shutterpress_Gallery_Meta_Box class manages the creation and registration
  * of meta boxes used within the ShutterPress Gallery admin interface. It provides
  * configuration for both gallery and template screens, including fields for image
- * selection, gallery options, layout, colour, icons, hover effects, and custom CSS.
+ * selection, gallery options, layout, color, icons, hover effects, and custom CSS.
  *
- * It also retrieves default settings and defines utility methods for colour palettes
+ * It also retrieves default settings and defines utility methods for color palettes
  * and field registration, integrating with the Meta Box framework.
  *
  * @since 1.7.0
@@ -36,7 +36,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  * @property int|null $gallery_id Current gallery post ID.
  * @property object $defaults_class Instance of Shutterpress_Gallery_Defaults for retrieving default settings.
  * @property Shutterpress_Gallery_Debug $debug Debug logging utility.
- * @property Shutterpress_Gallery_Utils $utils Utility helper for global colour and configuration methods.
+ * @property Shutterpress_Gallery_Utils $utils Utility helper for global color and configuration methods.
  * @property array $defaults Default gallery and template configuration values.
  */
 class Shutterpress_Gallery_Meta_Box {
@@ -130,7 +130,7 @@ class Shutterpress_Gallery_Meta_Box {
 			$value = null;
 			if ( is_array( $item ) && isset( $item['color'] ) ) {
 				$value = $item['color'];
-			} elseif ( is_object( $item ) && isset( $item->color ) ) {
+			} elseif ( isset( $item->color ) ) {
 				$value = $item->color;
 			}
 
@@ -257,6 +257,22 @@ class Shutterpress_Gallery_Meta_Box {
 
 		if ( $this->gallery_id ) {
 			$meta_boxes[] = array(
+				'title'      => esc_html__( 'Gallery Info', 'shutterpress-gallery' ),
+				'id'         => sanitize_key( $prefix . 'info-box' ),
+				'context'    => 'side',
+				'priority'   => 'low',
+				'post_types' => 'shutterpress-gallery',
+				'fields'     => array(
+					array(
+						'type' => 'custom_html',
+						'std'  => $this->get_gallery_info_html(),
+					),
+				),
+			);
+		}
+
+		if ( $this->gallery_id ) {
+			$meta_boxes[] = array(
 				'title'      => esc_html__( 'Gallery Shortcode', 'shutterpress-gallery' ),
 				'id'         => sanitize_key( $prefix . 'shortcode-box' ),
 				'context'    => 'side',
@@ -280,6 +296,25 @@ class Shutterpress_Gallery_Meta_Box {
 	}
 
 	/**
+	 * Builds the gallery info sidebar markup.
+	 *
+	 * @since 1.7.12
+	 *
+	 * @return string
+	 */
+	private function get_gallery_info_html(): string {
+		$gallery     = new Shutterpress_Gallery_Gallery( $this->gallery_id );
+		$image_count = (int) $gallery->get_gallery_images_count( $this->gallery_id );
+		$template_id = (int) get_post_meta( $this->gallery_id, $this->meta_box_prefix . 'template_id', true );
+
+		return sprintf(
+			'<span class="sp-gallery-meta-info"><strong>%1$s: </strong>%2$s</span>',
+			esc_html__( 'Images', 'shutterpress-gallery' ),
+			esc_html( (string) $image_count ),
+		);
+	}
+
+	/**
 	 * Registers Template meta boxes for the sp_gallery_template post type.
 	 *
 	 * Adds layout options, color controls, columns and sizing, icon options, lightbox options,
@@ -294,9 +329,11 @@ class Shutterpress_Gallery_Meta_Box {
 	public function register_template_meta_boxes( $meta_boxes ) {
 		$prefix = $this->meta_box_prefix;
 
-		$meta_boxes[] = array(
+		$template_meta_boxes   = array();
+		$template_meta_boxes[] = array(
 			'title'      => esc_html__( 'Layout Options', 'shutterpress-gallery' ),
 			'id'         => sanitize_key( $prefix . 'layout_options' ),
+			'order'      => 10,
 			'context'    => 'normal',
 			'post_types' => 'sp_gallery_template',
 			'fields'     => array(
@@ -452,9 +489,10 @@ class Shutterpress_Gallery_Meta_Box {
 
 		$icons = apply_filters( 'sp_gallery_icon_fields', $icons, $this->gallery_id );
 
-		$meta_boxes[] = array(
+		$template_meta_boxes[] = array(
 			'title'      => esc_html__( 'Icon Options', 'shutterpress-gallery' ),
 			'id'         => sanitize_key( $prefix . 'template_icon_options' ),
+			'order'      => 20,
 			'context'    => 'normal',
 			'post_types' => 'sp_gallery_template',
 			'fields'     => array_merge(
@@ -529,9 +567,10 @@ class Shutterpress_Gallery_Meta_Box {
 			),
 		);
 
-		$meta_boxes[] = array(
+		$template_meta_boxes[] = array(
 			'title'      => esc_html__( 'Lightbox Options', 'shutterpress-gallery' ),
 			'id'         => sanitize_key( $prefix . 'template_lightbox_options' ),
+			'order'      => 30,
 			'context'    => 'normal',
 			'post_types' => 'sp_gallery_template',
 			'fields'     => array(
@@ -580,9 +619,10 @@ class Shutterpress_Gallery_Meta_Box {
 			),
 		);
 
-		$meta_boxes[] = array(
+		$template_meta_boxes[] = array(
 			'title'      => esc_html__( 'Hover Effects', 'shutterpress-gallery' ),
 			'id'         => sanitize_key( $prefix . 'template_hover_options' ),
+			'order'      => 40,
 			'context'    => 'normal',
 			'post_types' => 'sp_gallery_template',
 			'fields'     => array(
@@ -726,9 +766,10 @@ class Shutterpress_Gallery_Meta_Box {
 			),
 		);
 
-		$meta_boxes[] = array(
+		$template_meta_boxes[] = array(
 			'title'      => esc_html__( 'Custom CSS', 'shutterpress-gallery' ),
 			'id'         => sanitize_key( $prefix . 'template_custom_css' ),
+			'order'      => 50,
 			'context'    => 'normal',
 			'post_types' => 'sp_gallery_template',
 
@@ -744,6 +785,31 @@ class Shutterpress_Gallery_Meta_Box {
 			),
 		);
 
-		return $meta_boxes;
+		/**
+		 * Allow extensions to add or modify template meta boxes before ordering.
+		 *
+		 * Each meta box can include an integer `order` key, e.g. 10, 20, 30,
+		 * which is used to control display order on the template edit screen.
+		 *
+		 * @param array                            $template_meta_boxes Template meta box definitions.
+		 * @param Shutterpress_Gallery_Meta_Box    $meta_box_handler    Current meta box registrar instance.
+		 */
+		$template_meta_boxes = apply_filters( 'sp_gallery_template_meta_boxes', $template_meta_boxes, $this );
+
+		usort(
+			$template_meta_boxes,
+			static function ( array $left, array $right ): int {
+				$left_order  = isset( $left['order'] ) ? (int) $left['order'] : 999;
+				$right_order = isset( $right['order'] ) ? (int) $right['order'] : 999;
+
+				if ( $left_order === $right_order ) {
+					return strcmp( (string) ( $left['title'] ?? '' ), (string) ( $right['title'] ?? '' ) );
+				}
+
+				return $left_order <=> $right_order;
+			}
+		);
+
+		return array_merge( $meta_boxes, $template_meta_boxes );
 	}
 }

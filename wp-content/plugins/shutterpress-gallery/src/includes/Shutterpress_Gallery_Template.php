@@ -25,7 +25,7 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
  * Template model for ShutterPress Gallery.
  *
  * Represents a gallery template post and exposes typed properties for layout,
- * colours, icons, hover behaviour, lightbox settings, pagination, and custom CSS.
+ * colors, icons, hover behavior, lightbox settings, pagination, and custom CSS.
  * Loads values from post meta with sane defaults from `Shutterpress_Gallery_Defaults`,
  * and provides helpers to create a template from defaults and to read meta in a
  * safe and consistent way.
@@ -133,7 +133,7 @@ class Shutterpress_Gallery_Template {
 			'tablet'  => (int) $defaults['columns']['tablet'],
 			'mobile'  => (int) $defaults['columns']['mobile'],
 		);
-		$this->columns         = wp_parse_args( (array) $this->meta( 'columns' ), $columns_default );
+		$this->columns         = wp_parse_args( $this->read_array( 'columns', array() ), $columns_default );
 		$this->row_height      = $this->read_int( 'row_height', $defaults['row_height'], 0 );
 		$this->pagination      = $this->read_bool( 'pagination', $defaults['pagination'] );
 		$this->infinite_scroll = $this->read_bool( 'infinite_scroll', $defaults['infinite_scroll'] );
@@ -159,7 +159,7 @@ class Shutterpress_Gallery_Template {
 			'tablet'  => (int) $defaults['icon_size']['tablet'],
 			'mobile'  => (int) $defaults['icon_size']['mobile'],
 		);
-		$this->icon_size          = wp_parse_args( (array) $this->meta( 'icon_size' ), $icon_size_defaults );
+		$this->icon_size          = wp_parse_args( $this->read_array( 'icon_size', array() ), $icon_size_defaults );
 		$this->show_icons         = $this->read_text( 'show_icons', $defaults['show_icons'] );
 		$this->icon_position      = $this->read_text( 'icon_position', $defaults['icon_position'] );
 		$this->icon_stroke_width  = (float) $this->read_text( 'icon_stroke_width', (string) $defaults['icon_stroke_width'] );
@@ -168,7 +168,7 @@ class Shutterpress_Gallery_Template {
 			'tablet'  => (int) $defaults['hover_icon_size']['tablet'],
 			'mobile'  => (int) $defaults['hover_icon_size']['mobile'],
 		);
-		$this->hover_icon_size    = wp_parse_args( (array) $this->meta( 'hover_icon_size' ), $hover_icon_size_defaults );
+		$this->hover_icon_size    = wp_parse_args( $this->read_array( 'hover_icon_size', array() ), $hover_icon_size_defaults );
 
 		
 		$this->hover_grow_image         = $this->read_bool( 'hover_grow_image', $defaults['hover_grow_image'] );
@@ -213,7 +213,7 @@ class Shutterpress_Gallery_Template {
 	 *
 	 * @return bool Sanitized boolean value.
 	 */
-	private function read_bool( $key, $default_value ) {
+	protected function read_bool( $key, $default_value ) {
 		$v = $this->meta( $key );
 		return $v === '' || $v === null ? (bool) $default_value : (bool) filter_var( $v, FILTER_VALIDATE_BOOLEAN );
 	}
@@ -231,7 +231,7 @@ class Shutterpress_Gallery_Template {
 	 *
 	 * @return int Sanitized integer value.
 	 */
-	private function read_int( $key, $default_value, $min = null ) {
+	protected function read_int( $key, $default_value, $min = null ) {
 		$v = $this->meta( $key );
 		$i = $v === '' || $v === null ? (int) $default_value : (int) $v;
 		return $min !== null ? max( $min, $i ) : $i;
@@ -249,7 +249,7 @@ class Shutterpress_Gallery_Template {
 	 *
 	 * @return string Sanitized text value.
 	 */
-	private function read_text( $key, $default_value ) {
+	protected function read_text( $key, $default_value ) {
 		$v = $this->meta( $key );
 		return $v === '' || $v === null ? $default_value : sanitize_text_field( $v );
 	}
@@ -266,7 +266,7 @@ class Shutterpress_Gallery_Template {
 	 *
 	 * @return array Array of values.
 	 */
-	private function read_array( $key, $default_value ) {
+	protected function read_array( $key, $default_value ) {
 		$v   = $this->meta( $key );
 		$arr = is_array( $v ) ? $v : array();
 		return ! empty( $arr ) ? $arr : $default_value;

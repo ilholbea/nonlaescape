@@ -3,8 +3,8 @@ Contributors: LiteSpeedTech
 Tags: caching, optimize, performance, pagespeed, seo, image optimize, object cache, redis, memcached, database cleaner
 Requires at least: 5.3
 Requires PHP: 7.2
-Tested up to: 6.8
-Stable tag: 7.6.2
+Tested up to: 6.9
+Stable tag: 7.8.1
 License: GPLv3
 License URI: http://www.gnu.org/licenses/gpl.html
 
@@ -256,6 +256,50 @@ The vast majority of plugins and themes are compatible with LiteSpeed Cache. The
 You can report security bugs through the Patchstack Vulnerability Disclosure Program. The Patchstack team help validate, triage and handle any security vulnerabilities. [Report a security vulnerability.](https://patchstack.com/database/vdp/litespeed-cache)
 
 == Changelog ==
+
+= 7.8.1 - Apr 1 2026 =
+* **CDN** Fixed Cloudflare API key type detection for the compatibility w/ the new key format.
+
+= 7.8.0.1 - Mar 17 2026 =
+* **Object Cache** Improved Object Cache resilience: auto disable when connection fails, network subsites fallback to database, and dropped TTL setting to respect never-expired transients.
+
+= 7.8 - Mar 3 2026 =
+* **Cloud** Changed Health service to run asynchronously.
+* **Object Cache** Dropped `Store Transients` option. Transients now always use Object Cache when available, preventing potential database bloat from expired transients not being cleared. (ravanh)
+* **Media** Added extension check for WebP/AVIF replacement efficiency - only processes jpg/jpeg/png/gif, skips svg/ico/bmp etc.
+* **Media** Added WebP/AVIF support for macOS Safari >= 16.4. (PR#948)
+* **Media** Fixed pie chart not displaying in media library.
+* **Image Optimize** Fixed infinite redirect loop issue for image optimization actions. (giangel84 PR#959)
+* **Image Optimize** Fixed image optimization data not being cleared when images are replaced using third-party plugins.
+* **Image Optimize** Fixed reset single image not deleting records from img_optm and img_optming database tables.
+* **Page Optimize** Fixed font optimization in certain themes. (rbabt PR#955)
+* **Page Optimize** Filtered HTML tags when saving CSS content.
+* **Object Cache** Fixed methods returning `null` instead of `false` on failure, matching WordPress Object Cache API convention.(jkolodziej)
+* **Conf** Improved network subsites config loading efficiency. (dassels43)
+* **Toolbox** Added download button for log files to download complete logs.
+* **3rd** Purge product cache when orders are cancelled in WooCommerce. (haralampiev12 PR#954)
+* **Misc** Added Apache rewrite rule support for security check. (PR#948)
+* **Misc** Split Cloud and Image Optimization classes into traits for better maintainability.
+
+= 7.7 - Dec 16 2025 =
+* **Task** Increased default cron interval from 1 minute to 15 minutes.
+* **Conf** Enabled `litespeed_conf_load_option_{$option}` to allow modifying configuration values.
+* **Conf** Removed deprecated `O_MEDIA_PRELOAD_FEATURED` option.
+* **GUI** Dark mode toggle now applies instantly without flicker on page reload.
+* **Page Optimize** Improved dummy CSS replacement logic.
+* **Page Optimize** Deferred Instant Click to avoid blocking initial page rendering. (pp01 PR#926)
+* **Cloud** Guest Mode IP/UA lists now sync automatically from the QUIC.cloud API.
+* **Cloud** Guest Mode IP now supports CIDR notation (e.g., 192.168.1.0/24, 2001:db8::/32).
+* **Cloud** Fixed a potential warning caused by variable type casting. (userb52 PR#925)
+* **Cloud** Added null-safe handling for the `allowed_redirect_hosts` filter to prevent unexpected errors. (PR#933 #6972377)
+* **Cloud** Fixed fatal error on PHP 8 when no timestamp is logged due to number casting. (Patryk Chowratowicz #938)
+* **Crawler** Removed redundant functions after reformatting.
+* **Database Optimize** Fixed DB Optimize redirection and transient cleanup issues. (PR#937)
+* **Vary** Fixed issue where users without a group could not log in.
+* **Avatar** Fixed queue warning when the table is missing and resolved HTML escaping warnings. (PR#928)
+* **3rd** Improved WPML image lazy-load detection. (#657426)
+* **3rd** Fixed Elementor Form submission caching issue. (PR#932)
+* **3rd** Fixed cache issue when WCML currency changes. (PR#929)
 
 = 7.6.2 - Oct 17 2025 =
 * 🐞**Cloud** Fixed the PHP 8+ typecast issue in QUIC.cloud signature verification which caused activation failures.

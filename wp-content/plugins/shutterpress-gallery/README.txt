@@ -5,7 +5,7 @@ Tags: gallery, photography, masonry, infinite scroll, lightbox
 Requires at least: 6.3
 Tested up to: 6.9
 Requires PHP: 7.4
-Stable tag: 1.7.12
+Stable tag: 1.8.2
 License: GPLv2 or later
 License URI: http://www.gnu.org/licenses/gpl-2.0.html
 
@@ -113,11 +113,34 @@ This can be done with the upcoming Shutterpress Pro Plugin or by using other wor
 7. Gallery Template Options
 8. Image Hover Examples
 
-== Commercial ==  
-
-This plugin offers a commercial version with additional features and priority support at https://shutterpress.io.
-
 == Changelog ==
+
+= 1.8.2 = 
+
+* Fix - Update CSS to ensure that Elementor doesn't override ShutterPress CSS
+
+= 1.8.1 = 
+
+* New - Organize galleries with categories and tags, including columns in the gallery admin list
+* Update - Add a Performance settings tab for controlling large-gallery loading behavior
+* Update - Improve how gallery buttons are displayed so they appear once in blocks, shortcodes, and Elementor widgets
+* Update - Refine gallery button styling and layout for a more consistent frontend display
+* Fix - Make sure image virtualization stays off when it is disabled in the settings
+* Fix - Improve debug setting handling so saved options are read more reliably
+
+= 1.8.0 =
+
+* Update - Add lightbox plugin and icon filter hooks for extending LightGallery integrations
+* Update - Add gallery container and lightbox item data attribute filters for custom integrations
+* Update - Add hooks to output custom content above and below gallery images, with dedicated wrapper containers and IDs
+* Update - Add gallery data attributes for likes support and improve dynamic styles coverage for gallery companion containers
+* Update - Add likes support to the LightGallery toolbar with synced state between gallery items and the lightbox
+* Fix - Improve justified layout image sizing
+* Fix - Virtualised image loading for appended gallery items
+* Fix - Improve LightGallery likes state syncing on slide change and toolbar interactions
+* Fix - Scope lightbox like handling to the active gallery instance to prevent cross-gallery state conflicts
+* Fix - Restore vertical centering for table content in gallery before/after content areas
+* Fix - Prevent block editor assets from loading on normal frontend requests and improve shortcode/content handling compatibility
 
 = 1.7.12 =
 
@@ -211,7 +234,7 @@ This plugin offers a commercial version with additional features and priority su
 = 1.6.4 =
 
 * New - Add live view in gutenberg block
-* New - Add virtualisation to large galleries for improved performance
+* New - Add virtualization to large galleries for improved performance
 * Update - Gutenberg block now shows current post gallery if no gallery is selected
 * Update - Load infinite scroll via REST endpoint
 * Update - Improve masonry gallery rendering to prevent image overlaps

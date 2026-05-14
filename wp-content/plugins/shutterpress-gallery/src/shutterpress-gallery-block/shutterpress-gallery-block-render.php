@@ -116,8 +116,6 @@ if ( ! function_exists( __NAMESPACE__ . '\\sp_gallery_render_gallery_block' ) ) 
 			$has_images = (array) $renderer->get_gallery_images();
 
 			if ( ! empty( $has_images ) ) {
-					$output .= $renderer->get_buttons();
-
 					$gallery_output = $renderer->get_the_gallery();
 
 				if ( ! is_wp_error( $gallery_output ) ) {

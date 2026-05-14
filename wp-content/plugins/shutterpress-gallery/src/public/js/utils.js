@@ -17,6 +17,15 @@ export function loadUserData() {
 
 export function handleLikedImages(likedImages) {
   if (!Array.isArray(likedImages)) likedImages = [];
+  const likedSet = new Set(likedImages.map((id) => String(id)));
+
+  // Keep source lightbox items in sync for plugins that read per-item like state.
+  jQuery('.sp-gallery-item-lightbox').each(function () {
+    const imageId = jQuery(this).attr('data-image-id');
+    const liked = !!imageId && likedSet.has(String(imageId));
+    jQuery(this).attr('data-liked', liked ? '1' : '0');
+  });
+
   likedImages.forEach(function (imageId) {
     jQuery('.sp-gallery-like-icon[data-image-id="' + imageId + '"]').addClass('sp-gallery-liked-image');
     jQuery('.sp-gallery-item-' + imageId).addClass('sp-gallery-item-liked');

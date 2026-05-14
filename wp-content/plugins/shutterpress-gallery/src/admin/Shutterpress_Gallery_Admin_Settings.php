@@ -101,13 +101,18 @@ class Shutterpress_Gallery_Admin_Settings {
 		}
 
 		$tabs = array(
-			'general' => array(
+			'general'     => array(
 				'title'    => esc_html__( 'General', 'shutterpress-gallery' ),
 				'callback' => array( $this, 'sp_gallery_render_general_tab_content' ),
+			),
+			'performance' => array(
+				'title'    => esc_html__( 'Performance', 'shutterpress-gallery' ),
+				'callback' => array( $this, 'sp_gallery_render_performance_tab_content' ),
 			),
 		);
 
 		$tabs = apply_filters( 'sp_gallery_settings_tabs', $tabs );
+		$tabs = $this->sp_gallery_position_performance_tab( $tabs );
 
 		$active_tab = isset( $_GET['tab'] ) ? sanitize_key( $_GET['tab'] ) : 'general';
 		$this->debug->log( 'Rendering settings page', array( 'active_tab' => $active_tab ) );
@@ -195,18 +200,25 @@ class Shutterpress_Gallery_Admin_Settings {
 	 * @return void
 	 */
 	public function sp_gallery_render_settings_form( $option_group, $section_callback, $submit_text, $tab_name, $form_action = 'update' ) {
-		?>
-		<form action="options.php" method="post">
-			<?php
+		$output = '';
 
-			$this->sp_gallery_settings_fields( $option_group, $tab_name, $form_action );
+		$output .= '<form action="options.php" method="post">';
 
-			do_settings_sections( $section_callback );
+		ob_start();
+		$this->sp_gallery_settings_fields( $option_group, $tab_name, $form_action );
+		$output .= (string) ob_get_clean();
 
-			submit_button( $submit_text );
-			?>
-		</form>
-		<?php
+		ob_start();
+		do_settings_sections( $section_callback );
+		$output .= (string) ob_get_clean();
+
+		ob_start();
+		submit_button( $submit_text );
+		$output .= (string) ob_get_clean();
+
+		$output .= '</form>';
+
+		echo $output;
 	}
 
 	/**
@@ -226,6 +238,50 @@ class Shutterpress_Gallery_Admin_Settings {
 			esc_html__( 'Save Settings', 'shutterpress-gallery' ),
 			'general'
 		);
+	}
+
+	/**
+	 * Renders the performance settings tab content.
+	 *
+	 * @since 1.8.0
+	 *
+	 * @return void
+	 */
+	public function sp_gallery_render_performance_tab_content() {
+		$this->sp_gallery_render_settings_form(
+			'sp_gallery_performance_options_group',
+			'sp-gallery-performance-settings',
+			esc_html__( 'Save Settings', 'shutterpress-gallery' ),
+			'performance'
+		);
+	}
+
+	/**
+	 * Positions the Performance tab before the Pro System tab when present.
+	 *
+	 * @since 1.8.0
+	 *
+	 * @param array $tabs Settings tabs keyed by tab slug.
+	 *
+	 * @return array
+	 */
+	private function sp_gallery_position_performance_tab( array $tabs ): array {
+		if ( ! isset( $tabs['performance'] ) || ! isset( $tabs['system'] ) ) {
+			return $tabs;
+		}
+
+		$performance_tab = $tabs['performance'];
+		unset( $tabs['performance'] );
+
+		$positioned_tabs = array();
+		foreach ( $tabs as $id => $tab ) {
+			if ( $id === 'system' ) {
+				$positioned_tabs['performance'] = $performance_tab;
+			}
+			$positioned_tabs[ $id ] = $tab;
+		}
+
+		return $positioned_tabs;
 	}
 
 	/**
@@ -299,11 +355,38 @@ class Shutterpress_Gallery_Admin_Settings {
 			)
 		);
 
+		register_setting(
+			'sp_gallery_performance_options_group',
+			'sp_gallery_enable_virtualiser',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'show_in_rest'      => false,
+			)
+		);
+
+		register_setting(
+			'sp_gallery_performance_options_group',
+			'sp_gallery_virtualiser_low_conflict_mode',
+			array(
+				'type'              => 'boolean',
+				'sanitize_callback' => 'rest_sanitize_boolean',
+				'show_in_rest'      => false,
+			)
+		);
+
 		add_settings_section(
 			'sp_gallery_settings_section',
 			esc_html__( 'ShutterPress General Settings', 'shutterpress-gallery' ),
 			array( $this, 'sp_gallery_section_callback' ),
 			'sp-gallery-settings'
+		);
+
+		add_settings_section(
+			'sp_gallery_performance_settings_section',
+			esc_html__( 'ShutterPress Performance Settings', 'shutterpress-gallery' ),
+			array( $this, 'sp_gallery_performance_section_callback' ),
+			'sp-gallery-performance-settings'
 		);
 
 		$this->sp_gallery_add_settings_fields();
@@ -329,6 +412,8 @@ class Shutterpress_Gallery_Admin_Settings {
 		if ( ! is_multisite() || is_network_admin() || is_super_admin() ) {
 			$this->sp_gallery_add_debug_option_field();
 		}
+		$this->sp_gallery_add_virtualiser_option_field();
+		$this->sp_gallery_add_virtualiser_low_conflict_option_field();
 	}
 
 	/**
@@ -458,6 +543,38 @@ class Shutterpress_Gallery_Admin_Settings {
 	}
 
 	/**
+	 * Helper function to render virtualiser option field.
+	 *
+	 * @since    1.8.0
+	 * @return void
+	 */
+	private function sp_gallery_add_virtualiser_option_field() {
+		add_settings_field(
+			'sp_gallery_enable_virtualiser',
+			esc_html__( 'Image Virtualization', 'shutterpress-gallery' ),
+			array( $this, 'sp_gallery_virtualiser_callback' ),
+			'sp-gallery-performance-settings',
+			'sp_gallery_performance_settings_section'
+		);
+	}
+
+	/**
+	 * Helper function to render virtualiser low-conflict mode field.
+	 *
+	 * @since    1.8.0
+	 * @return void
+	 */
+	private function sp_gallery_add_virtualiser_low_conflict_option_field() {
+		add_settings_field(
+			'sp_gallery_virtualiser_low_conflict_mode',
+			esc_html__( 'Low Conflict Mode', 'shutterpress-gallery' ),
+			array( $this, 'sp_gallery_virtualiser_low_conflict_callback' ),
+			'sp-gallery-performance-settings',
+			'sp_gallery_performance_settings_section'
+		);
+	}
+
+	/**
 	 * Section callback for description
 	 *
 	 * @since    1.0.0
@@ -465,6 +582,18 @@ class Shutterpress_Gallery_Admin_Settings {
 	 */
 	public function sp_gallery_section_callback() {
 		esc_html_e( 'Set the general settings for ShutterPress Gallery.', 'shutterpress-gallery' );
+	}
+
+	/**
+	 * Section callback for performance settings.
+	 *
+	 * @since 1.8.0
+	 * @return void
+	 */
+	public function sp_gallery_performance_section_callback() {
+		echo '<p>' . esc_html__( 'Control how ShutterPress manages gallery image loading and browser memory usage.', 'shutterpress-gallery' ) . '</p>';
+		echo '<p>' . esc_html__( 'Image virtualization is enabled by default. If gallery images are not appearing as expected, try adjusting these settings to find the best behavior for your theme, hosting setup, and any image optimization plugins.', 'shutterpress-gallery' ) . '</p>';
+		echo '<p>' . esc_html__( 'Virtualisation only loads and keeps active the images a user can actually see, rather than all images at once. In a large gallery, instead of loading hundreds of images, only those near the viewport are rendered, while others are delayed or temporarily removed, then swapped in as you scroll. This reduces memory use, improves load times, and keeps scrolling smooth, while still giving the impression that the full gallery is present.', 'shutterpress-gallery' ) . '</p>';
 	}
 
 	/**
@@ -553,12 +682,18 @@ class Shutterpress_Gallery_Admin_Settings {
 	 */
 	public function sp_gallery_debug_callback() {
 		$debug_enabled = absint( get_option( 'sp_gallery_debug', 0 ) );
-		?>
-		<label>
-			<input type="checkbox" name="sp_gallery_debug" value="1" <?php checked( $debug_enabled, 1 ); ?>>
-			<?php esc_html_e( 'Turn on debugging to log plugin activity to wp-content/shutterpress-debug.log.', 'shutterpress-gallery' ); ?>
-		</label>
-		<?php
+		$output        = '';
+
+		$output .= '<label>';
+		$output .= sprintf(
+			'<input type="checkbox" name="%1$s" value="1" %2$s> ',
+			esc_attr( 'sp_gallery_debug' ),
+			checked( $debug_enabled, 1, false )
+		);
+		$output .= esc_html__( 'Turn on debugging to log plugin activity to wp-content/shutterpress-debug.log.', 'shutterpress-gallery' );
+		$output .= '</label>';
+
+		echo $output;
 	}
 
 	/**
@@ -574,16 +709,82 @@ class Shutterpress_Gallery_Admin_Settings {
 	 */
 	public function sp_gallery_tracking_allowed_callback() {
 		$tracking_allowed = get_option( 'sp_gallery_tracking_allowed', 1 );
-		?>
-	<label>
-		<input type="checkbox" name="sp_gallery_tracking_allowed" value="1" <?php checked( $tracking_allowed, 1 ); ?>>
-		<?php esc_html_e( 'Allow Shutterpress Gallery to collect anonymous usage data to improve the plugin.', 'shutterpress-gallery' ); ?>
-	</label>
-	<p class="description">
-		<?php esc_html_e( 'You can opt out at any time. No personal data is collected.', 'shutterpress-gallery' ); ?>
-		<a href="https://shutterpress.io/data-collection/" target="_blank"><?php esc_html_e( 'Learn more.', 'shutterpress-gallery' ); ?></a>
-	</p>
-		<?php
+		$output           = '';
+
+		$output .= '<label>';
+		$output .= sprintf(
+			'<input type="checkbox" name="%1$s" value="1" %2$s> ',
+			esc_attr( 'sp_gallery_tracking_allowed' ),
+			checked( $tracking_allowed, 1, false )
+		);
+		$output .= esc_html__( 'Allow Shutterpress Gallery to collect anonymous usage data to improve the plugin.', 'shutterpress-gallery' );
+		$output .= '</label>';
+		$output .= '<p class="description">';
+		$output .= esc_html__( 'You can opt out at any time. No personal data is collected.', 'shutterpress-gallery' ) . ' ';
+		$output .= sprintf(
+			'<a href="%1$s" target="_blank" rel="noopener noreferrer">%2$s</a>',
+			esc_url( 'https://shutterpress.io/data-collection/' ),
+			esc_html__( 'Learn more.', 'shutterpress-gallery' )
+		);
+		$output .= '</p>';
+
+		echo $output;
+	}
+
+	/**
+	 * Field callback for image virtualization setting.
+	 *
+	 * @since 1.8.0
+	 *
+	 * @return void
+	 */
+	public function sp_gallery_virtualiser_callback() {
+		$virtualiser_enabled = get_option( 'sp_gallery_enable_virtualiser', 1 );
+		$output              = '';
+
+		$output .= '<label>';
+		$output .= sprintf(
+			'<input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s> ',
+			esc_attr( 'sp_gallery_enable_virtualiser_input' ),
+			esc_attr( 'sp_gallery_enable_virtualiser' ),
+			checked( $virtualiser_enabled, 1, false )
+		);
+		$output .= esc_html__( 'Loads and unloads images as they scroll into view.', 'shutterpress-gallery' );
+		$output .= '</label>';
+		$output .= '<p class="description">';
+		$output .= esc_html__( 'This reduces browser memory usage on large galleries.', 'shutterpress-gallery' );
+		$output .= '</p>';
+
+		echo $output;
+	}
+
+	/**
+	 * Field callback for virtualiser low-conflict mode setting.
+	 *
+	 * @since 1.8.0
+	 *
+	 * @return void
+	 */
+	public function sp_gallery_virtualiser_low_conflict_callback() {
+		$low_conflict_enabled = get_option( 'sp_gallery_virtualiser_low_conflict_mode', 0 );
+		$output               = '';
+
+		$output .= '<div class="sp-gallery-low-conflict-mode">';
+		$output .= '<label>';
+		$output .= sprintf(
+			'<input type="checkbox" id="%1$s" name="%2$s" value="1" %3$s> ',
+			esc_attr( 'sp_gallery_virtualiser_low_conflict_mode_input' ),
+			esc_attr( 'sp_gallery_virtualiser_low_conflict_mode' ),
+			checked( $low_conflict_enabled, 1, false )
+		);
+		$output .= esc_html__( 'Enables compatibility with some lazy loading plugins.', 'shutterpress-gallery' );
+		$output .= '</label>';
+		$output .= '<p class="description">';
+		$output .= esc_html__( 'Turn this on if images are not appearing as expected.', 'shutterpress-gallery' );
+		$output .= '</p>';
+		$output .= '</div>';
+
+		echo $output;
 	}
 
 	/**

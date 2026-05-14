@@ -5,7 +5,41 @@ import { getLikedImages } from "./state";
 
 // --- Gallery Initialisation ---
 export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
-  // Ensure the gallery has a measurable width before initialising Isotope
+  const isVirtualiserEnabled = (win) =>
+    !(
+      win &&
+      win.shutterpressData &&
+      Object.prototype.hasOwnProperty.call(
+        win.shutterpressData,
+        "virtualiser_enabled"
+      ) &&
+      !win.shutterpressData.virtualiser_enabled
+    );
+
+  const isVirtualiserLowConflictModeEnabled = (win) =>
+    !(
+      win &&
+      win.shutterpressData &&
+      Object.prototype.hasOwnProperty.call(
+        win.shutterpressData,
+        "virtualiser_low_conflict_mode"
+      ) &&
+      !win.shutterpressData.virtualiser_low_conflict_mode
+    );
+
+  function spLogTiming(win, galleryId, stage, extra = {}) {
+    if (
+      !win.shutterpressData ||
+      !win.shutterpressData.debug ||
+      typeof win.performance === "undefined"
+    ) {
+      return;
+    }
+    const time = Math.round(win.performance.now());
+    console.log(`[SP TIMING] ${galleryId} ${stage} @ ${time}ms`, extra);
+  }
+
+  // Ensure the gallery has a measurable width before initializing Isotope
   function waitForRenderable($el, cb) {
     const el = $el && $el[0];
     if (!el) return cb();
@@ -136,9 +170,15 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
       }
 
       let nextPage = 2; // start after the initially rendered page
+      $gallery.data("spInfLoading", false);
 
-      // Remove any previous (namespaced) load handlers before binding a new one
-      $gallery.off("load.infiniteScroll.shutterpress");
+      const setInfiniteScrollLoading = (isLoading) => {
+        $gallery.data("spInfLoading", isLoading);
+        $gallery.infiniteScroll("option", { loadOnScroll: !isLoading });
+      };
+
+      // Remove any previous namespaced handlers before binding new ones
+      $gallery.off(".infiniteScroll.shutterpress");
 
       let headers = { "Content-Type": "application/json" };
 
@@ -175,8 +215,67 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
       });
 
       $gallery.on(
+        "scrollThreshold.infiniteScroll.shutterpress",
+        function () {
+          if ($gallery.data("spNoMorePages")) {
+            return false;
+          }
+
+          if ($gallery.data("spInfLoading")) {
+            if (win.shutterpressData && shutterpressData.debug) {
+              console.log(
+                "[SP] Suppressing scrollThreshold while batch is still settling for",
+                galleryId
+              );
+            }
+            return false;
+          }
+
+          setInfiniteScrollLoading(true);
+          spLogTiming(win, galleryId, "scroll_threshold_lock", { nextPage });
+        }
+      );
+
+      $gallery.on(
+        "request.infiniteScroll.shutterpress",
+        function (event, path) {
+          if ($gallery.data("spNoMorePages")) {
+            return false;
+          }
+
+          if (!$gallery.data("spInfLoading")) {
+            setInfiniteScrollLoading(true);
+          }
+
+          spLogTiming(win, galleryId, "request_started", { nextPage, path });
+        }
+      );
+
+      $gallery.on(
+        "error.infiniteScroll.shutterpress",
+        function (event, error, path) {
+          spLogTiming(win, galleryId, "request_error", {
+            nextPage,
+            path,
+            message: error && error.message ? error.message : "",
+          });
+
+          if (!$gallery.data("spNoMorePages")) {
+            setInfiniteScrollLoading(false);
+          }
+        }
+      );
+
+      $gallery.on(
         "load.infiniteScroll.shutterpress",
         function (event, response) {
+          spLogTiming(win, galleryId, "response_received", {
+            nextPage:
+              response && typeof response.nextPage !== "undefined"
+                ? response.nextPage
+                : null,
+            htmlLength: response && response.html ? response.html.length : 0,
+          });
           if (shutterpressData.debug) console.log("Response:", response);
 
           // Determine whether there is another page after this response
@@ -196,12 +295,14 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
           if (!html || !html.trim()) {
             // No HTML returned, mark as last page if applicable and stop loading
             if (noMoreAfterThis) {
-              $gallery.infiniteScroll("option", { loadOnScroll: false });
+              setInfiniteScrollLoading(true);
               $gallery.data("spNoMorePages", true);
               const infEmpty = $gallery.data("infiniteScroll");
               if (infEmpty && typeof infEmpty.lastPageReached === "function") {
                 infEmpty.lastPageReached();
               }
+            } else {
+              setInfiniteScrollLoading(false);
             }
             return;
           }
@@ -221,9 +322,49 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
           // prepare items to fade-in after they are positioned
           $items.css({ opacity: 0 });
 
+          spLogTiming(win, galleryId, "append_items_start", {
+            itemCount: $items.length,
+          });
           $gallery.infiniteScroll("appendItems", $items.get());
+          spLogTiming(win, galleryId, "append_items_done", {
+            itemCount: $items.length,
+          });
 
+          if (
+            isVirtualiserEnabled(win) &&
+            win.spVirtualisers &&
+            win.spVirtualisers[galleryId]
+          ) {
+            spLogTiming(win, galleryId, "virtualiser_add_start", {
+              imageCount: $items.find("img").length,
+            });
+            win.spVirtualisers[galleryId].addDeferred(
+              $items.find("img").toArray()
+            );
+            spLogTiming(win, galleryId, "virtualiser_add_done", {
+              imageCount: $items.find("img").length,
+            });
+          }
+
+          spLogTiming(win, galleryId, "images_loaded_wait_start", {
+            imageCount: $items.find("img").length,
+          });
           $items.imagesLoaded(function () {
+            let finalized = false;
+            const finalizeAppend = () => {
+              if (finalized) {
+                return;
+              }
+
+              finalized = true;
+              if (!noMoreAfterThis) {
+                setInfiniteScrollLoading(false);
+              }
+            };
+
+            spLogTiming(win, galleryId, "images_loaded_done", {
+              imageCount: $items.find("img").length,
+            });
             // Helper to clear only width/height inline styles
             const clearWH = ($els) => {
               $els.each(function () {
@@ -262,25 +403,45 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
 
             // Trigger Isotope layout for the new items
 
+            spLogTiming(win, galleryId, "isotope_appended_start", {
+              itemCount: $items.length,
+            });
             $gallery.isotope("appended", $items);
+            spLogTiming(win, galleryId, "isotope_appended_done", {
+              itemCount: $items.length,
+            });
 
             // force immediate layout so items get measured and positioned
+            spLogTiming(win, galleryId, "isotope_layout_start");
             $gallery.isotope("layout");
+            spLogTiming(win, galleryId, "isotope_layout_done");
 
             // ensure visible items become visible even if events are missed
             $gallery.off("layoutComplete.spEnsureVisible");
             $gallery.one("layoutComplete.spEnsureVisible", function () {
+              spLogTiming(win, galleryId, "layout_complete_visible");
+              finalizeAppend();
               $items
                 .filter(":not(.isotope-hidden)")
                 .css({ visibility: "visible" });
             });
             // last-resort safety
             setTimeout(function () {
+              finalizeAppend();
               $items.filter(":not(.isotope-hidden)").css({
                 visibility: "visible",
                 opacity: $gallery.data("filterActive") ? "" : 1,
               });
             }, 600);
+
+            $gallery.off("arrangeComplete.spFinalizeAppend");
+            $gallery.one("arrangeComplete.spFinalizeAppend", function () {
+              finalizeAppend();
+            });
+            $gallery.one("layoutComplete.spFinalizeAppend", function () {
+              finalizeAppend();
+            });
+            setTimeout(finalizeAppend, 1200);
 
             // prepare base transition on the items
             $items.css({
@@ -337,12 +498,6 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
                 });
               }
             }
-
-            // Add new images to the virtualiser
-            if (win.spVirtualisers && win.spVirtualisers[galleryId]) {
-              win.spVirtualisers[galleryId].add($items.find("img").toArray());
-            }
-
             // Apply liked state *after* items are in the DOM
             handleLikedImages(getLikedImages());
 
@@ -371,7 +526,7 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
 
           // After successfully appending the current response, if it was the last batch
           if (noMoreAfterThis) {
-            $gallery.infiniteScroll("option", { loadOnScroll: false });
+            setInfiniteScrollLoading(true);
             $gallery.data("spNoMorePages", true);
             const inf = $gallery.data("infiniteScroll");
             if (inf && typeof inf.lastPageReached === "function") {
@@ -402,6 +557,19 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
     $gallery.data("spLayoutsInit", true);
     const layoutType = $gallery.data("layout");
     const galleryId = $gallery.attr("id");
+    if (!isEditor) {
+      if (isVirtualiserEnabled(win)) {
+        if (!win.spVirtualisers) win.spVirtualisers = {};
+        if (!win.spVirtualisers[galleryId]) {
+          win.spVirtualisers[galleryId] = spInitVirtualiser($gallery, {
+            maxActive: 120,
+            enterMargin: "1200px",
+            exitMargin: "2000px",
+            lowConflictMode: isVirtualiserLowConflictModeEnabled(win),
+          });
+        }
+      }
+    }
     const columnGap = $gallery.data("gap");
     const columns = $gallery.data("columns") || {
       desktop: 3,
@@ -499,6 +667,17 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
         }
 
         $gallery.isotope("layout");
+        if (
+          isVirtualiserEnabled(win) &&
+          win.spVirtualisers &&
+          win.spVirtualisers[galleryId] &&
+          typeof win.spVirtualisers[galleryId].sync === "function"
+        ) {
+          win.spVirtualisers[galleryId].sync();
+          $gallery.one("layoutComplete.spVirtualiserSync", function () {
+            win.spVirtualisers[galleryId].sync();
+          });
+        }
         watchForVisibilityReturn($gallery);
 
         // Masonry, clear server inline width and height after first layout
@@ -517,13 +696,6 @@ export function initializeGalleryLayouts($ = jQuery, isEditor = false) {
             setTimeout(clearInitWH, 1200);
           })();
         }
-
-        if (!win.spVirtualisers) win.spVirtualisers = {};
-        win.spVirtualisers[galleryId] = spInitVirtualiser($gallery, {
-          maxActive: 120,
-          enterMargin: "1200px",
-          exitMargin: "2000px",
-        });
 
         $gallery.on("layoutComplete", function () {
           if (win.shutterpressData && shutterpressData.debug)

@@ -102,6 +102,30 @@ jQuery(document).ready(function ($) {
       tabs[0].classList.add("nav-tab-active");
       tabContents[0].style.display = "block";
     }
+
+    var virtualiserCheckbox = document.querySelector(
+      "#sp_gallery_enable_virtualiser_input"
+    );
+    var lazyLoaderRow = document.querySelector(
+      "#sp_gallery_virtualiser_low_conflict_mode"
+    );
+    var lazyLoaderCheckbox = document.querySelector(
+      "#sp_gallery_virtualiser_low_conflict_mode_input"
+    );
+
+    if (virtualiserCheckbox && lazyLoaderRow) {
+      function updateLazyLoaderDisabledState() {
+        if (lazyLoaderCheckbox) {
+          lazyLoaderCheckbox.disabled = !virtualiserCheckbox.checked;
+        }
+      }
+
+      virtualiserCheckbox.addEventListener(
+        "change",
+        updateLazyLoaderDisabledState
+      );
+      updateLazyLoaderDisabledState();
+    }
     // $('.sp-gallery-color-picker').wpColorPicker();
   }
 

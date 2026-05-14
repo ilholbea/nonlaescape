@@ -304,11 +304,35 @@ abstract class Root {
 	}
 
 	/**
-	 * Check if is overwritten by code filter
+	 * Check if is overwritten by filter.
 	 *
-	 * @since  7.4
+	 * @since 7.7
 	 */
 	public function filter_overwritten( $id ) {
+		$val_setting = $this->conf($id, true);
+		// if setting not found
+		if( null === $val_setting ){
+			return null;
+		}
+
+		$filter_name = 'litespeed_conf_load_option_' . $id;
+		$val_filter  = apply_filters($filter_name, $val_setting );
+
+		if ($val_setting === $val_filter) {
+			// If the value is the same, return null.
+			return null;
+		}
+
+		return $val_filter;
+	}
+
+	/**
+	 * Check if is overwritten by code filter
+	 *
+	 * @deprecated 7.7 Use general filter_overwritten()
+	 * @since  7.4
+	 */
+	public function deprecated_filter_overwritten( $id ) {
 		$cls_admin_display = Admin_Display::$settings_filters;
 		// Check if filter name is set.
 		if(!isset($cls_admin_display[$id]) || !isset($cls_admin_display[$id]['filter']) || is_array($cls_admin_display[$id]['filter']) ){
@@ -402,6 +426,11 @@ abstract class Root {
 				}
 
 				$val = $this->primary_overwritten($id); // Network Use primary site settings
+				if ($val !== null) {
+					return $val;
+				}
+
+				$val = $this->filter_overwritten($id);
 				if ($val !== null) {
 					return $val;
 				}
@@ -506,22 +535,6 @@ abstract class Root {
 	}
 
 	/**
-	 * Dropin with prefix for WP's get_blog_option
-	 *
-	 * @since 3.0
-	 */
-	public static function get_blog_option( $blog_id, $id, $default_v = false ) {
-		$v = get_blog_option($blog_id, self::name($id), $default_v);
-
-		// Maybe decode array
-		if (is_array($default_v)) {
-			$v = self::_maybe_decode($v);
-		}
-
-		return $v;
-	}
-
-	/**
 	 * Dropin with prefix for WP's add_option
 	 *
 	 * @since 3.0
@@ -562,7 +575,7 @@ abstract class Root {
 	 *
 	 * @since  4.0
 	 */
-	private static function _maybe_decode( $v ) {
+	protected static function _maybe_decode( $v ) {
 		if (!is_array($v)) {
 			$v2 = \json_decode($v, true);
 			if ($v2 !== null) {

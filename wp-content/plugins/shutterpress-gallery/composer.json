@@ -54,7 +54,7 @@
   "scripts": {
     "cbf": "phpcbf || true",
     "cs": "phpcs || true",
-    "phpstan": "php -d memory_limit=1G vendor/bin/phpstan analyse || true",
+    "phpstan": "php -d memory_limit=2G vendor/bin/phpstan analyse || true",
     "phpmd": "phpmd src html phpmd.xml > reports/phpmd.html || true",
     "phpunit": "phpunit",
     "pest": "pest || true",

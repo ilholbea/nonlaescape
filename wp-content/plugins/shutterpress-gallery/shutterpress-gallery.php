@@ -11,7 +11,7 @@
  * Plugin Name:       ShutterPress Gallery
  * Plugin URI:        https://shutterpress.io
  * Description:       WordPress photo gallery plugin for photographers and creatives. Build fast, responsive image galleries with Masonry, Justified, and Grid layouts, lightbox support, and Infinite Scroll.
- * Version:           1.7.12
+ * Version:           1.8.2
  * Author:            ShutterPress
  * Author URI:        https://shutterpress.io
  * License:           GPL-2.0+
@@ -28,7 +28,9 @@ if ( ! defined( 'ABSPATH' ) && ! defined( 'SHUTTERPRESS_TESTING' ) ) {
 /**
  * Current plugin version.
  */
-define( 'SP_GALLERY_VERSION', '1.7.12' );
+if ( ! defined( 'SP_GALLERY_VERSION' ) ) {
+	define( 'SP_GALLERY_VERSION', '1.8.1' );
+}
 define( 'SP_GALLERY_NAME', 'shutterpress-gallery' );
 
 
