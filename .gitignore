@@ -35,6 +35,24 @@
 /wp-content/plugins/hostinger-ai-assistant.disabled/
 /wp-content/plugins/hostinger-easy-onboarding.disabled/
 
+# Third-party plugins (track only our theme + scripts, not vendor code)
+/wp-content/plugins/elementor/
+/wp-content/plugins/elementor-pro/
+/wp-content/plugins/advanced-custom-fields/
+/wp-content/plugins/custom-post-type-ui/
+/wp-content/plugins/all-in-one-wp-migration/
+/wp-content/plugins/litespeed-cache/
+/wp-content/plugins/akismet/
+
+# Parent theme (not ours)
+/wp-content/themes/hello-elementor/
+/wp-content/themes/twentytwentyfive/
+/wp-content/themes/twentytwentyfour/
+/wp-content/themes/twentytwentythree/
+
+# Language files (auto-updated by WP)
+/wp-content/languages/
+
 # OS / editor
 .DS_Store
 Thumbs.db
