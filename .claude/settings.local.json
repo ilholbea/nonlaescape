@@ -1,0 +1,20 @@
+{
+  "permissions": {
+    "allow": [
+      "Read(//home/ilholbea/.claude/**)",
+      "Read(//mnt/d/micro-vault/**)",
+      "Bash(git add *)",
+      "Read(//mnt/g/My Drive/micro-vault/claude-memory/projects/**)",
+      "Read(//mnt/g/My Drive/micro-vault/claude-memory/user/**)",
+      "Read(//mnt/g/My Drive/micro-vault/claude-memory/feedback/**)",
+      "Bash(mysql *)",
+      "Bash(python3 *)",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"/mnt/c/Users/ionut/Local Sites/nonla-local/app/public/wp-content/themes/nonla-theme/assets/videos/hero-video.mov\")",
+      "Bash(ffprobe -v quiet -print_format json -show_streams \"/mnt/c/Users/ionut/Local Sites/nonla-local/app/public/wp-content/themes/nonla-theme/assets/videos/hero-video.mp4\")",
+      "Bash(mkdir -p /tmp/hero-frames /tmp/hero-upscaled)",
+      "Bash(ffmpeg -i \"/mnt/c/Users/ionut/Local Sites/nonla-local/app/public/wp-content/themes/nonla-theme/assets/videos/hero-video.mp4\" /tmp/hero-frames/frame_%05d.png -y)",
+      "Bash(python3 /tmp/upscale.py)",
+      "Bash(echo \"PID: $!\")"
+    ]
+  }
+}

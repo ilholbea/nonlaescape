@@ -1,0 +1,11 @@
+# IDE
+.idea/
+
+# Local by Flywheel — runtime files
+logs/
+app/sql/
+
+# Temp / handoff docs
+HANDOFF.md
+PLAN.md
+POPULATE-PLAN.md
