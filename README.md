@@ -75,10 +75,39 @@ wp eval-file populate-content.php   # repopulate CPT content from scratch
 
 ---
 
-## Deploy
+## Dev loop
 
-1. Export via All-in-One WP Migration (exclude media to stay under the 768MB limit)
-2. Import on Hostinger
-3. **Reset WP admin password immediately** — local uses `admin123`
-4. Run `wp elementor flush-css` on production
-5. Re-activate Hostinger plugins (hostinger, hostinger-ai-assistant, hostinger-easy-onboarding)
+1. Make changes locally
+2. `wp eval-file inject-elementor.php` — rebuild Elementor pages
+3. `wp elementor flush-css` — flush CSS cache
+4. Test on http://nonla-local.local
+
+---
+
+## Deploy to Hostinger
+
+### Full site deploy (AIWPM)
+
+1. WP Admin (local) → All-in-One WP Migration → Export → Advanced Options
+   - ✅ Exclude media library
+   - ✅ Exclude plugins
+2. Download the `.wpress` file (~158MB, under the 256MB limit)
+3. WP Admin (Hostinger) → All-in-One WP Migration → Import → upload `.wpress`
+4. Hostinger WP Admin → Elementor → Tools → **Clear Files & Data**
+5. **Reset admin password** — local uses `admin123`
+6. Settings → Permalinks → Save (flushes rewrite rules)
+
+> Plugins and media don't need re-uploading — already on Hostinger from the original site.
+> New assets added locally (videos, photos) need FTP upload after import.
+
+### New assets only (FileZilla)
+
+Upload directly to `public_html/wp-content/themes/nonla-theme/assets/` — no export needed.
+
+### DB changes only
+
+```bash
+wp db export ~/nonla-export.sql   # export locally
+# import via Hostinger phpMyAdmin
+wp search-replace 'nonla-local.local' 'nonlaescape.com' --all-tables  # run on Hostinger via SSH
+```
