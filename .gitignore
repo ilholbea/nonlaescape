@@ -17,6 +17,10 @@
 # Uploads (media, large binary files)
 /wp-content/uploads/
 
+# Theme binary assets (video/photo — deploy via FTP)
+/wp-content/themes/nonla-theme/assets/videos/
+/wp-content/themes/nonla-theme/assets/photos/
+
 # Backups & migration
 /wp-content/ai1wm-backups/
 /wp-content/.litespeed_conf.dat

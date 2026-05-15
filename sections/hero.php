@@ -9,7 +9,7 @@
 $hero_html = <<<HTML
 <section class="nl-hero">
   <video class="nl-hero-video" autoplay muted loop playsinline preload="auto">
-    <source src="{$videos}hero-video-web.mp4" type="video/mp4">
+    <source src="{$videos}hero-video-1080p.mp4" type="video/mp4">
   </video>
   <div class="nl-hero-overlay"></div>
   <div class="nl-hero-content">
