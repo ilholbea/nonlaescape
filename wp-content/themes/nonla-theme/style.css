@@ -456,7 +456,7 @@ img { display: block; max-width: 100%; }
 }
 .nl-project-status-badge.completed { background: rgba(26, 14, 6, .6); color: rgba(255, 253, 247, .8); }
 .nl-project-status-badge.upcoming { background: var(--terra); color: #fff; }
-.nl-project-body { padding: 44px 52px 44px 48px; display: flex; flex-direction: column; }
+.nl-project-body { padding: 44px 64px 44px 48px; display: flex; flex-direction: column; }
 .nl-project-series {
     display: inline-flex; align-items: center;
     font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
@@ -468,7 +468,7 @@ img { display: block; max-width: 100%; }
     color: var(--text); line-height: 1; margin-bottom: 6px;
 }
 .nl-project-edition { font-size: 15px; color: var(--muted); letter-spacing: .06em; margin-bottom: 20px; }
-.nl-project-desc { font-size: 17px; color: var(--text2); line-height: 1.75; font-weight: 300; margin-bottom: 28px; }
+.nl-project-desc { font-size: 17px; color: var(--text2); line-height: 1.75; font-weight: 300; margin-bottom: 28px; overflow-wrap: break-word; }
 .nl-project-desc p { margin: 0 0 12px; }
 .nl-project-desc p:last-child { margin-bottom: 0; }
 .nl-project-desc ul { margin: 0 0 12px; padding-left: 20px; }

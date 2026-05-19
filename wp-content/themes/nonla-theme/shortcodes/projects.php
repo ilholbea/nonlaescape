@@ -63,8 +63,8 @@ add_shortcode('nonla_projects', function () {
     usort($posts, function ($a, $b) {
         $sa = get_field('status', $a->ID);
         $sb = get_field('status', $b->ID);
-        $ca = ($sa === 'completed');
-        $cb = ($sb === 'completed');
+        $ca = is_string($sa) && strtolower(trim($sa)) === 'completed';
+        $cb = is_string($sb) && strtolower(trim($sb)) === 'completed';
         if ($ca !== $cb) return $ca ? 1 : -1;
         return intval(get_field('year', $b->ID)) - intval(get_field('year', $a->ID));
     });
@@ -106,7 +106,8 @@ add_shortcode('nonla_projects', function () {
             $series      = $series_labels[$series_slug] ?? 'Vietnam Escape';
             $edition     = get_field('edition', $p->ID);
             $year        = get_field('year', $p->ID);
-            $status      = get_field('status', $p->ID) ?: 'upcoming';
+            $raw_status  = get_field('status', $p->ID);
+            $status      = (is_string($raw_status) && strtolower(trim($raw_status)) === 'completed') ? 'completed' : 'upcoming';
             $dates_en    = get_field('dates_en', $p->ID);
             $dates_ro    = get_field('dates_ro', $p->ID);
             $dur_en      = get_field('duration_en', $p->ID);
