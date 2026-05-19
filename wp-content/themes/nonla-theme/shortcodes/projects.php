@@ -128,11 +128,10 @@ add_shortcode('nonla_projects', function () {
              data-series="<?php echo esc_attr($series_slug); ?>"
              data-status="<?php echo esc_attr($status); ?>">
           <div class="nl-project-cover">
-            <?php if ($cover): ?>
-            <img src="<?php echo esc_url($cover); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
-            <?php else: ?>
-            <div style="flex:1;min-height:300px;background:var(--parch);"></div>
-            <?php endif; ?>
+            <?php
+            $cover_src = $cover ?: get_stylesheet_directory_uri() . '/assets/photos/halong.jpg';
+            ?>
+            <img src="<?php echo esc_url($cover_src); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
             <div class="nl-project-status-badge <?php echo esc_attr($status); ?>">
               <span class="t"
                     data-en="<?php echo $status === 'completed' ? 'Completed' : 'Upcoming'; ?>"
