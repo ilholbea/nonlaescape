@@ -440,15 +440,15 @@ img { display: block; max-width: 100%; }
 
 .nl-projects-list { padding: 48px 52px 100px; max-width: 1200px; margin: 0 auto; }
 .nl-project-card {
-    display: grid; grid-template-columns: 420px 1fr;
+    display: grid; grid-template-columns: 420px 1fr; align-items: stretch;
     background: var(--card); border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; margin-bottom: 32px;
     transition: box-shadow .25s, transform .25s;
 }
 .nl-project-card:hover { box-shadow: 0 16px 56px var(--shadow); transform: translateY(-3px); }
-.nl-project-cover { position: relative; overflow: hidden; min-height: 300px; }
-.nl-project-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
-.nl-project-cover-placeholder { height: 100%; min-height: 300px; display: flex; align-items: center; justify-content: center; background: var(--parch); color: var(--border); }
+.nl-project-cover { position: relative; overflow: hidden; min-height: 300px; align-self: stretch; }
+.nl-project-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
+.nl-project-cover-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--parch); color: var(--border); }
 .nl-project-card:hover .nl-project-cover img { transform: scale(1.04); }
 .nl-project-status-badge {
     position: absolute; top: 20px; left: 20px;
