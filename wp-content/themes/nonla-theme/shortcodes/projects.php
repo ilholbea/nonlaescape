@@ -61,9 +61,11 @@ add_shortcode('nonla_projects', function () {
     ]);
 
     usort($posts, function ($a, $b) {
-        $sa = get_field('status', $a->ID) ?: 'upcoming';
-        $sb = get_field('status', $b->ID) ?: 'upcoming';
-        if ($sa !== $sb) return $sa === 'upcoming' ? -1 : 1;
+        $sa = get_field('status', $a->ID);
+        $sb = get_field('status', $b->ID);
+        $ca = ($sa === 'completed');
+        $cb = ($sb === 'completed');
+        if ($ca !== $cb) return $ca ? 1 : -1;
         return intval(get_field('year', $b->ID)) - intval(get_field('year', $a->ID));
     });
 
@@ -196,7 +198,7 @@ add_shortcode('nonla_projects', function () {
                 <span class="t" data-en="View Details" data-ro="Vezi Detalii">View Details</span>
               </a>
               <div class="nl-project-actions-right">
-                <?php if ($status === 'upcoming'): ?>
+                <?php if ($status !== 'completed'): ?>
                 <a href="<?php echo esc_url($form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
                   <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
                   <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
