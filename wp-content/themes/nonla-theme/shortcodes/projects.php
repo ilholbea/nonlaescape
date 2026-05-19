@@ -128,10 +128,16 @@ add_shortcode('nonla_projects', function () {
              data-series="<?php echo esc_attr($series_slug); ?>"
              data-status="<?php echo esc_attr($status); ?>">
           <div class="nl-project-cover">
-            <?php
-            $cover_src = $cover ?: get_stylesheet_directory_uri() . '/assets/photos/halong.jpg';
-            ?>
-            <img src="<?php echo esc_url($cover_src); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
+            <?php if ($cover): ?>
+            <img src="<?php echo esc_url($cover); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
+            <?php else: ?>
+            <div class="nl-project-cover-placeholder">
+              <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <path d="M4 48 L20 24 L32 36 L44 20 L60 48 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
+                <circle cx="18" cy="16" r="5" stroke="currentColor" stroke-width="2" fill="none"/>
+              </svg>
+            </div>
+            <?php endif; ?>
             <div class="nl-project-status-badge <?php echo esc_attr($status); ?>">
               <span class="t"
                     data-en="<?php echo $status === 'completed' ? 'Completed' : 'Upcoming'; ?>"
