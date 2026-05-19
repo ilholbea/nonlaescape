@@ -446,8 +446,8 @@ img { display: block; max-width: 100%; }
     transition: box-shadow .25s, transform .25s;
 }
 .nl-project-card:hover { box-shadow: 0 16px 56px var(--shadow); transform: translateY(-3px); }
-.nl-project-cover { position: relative; overflow: hidden; }
-.nl-project-cover img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
+.nl-project-cover { position: relative; overflow: hidden; min-height: 280px; }
+.nl-project-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
 .nl-project-card:hover .nl-project-cover img { transform: scale(1.04); }
 .nl-project-status-badge {
     position: absolute; top: 20px; left: 20px;

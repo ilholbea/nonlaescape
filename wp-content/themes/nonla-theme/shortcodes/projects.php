@@ -131,7 +131,7 @@ add_shortcode('nonla_projects', function () {
             <?php if ($cover): ?>
             <img src="<?php echo esc_url($cover); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
             <?php else: ?>
-            <div style="width:100%;height:100%;background:var(--parch);"></div>
+            <div style="position:absolute;inset:0;background:var(--parch);"></div>
             <?php endif; ?>
             <div class="nl-project-status-badge <?php echo esc_attr($status); ?>">
               <span class="t"
