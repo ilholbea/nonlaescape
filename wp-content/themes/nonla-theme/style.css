@@ -239,7 +239,7 @@ img { display: block; max-width: 100%; }
 
 /* ── TICKER ──────────────────────────────────────────────────────────────── */
 
-.nl-ticker-wrap { background: var(--terra); overflow: hidden; padding: 13px 0; position: relative; }
+.nl-ticker-wrap { background: var(--terra); overflow: hidden; padding: 13px 0; }
 .nl-ticker { display: flex; animation: nl-tick 30s linear infinite; white-space: nowrap; }
 .nl-ticker-item {
     display: inline-flex; align-items: center; gap: 18px;
@@ -250,31 +250,26 @@ img { display: block; max-width: 100%; }
 @keyframes nl-tick { 0% { transform: translateX(0); } 100% { transform: translateX(-50%); } }
 
 .nl-countdown {
-    position: absolute; top: 0; bottom: 0; left: 50%; transform: translateX(-50%);
-    width: 30%; display: flex; align-items: center; justify-content: center; gap: 20px;
-    z-index: 2; padding: 0 56px;
-    background: linear-gradient(to right,
-        transparent 0%,
-        rgba(26,14,6,.95) 12%,
-        rgba(26,14,6,.95) 88%,
-        transparent 100%);
-    pointer-events: none;
+    display: flex; align-items: center; justify-content: center; gap: 28px; flex-wrap: wrap;
+    margin-top: 36px; padding-top: 28px;
+    border-top: 1px solid rgba(255,253,247,.15);
 }
 .nl-cd-label {
-    font-size: 11px; font-weight: 700; letter-spacing: .22em; text-transform: uppercase;
-    color: rgba(255,255,255,.55); white-space: nowrap;
+    font-size: 14px; font-weight: 700; letter-spacing: .28em; text-transform: uppercase;
+    color: var(--gold-l); white-space: nowrap;
 }
-.nl-cd-units { display: flex; align-items: center; gap: 12px; }
-.nl-cd-unit { display: flex; flex-direction: column; align-items: center; min-width: 36px; }
+.nl-cd-units { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+.nl-cd-unit { display: flex; flex-direction: column; align-items: center; min-width: 44px; }
 .nl-cd-n {
-    font-family: "Bebas Neue", sans-serif; font-size: 28px; line-height: 1;
-    color: #fff; letter-spacing: .05em;
+    font-family: "Bebas Neue", sans-serif;
+    font-size: clamp(36px, 4.5vw, 52px);
+    line-height: 1; color: #fff; letter-spacing: .05em;
 }
 .nl-cd-l {
-    font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
-    color: rgba(255,255,255,.45); margin-top: 1px;
+    font-size: 10px; font-weight: 600; letter-spacing: .2em; text-transform: uppercase;
+    color: rgba(255,255,255,.5); margin-top: 3px;
 }
-.nl-cd-sep { width: 1px; height: 24px; background: rgba(255,255,255,.2); }
+.nl-cd-sep { width: 1px; height: 36px; background: rgba(255,255,255,.18); }
 
 /* ── ABOUT ───────────────────────────────────────────────────────────────── */
 
@@ -597,6 +592,10 @@ img { display: block; max-width: 100%; }
     .nl-nav-burger { display: flex; }
     .nl-hero-content { padding: 0 24px 64px; }
     .nl-hero-stats { display: none; }
+    .nl-countdown { gap: 16px; margin-top: 28px; padding-top: 20px; }
+    .nl-cd-units { gap: 10px; }
+    .nl-cd-unit { min-width: 36px; }
+    .nl-cd-sep { height: 28px; }
     .nl-section-inner { padding: 0 24px; }
     .nl-about-grid { grid-template-columns: 1fr; }
     .nl-about-photo-float { display: none; }

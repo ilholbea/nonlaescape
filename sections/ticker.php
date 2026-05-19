@@ -18,4 +18,4 @@ foreach (array_merge($ticker_items, $ticker_items) as [$en, $ro]) {
         . '<span class="t" data-en="' . esc_attr($en) . '" data-ro="' . esc_attr($ro) . '">' . esc_html($en) . '</span>'
         . '</span>';
 }
-$ticker_html = '<div class="nl-ticker-wrap"><div class="nl-ticker">' . $ticker_inner . '</div>[nl_countdown]</div>';
+$ticker_html = '<div class="nl-ticker-wrap"><div class="nl-ticker">' . $ticker_inner . '</div></div>';

@@ -53,6 +53,7 @@ $hero_html = <<<HTML
         </div>
       </div>
     </div>
+    [nl_countdown]
   </div>
 </section>
 HTML;
