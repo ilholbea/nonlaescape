@@ -219,6 +219,10 @@ add_shortcode('nonla_projects', function () {
                   <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
                   <span class="t" data-en="Follow on Instagram" data-ro="Urmărește pe Instagram">Follow on Instagram</span>
                 </a>
+                <a href="<?php echo esc_url($fb_url); ?>" target="_blank" rel="noopener" class="nl-btn-outline">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  <span class="t" data-en="Follow on Facebook" data-ro="Urmărește pe Facebook">Follow on Facebook</span>
+                </a>
                 <?php endif; ?>
                 <div class="nl-project-social-links">
                   <a href="<?php echo esc_url($ig_url); ?>" class="nl-project-social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">

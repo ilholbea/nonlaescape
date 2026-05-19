@@ -8,7 +8,7 @@
 
 $hero_html = <<<HTML
 <section class="nl-hero">
-  <video class="nl-hero-video" autoplay muted loop playsinline preload="auto">
+  <video class="nl-hero-video" autoplay muted loop playsinline preload="metadata" poster="{$photos}hero.jpg">
     <source src="{$videos}hero-video-1080p.mp4" type="video/mp4">
   </video>
   <div class="nl-hero-overlay"></div>

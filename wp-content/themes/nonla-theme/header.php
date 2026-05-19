@@ -128,5 +128,17 @@
   });
 
   applyLang(localStorage.getItem(LANG_KEY) || 'en');
+
+  document.addEventListener('DOMContentLoaded', function () {
+    var vid = document.querySelector('.nl-hero-video');
+    if (!vid) return;
+    vid.muted = true;
+    var p = vid.play();
+    if (p !== undefined) {
+      p.catch(function () {
+        vid.addEventListener('click', function () { vid.muted = true; vid.play(); }, { once: true });
+      });
+    }
+  });
 })();
 </script>
