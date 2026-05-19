@@ -28,6 +28,13 @@ $raw_dests   = get_field('destinations', $pid);
 $dests       = $raw_dests ? array_map('trim', explode(',', $raw_dests)) : [];
 $reg_url     = get_field('register_form_url', $pid) ?: get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
 $contact     = get_option('nonla_contact_email', 'nonlaescape@gmail.com');
+$ig_url      = 'https://www.instagram.com/nonlaescape/';
+$fb_url      = 'https://www.facebook.com/nonlaescape/';
+
+// Find next upcoming project for conditional CTA when this project is completed
+$_next_upcoming = get_posts(['post_type' => 'nl_project', 'posts_per_page' => 1, 'meta_query' => [['key' => 'status', 'value' => 'upcoming']], 'no_found_rows' => true]);
+$next_proj      = $_next_upcoming[0] ?? null;
+$next_form_url  = $next_proj ? (get_field('register_form_url', $next_proj->ID) ?: $reg_url) : null;
 $itinerary = get_posts([
     'post_type'      => 'nl_itinerary_day',
     'posts_per_page' => -1,
@@ -73,12 +80,15 @@ $edition_label = trim(($edition ?: '') . ($year ? ' · ' . $year : ''));
             <?php echo esc_html($series); ?><br>
             <?php if ($edition_label): ?><em><?php echo esc_html($edition_label); ?></em><?php endif; ?>
           </h1>
-          <?php if ($desc_en): ?>
-          <p class="nl-page-subtitle nl-reveal t"
-             data-en="<?php echo esc_attr($desc_en); ?>"
-             data-ro="<?php echo esc_attr($desc_ro ?: $desc_en); ?>">
-            <?php echo esc_html($desc_en); ?>
-          </p>
+          <?php
+          $fmt_en = nl_format_desc($desc_en);
+          $fmt_ro = nl_format_desc($desc_ro ?: $desc_en);
+          if ($fmt_en): ?>
+          <div class="nl-page-subtitle nl-project-desc nl-reveal t"
+               data-en="<?php echo esc_attr($fmt_en); ?>"
+               data-ro="<?php echo esc_attr($fmt_ro); ?>">
+            <?php echo $fmt_en; ?>
+          </div>
           <?php endif; ?>
           <div class="nl-project-detail-meta nl-reveal">
             <?php if ($dates_en): ?>
@@ -123,19 +133,35 @@ $edition_label = trim(($edition ?: '') . ($year ? ' · ' . $year : ''));
           </div>
           <?php endif; ?>
           <div class="nl-project-detail-actions nl-reveal">
-            <?php if ($status === 'upcoming'): ?>
-            <a href="<?php echo esc_url($reg_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
-              <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
-              <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            <a href="<?php echo esc_url(home_url('/projects')); ?>" class="nl-btn-outline">
+              <span class="t" data-en="All Projects" data-ro="Toate Proiectele">All Projects</span>
             </a>
-            <?php endif; ?>
-            <a href="mailto:<?php echo esc_attr($contact); ?>?subject=<?php echo urlencode($series . ' ' . $edition_label); ?>" class="nl-btn-outline">
-              <span class="t"
-                    data-en="<?php echo $status === 'completed' ? 'Ask About Next Edition' : 'Ask a Question'; ?>"
-                    data-ro="<?php echo $status === 'completed' ? 'Întreabă despre Ediția Viitoare' : 'Pune o Întrebare'; ?>">
-                <?php echo $status === 'completed' ? 'Ask About Next Edition' : 'Ask a Question'; ?>
-              </span>
-            </a>
+            <div class="nl-project-actions-right">
+              <?php if ($status === 'upcoming'): ?>
+              <a href="<?php echo esc_url($reg_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
+                <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <?php elseif ($next_form_url): ?>
+              <a href="<?php echo esc_url($next_form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
+                <span class="t" data-en="Register for Next Edition" data-ro="Înregistrează-te pentru Ediția Viitoare">Register for Next Edition</span>
+                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+              </a>
+              <?php else: ?>
+              <a href="<?php echo esc_url($ig_url); ?>" target="_blank" rel="noopener" class="nl-btn-outline">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                <span class="t" data-en="Follow on Instagram" data-ro="Urmărește pe Instagram">Follow on Instagram</span>
+              </a>
+              <?php endif; ?>
+              <div class="nl-project-social-links">
+                <a href="<?php echo esc_url($ig_url); ?>" class="nl-project-social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                </a>
+                <a href="<?php echo esc_url($fb_url); ?>" class="nl-project-social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                </a>
+              </div>
+            </div>
           </div>
         </div>
         <?php if ($cover): ?>

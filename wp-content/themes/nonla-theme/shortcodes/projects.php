@@ -1,6 +1,48 @@
 <?php
 // [nonla_projects] — renders project cards from nl_project CPT
 
+if (!function_exists('nl_format_desc')) {
+    function nl_format_desc($text) {
+        if (!$text) return '';
+        $text   = wp_strip_all_tags(trim($text));
+        $blocks = preg_split('/\n{2,}/', $text);
+        $html   = '';
+        foreach ($blocks as $block) {
+            $block = trim($block);
+            if (!$block) continue;
+            $lines      = explode("\n", $block);
+            $list_items = [];
+            $plain      = [];
+            foreach ($lines as $line) {
+                $line = trim($line);
+                if ($line === '') continue;
+                if (preg_match('/^[-*•]\s+(.+)/', $line, $m)) {
+                    // flush any accumulated plain lines first
+                    if ($plain) {
+                        $html  .= '<p>' . implode('<br>', array_map('esc_html', $plain)) . '</p>';
+                        $plain  = [];
+                    }
+                    $list_items[] = $m[1];
+                } else {
+                    // flush any accumulated list items first
+                    if ($list_items) {
+                        $html       .= '<ul>' . implode('', array_map(fn($i) => '<li>' . esc_html($i) . '</li>', $list_items)) . '</ul>';
+                        $list_items  = [];
+                    }
+                    $plain[] = $line;
+                }
+            }
+            if ($list_items) {
+                $html .= '<ul>' . implode('', array_map(fn($i) => '<li>' . esc_html($i) . '</li>', $list_items)) . '</ul>';
+            }
+            if ($plain) {
+                $html .= '<p>' . implode('<br>', array_map('esc_html', $plain)) . '</p>';
+            }
+        }
+        return $html;
+    }
+}
+
 add_shortcode('nonla_projects', function () {
     $reg_url = get_option('nonla_registration_url', 'https://docs.google.com/forms/d/e/1FAIpQLScaiRzBL7j7vd7o2TVD7zEXSXCG7ObDLJvfEtXsygLuM_dCIQ/viewform');
     $contact = get_option('nonla_contact_email', 'nonlaescape@gmail.com');
@@ -10,12 +52,33 @@ add_shortcode('nonla_projects', function () {
         'vietnam-undiscovered' => 'Vietnam Undiscovered',
     ];
 
+    // Fetch all projects; sort upcoming first then completed, each group by year DESC
     $posts = get_posts([
         'post_type'      => 'nl_project',
         'posts_per_page' => -1,
         'orderby'        => 'date',
         'order'          => 'DESC',
     ]);
+
+    usort($posts, function ($a, $b) {
+        $sa = get_field('status', $a->ID) ?: 'upcoming';
+        $sb = get_field('status', $b->ID) ?: 'upcoming';
+        if ($sa !== $sb) return $sa === 'upcoming' ? -1 : 1;
+        return intval(get_field('year', $b->ID)) - intval(get_field('year', $a->ID));
+    });
+
+    // Find next upcoming project for conditional CTA on completed cards
+    $next_upcoming = get_posts([
+        'post_type'      => 'nl_project',
+        'posts_per_page' => 1,
+        'meta_query'     => [['key' => 'status', 'value' => 'upcoming']],
+        'no_found_rows'  => true,
+    ]);
+    $next_proj     = $next_upcoming[0] ?? null;
+    $next_form_url = $next_proj ? (get_field('register_form_url', $next_proj->ID) ?: $reg_url) : null;
+
+    $ig_url = 'https://www.instagram.com/nonlaescape/';
+    $fb_url = 'https://www.facebook.com/nonlaescape/';
 
     ob_start(); ?>
     <div class="nl-filters-bar">
@@ -55,6 +118,8 @@ add_shortcode('nonla_projects', function () {
             $desc_en     = get_field('desc_en', $p->ID);
             $desc_ro     = get_field('desc_ro', $p->ID);
             $form_url    = get_field('register_form_url', $p->ID) ?: $reg_url;
+            $fmt_en      = nl_format_desc($desc_en);
+            $fmt_ro      = nl_format_desc($desc_ro ?: $desc_en);
             ?>
         <div class="nl-project-card nl-reveal"
              data-series="<?php echo esc_attr($series_slug); ?>"
@@ -77,12 +142,12 @@ add_shortcode('nonla_projects', function () {
             <span class="nl-project-series"><?php echo esc_html($series); ?></span>
             <div class="nl-project-name"><?php echo esc_html($series); ?></div>
             <div class="nl-project-edition"><?php echo esc_html($edition); ?><?php echo $year ? ' · ' . esc_html($year) : ''; ?></div>
-            <?php if ($desc_en): ?>
-            <p class="nl-project-desc t"
-               data-en="<?php echo esc_attr($desc_en); ?>"
-               data-ro="<?php echo esc_attr($desc_ro ?: $desc_en); ?>">
-              <?php echo esc_html($desc_en); ?>
-            </p>
+            <?php if ($fmt_en): ?>
+            <div class="nl-project-desc t"
+                 data-en="<?php echo esc_attr($fmt_en); ?>"
+                 data-ro="<?php echo esc_attr($fmt_ro); ?>">
+              <?php echo $fmt_en; ?>
+            </div>
             <?php endif; ?>
             <div class="nl-project-meta">
               <?php if ($dates_en): ?>
@@ -127,23 +192,35 @@ add_shortcode('nonla_projects', function () {
             </div>
             <?php endif; ?>
             <div class="nl-project-actions">
-              <?php if ($status === 'upcoming'): ?>
-              <a href="<?php echo esc_url($form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
-                <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
-                <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-              </a>
-              <?php endif; ?>
               <a href="<?php echo esc_url(get_permalink($p->ID)); ?>" class="nl-btn-outline">
                 <span class="t" data-en="View Details" data-ro="Vezi Detalii">View Details</span>
-                <svg width="14" height="14" viewBox="0 0 14 14" fill="none"><path d="M2 7h10M7.5 2.5l4.5 4.5-4.5 4.5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
-              <a href="mailto:<?php echo esc_attr($contact); ?>?subject=<?php echo urlencode($series . ' ' . $edition); ?>" class="nl-btn-ghost-dark">
-                <?php if ($status === 'completed'): ?>
-                <span class="t" data-en="Ask About Next Edition" data-ro="Întreabă despre Ediția Viitoare">Ask About Next Edition</span>
+              <div class="nl-project-actions-right">
+                <?php if ($status === 'upcoming'): ?>
+                <a href="<?php echo esc_url($form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
+                  <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
+                <?php elseif ($next_form_url): ?>
+                <a href="<?php echo esc_url($next_form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
+                  <span class="t" data-en="Register for Next Edition" data-ro="Înregistrează-te pentru Ediția Viitoare">Register for Next Edition</span>
+                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+                </a>
                 <?php else: ?>
-                <span class="t" data-en="Ask a Question" data-ro="Pune o Întrebare">Ask a Question</span>
+                <a href="<?php echo esc_url($ig_url); ?>" target="_blank" rel="noopener" class="nl-btn-outline">
+                  <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                  <span class="t" data-en="Follow on Instagram" data-ro="Urmărește pe Instagram">Follow on Instagram</span>
+                </a>
                 <?php endif; ?>
-              </a>
+                <div class="nl-project-social-links">
+                  <a href="<?php echo esc_url($ig_url); ?>" class="nl-project-social-link" aria-label="Instagram" target="_blank" rel="noopener noreferrer">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+                  </a>
+                  <a href="<?php echo esc_url($fb_url); ?>" class="nl-project-social-link" aria-label="Facebook" target="_blank" rel="noopener noreferrer">
+                    <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+                  </a>
+                </div>
+              </div>
             </div>
           </div>
         </div>
