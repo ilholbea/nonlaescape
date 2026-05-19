@@ -4,6 +4,16 @@
       <div>
         <a href="<?php echo esc_url(home_url('/')); ?>" class="nl-footer-logo">NONLA<span>.</span></a>
         <p class="nl-footer-tagline">Asociația Nonla Cultural Escape — Romanian NGO dedicated to cultural exchange and sustainable travel.<br><br>CIF: 49845083 · Câmpulung Muscel, Argeș County.</p>
+        <div class="nl-footer-social">
+          <a href="https://www.instagram.com/nonlaescape/" class="nl-footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg>
+            Instagram
+          </a>
+          <a href="https://www.facebook.com/nonlaescape/" class="nl-footer-social-link" target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" stroke="none"><path d="M18 2h-3a5 5 0 0 0-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 0 1 1-1h3z"/></svg>
+            Facebook
+          </a>
+        </div>
       </div>
       <div>
         <div class="nl-footer-head t" data-en="Navigate" data-ro="Navigare">Navigate</div>
