@@ -49,7 +49,12 @@ img { display: block; max-width: 100%; }
     position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
     display: grid; grid-template-columns: 1fr auto 1fr; align-items: center;
     padding: 28px 52px;
-    transition: background .35s, padding .35s;
+    opacity: 0; transform: translateY(-100%);
+    transition: background .35s, padding .35s, opacity .3s ease, transform .3s ease;
+}
+.nl-nav.nl-nav-visible,
+.nl-nav.stuck {
+    opacity: 1; transform: translateY(0);
 }
 .nl-nav.stuck {
     background: rgba(250, 245, 236, .96);
@@ -327,8 +332,7 @@ img { display: block; max-width: 100%; }
 .nl-dest-header { padding: 80px 52px 52px; max-width: 1200px; margin: 0 auto; }
 .nl-dest-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 3px; height: 560px; }
 .nl-dest-card { position: relative; overflow: hidden; }
-.nl-dest-card { background-size: 170%; background-position: center; transition: background-size .6s ease; }
-.nl-dest-card:hover { background-size: 185%; }
+.nl-dest-card { background-size: cover; background-position: center; }
 .nl-dest-overlay {
     position: absolute; inset: 0;
     background: linear-gradient(to top, rgba(20,10,4,.82) 0%, rgba(20,10,4,.15) 50%, transparent 100%);
@@ -342,13 +346,13 @@ img { display: block; max-width: 100%; }
 .nl-dest-desc { font-size: 13px; color: rgba(255, 253, 247, .6); line-height: 1.5; font-weight: 300; }
 .nl-dest-hover {
     font-size: 13px; color: rgba(255, 253, 247, .85); line-height: 1.6; font-weight: 300;
-    max-height: 0; overflow: hidden; opacity: 0;
+    max-height: 0; overflow: hidden; opacity: 0; visibility: hidden;
     margin-top: 0; padding-top: 0; border-top: 1px solid transparent;
-    transition: max-height .4s ease, opacity .3s ease, margin-top .35s ease, padding-top .35s ease, border-color .35s ease;
+    transition: max-height .4s ease, opacity .3s ease, visibility .3s ease, margin-top .35s ease, padding-top .35s ease, border-color .35s ease;
 }
 .nl-dest-card:hover .nl-dest-hover,
 .nl-dest-card.nl-active .nl-dest-hover {
-    max-height: 160px; opacity: 1; margin-top: 10px; padding-top: 10px;
+    max-height: 160px; opacity: 1; visibility: visible; margin-top: 10px; padding-top: 10px;
     border-color: rgba(255, 253, 247, .15);
 }
 
@@ -550,31 +554,53 @@ img { display: block; max-width: 100%; }
 .nl-team-cta h2 em { font-style: italic; color: var(--terra); }
 .nl-team-cta p { font-size: 18px; color: var(--text2); line-height: 1.75; font-weight: 300; margin-bottom: 32px; }
 
-/* ── INSTAGRAM FEED ─────────────────────────────────────────────────────── */
+/* ── INSTAGRAM CAROUSEL ─────────────────────────────────────────────────── */
 
-.nl-ig-wrap { background: var(--cream); padding: 80px 0 100px; }
-.nl-ig-header { text-align: center; margin-bottom: 40px; }
-.nl-ig-handle {
-    display: inline-flex; align-items: center; gap: 9px;
-    font-size: 15px; font-weight: 600; letter-spacing: .08em;
-    color: var(--text); text-decoration: none;
-    transition: color .2s;
+.nl-ig-wrap { background: var(--text); padding: 0; overflow: hidden; }
+
+/* Hide Smash Balloon header, bio, buttons */
+.nl-ig-wrap .sbi_header,
+.nl-ig-wrap #sbi_header,
+.nl-ig-wrap .sbi_follow_btn,
+.nl-ig-wrap .sbi_load_btn,
+.nl-ig-wrap .sbi_footer { display: none !important; }
+
+/* Strip plugin padding */
+.nl-ig-wrap #sb_instagram { padding: 0 !important; background: transparent !important; }
+
+/* Horizontal scroll carousel */
+.nl-ig-wrap #sb_instagram #sbi_images {
+    display: flex !important; flex-wrap: nowrap !important;
+    overflow-x: auto !important; scroll-snap-type: x mandatory;
+    gap: 3px; padding: 0 !important;
+    scrollbar-width: none; -ms-overflow-style: none;
 }
-.nl-ig-handle:hover { color: var(--terra); }
-.nl-ig-handle svg { color: var(--terra); }
-.nl-ig-sub { font-size: 14px; color: var(--muted); margin-top: 8px; font-weight: 300; }
+.nl-ig-wrap #sb_instagram #sbi_images::-webkit-scrollbar { display: none; }
 
-/* Smash Balloon overrides — match site aesthetic */
-.nl-ig-wrap #sb_instagram { padding: 0 !important; }
-.nl-ig-wrap #sb_instagram .sbi_photo_wrap { border-radius: 0; }
-.nl-ig-wrap #sb_instagram .sbi_photo img { transition: transform .5s ease !important; }
+.nl-ig-wrap #sb_instagram .sbi_item {
+    flex: 0 0 280px !important; width: 280px !important; height: 280px !important;
+    scroll-snap-align: start; position: relative;
+}
+.nl-ig-wrap #sb_instagram .sbi_photo_wrap {
+    position: relative; width: 100%; height: 100%; display: block;
+    border-radius: 0 !important;
+}
+.nl-ig-wrap #sb_instagram .sbi_photo_wrap a { display: block; width: 100%; height: 100%; }
+.nl-ig-wrap #sb_instagram .sbi_photo { width: 100% !important; height: 100% !important; }
+.nl-ig-wrap #sb_instagram .sbi_photo img {
+    width: 100% !important; height: 100% !important;
+    object-fit: cover !important; display: block !important;
+    transition: transform .5s ease !important;
+}
 .nl-ig-wrap #sb_instagram .sbi_item:hover .sbi_photo img { transform: scale(1.06) !important; }
-.nl-ig-wrap #sb_instagram .sbi_follow_btn a {
-    background: var(--terra) !important; border-radius: 3px !important;
-    font-family: "Inter", sans-serif !important; font-size: 12px !important;
-    font-weight: 600 !important; letter-spacing: .1em !important; text-transform: uppercase !important;
+
+/* IG logo — bottom-right of each photo */
+.nl-ig-wrap #sb_instagram .sbi_photo_wrap::after {
+    content: '';
+    position: absolute; bottom: 10px; right: 10px;
+    width: 20px; height: 20px; pointer-events: none; opacity: .8;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Ccircle cx='17.5' cy='6.5' r='1.5' fill='white' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
 }
-.nl-ig-wrap #sb_instagram .sbi_follow_btn a:hover { background: var(--terra-l) !important; }
 
 /* ── TESTIMONIALS ────────────────────────────────────────────────────────── */
 

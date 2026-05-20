@@ -103,8 +103,12 @@
   var close  = document.getElementById('nl-mobile-close');
   var isHome = document.body.classList.contains('home');
 
-  if (!isHome) nav.classList.add('stuck');
+  if (!isHome) {
+    nav.classList.add('stuck');
+    nav.classList.add('nl-nav-visible');
+  }
   window.addEventListener('scroll', function () {
+    nav.classList.toggle('nl-nav-visible', window.scrollY > 20);
     if (isHome) nav.classList.toggle('stuck', window.scrollY > 50);
   }, { passive: true });
 
@@ -132,6 +136,15 @@
   document.addEventListener('DOMContentLoaded', function () {
     var vid = document.querySelector('.nl-hero-video');
     if (!vid) return;
+    var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+    var lowData = conn && (conn.saveData || ['slow-2g', '2g'].indexOf(conn.effectiveType) !== -1);
+    if (lowData) {
+      var img = document.createElement('img');
+      img.src = vid.getAttribute('poster');
+      img.className = 'nl-hero-video';
+      vid.parentNode.replaceChild(img, vid);
+      return;
+    }
     vid.muted = true;
     var p = vid.play();
     if (p !== undefined) {
