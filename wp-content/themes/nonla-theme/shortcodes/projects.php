@@ -127,10 +127,8 @@ add_shortcode('nonla_projects', function () {
         <div class="nl-project-card nl-reveal"
              data-series="<?php echo esc_attr($series_slug); ?>"
              data-status="<?php echo esc_attr($status); ?>">
-          <div class="nl-project-cover">
-            <?php if ($cover): ?>
-            <img src="<?php echo esc_url($cover); ?>" alt="<?php echo esc_attr($series . ' ' . $edition); ?>" loading="lazy">
-            <?php else: ?>
+          <div class="nl-project-cover"<?php if ($cover): ?> style="background-image:url('<?php echo esc_url($cover); ?>')"<?php endif; ?>>
+            <?php if (!$cover): ?>
             <div class="nl-project-cover-placeholder">
               <svg width="64" height="64" viewBox="0 0 64 64" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 48 L20 24 L32 36 L44 20 L60 48 Z" stroke="currentColor" stroke-width="2" stroke-linejoin="round" fill="none"/>
@@ -207,12 +205,10 @@ add_shortcode('nonla_projects', function () {
                 <?php if ($status !== 'completed'): ?>
                 <a href="<?php echo esc_url($form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
                   <span class="t" data-en="Register Now" data-ro="Înregistrează-te">Register Now</span>
-                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
                 <?php elseif ($next_form_url): ?>
                 <a href="<?php echo esc_url($next_form_url); ?>" target="_blank" rel="noopener" class="nl-btn-primary">
                   <span class="t" data-en="Register for Next Edition" data-ro="Înregistrează-te pentru Ediția Viitoare">Register for Next Edition</span>
-                  <svg width="15" height="15" viewBox="0 0 15 15" fill="none"><path d="M2.5 7.5h10M8.5 3.5l4 4-4 4" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
                 </a>
                 <?php else: ?>
                 <a href="<?php echo esc_url($ig_url); ?>" target="_blank" rel="noopener" class="nl-btn-outline">

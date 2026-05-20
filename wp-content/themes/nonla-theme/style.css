@@ -455,16 +455,16 @@ img { display: block; max-width: 100%; }
 
 .nl-projects-list { padding: 48px 52px 100px; max-width: 1200px; margin: 0 auto; }
 .nl-project-card {
-    display: grid; grid-template-columns: 420px 1fr; align-items: stretch;
+    display: flex; align-items: stretch;
     background: var(--card); border: 1px solid var(--border); border-radius: 8px;
     overflow: hidden; margin-bottom: 32px;
     transition: box-shadow .25s, transform .25s;
 }
 .nl-project-card:hover { box-shadow: 0 16px 56px var(--shadow); transform: translateY(-3px); }
-.nl-project-cover { position: relative; overflow: hidden; min-height: 300px; align-self: stretch; }
-.nl-project-cover img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; transition: transform .6s; display: block; }
-.nl-project-cover-placeholder { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; background: var(--parch); color: var(--border); }
-.nl-project-card:hover .nl-project-cover img { transform: scale(1.04); }
+.nl-project-cover { position: relative; overflow: hidden; min-height: 300px; flex: 0 0 420px; background-size: cover; background-position: center; background-color: var(--parch); }
+.nl-project-cover::after { content: ''; position: absolute; inset: 0; background: inherit; background-size: cover; background-position: center; transition: transform .6s; }
+.nl-project-card:hover .nl-project-cover::after { transform: scale(1.04); }
+.nl-project-cover-placeholder { position: absolute; inset: 0; z-index: 1; display: flex; align-items: center; justify-content: center; background: var(--parch); color: var(--border); }
 .nl-project-status-badge {
     position: absolute; top: 20px; left: 20px;
     font-size: 11px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase;
@@ -556,7 +556,7 @@ img { display: block; max-width: 100%; }
 
 /* ── INSTAGRAM CAROUSEL ─────────────────────────────────────────────────── */
 
-.nl-ig-wrap { background: var(--text); padding: 0; overflow: hidden; }
+.nl-ig-wrap { background: var(--cream); padding: 40px 0; overflow: hidden; position: relative; }
 
 /* Hide Smash Balloon header, bio, buttons */
 .nl-ig-wrap .sbi_header,
@@ -572,7 +572,7 @@ img { display: block; max-width: 100%; }
 .nl-ig-wrap #sb_instagram #sbi_images {
     display: flex !important; flex-wrap: nowrap !important;
     overflow-x: auto !important; scroll-snap-type: x mandatory;
-    gap: 3px; padding: 0 !important;
+    gap: 16px; padding: 0 !important;
     scrollbar-width: none; -ms-overflow-style: none;
 }
 .nl-ig-wrap #sb_instagram #sbi_images::-webkit-scrollbar { display: none; }
@@ -593,6 +593,18 @@ img { display: block; max-width: 100%; }
     transition: transform .5s ease !important;
 }
 .nl-ig-wrap #sb_instagram .sbi_item:hover .sbi_photo img { transform: scale(1.06) !important; }
+
+/* Arrow buttons */
+.nl-ig-arrow {
+    position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
+    width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
+    background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
+    color: #fff; display: flex; align-items: center; justify-content: center;
+    transition: background .2s;
+}
+.nl-ig-arrow:hover { background: rgba(255,255,255,.35); }
+.nl-ig-arrow-prev { left: 16px; }
+.nl-ig-arrow-next { right: 16px; }
 
 /* IG logo — bottom-right of each photo */
 .nl-ig-wrap #sb_instagram .sbi_photo_wrap::after {
@@ -688,8 +700,8 @@ img { display: block; max-width: 100%; }
     .nl-page-header { padding: 110px 24px 60px; }
     .nl-filters-bar { padding: 32px 24px 0; }
     .nl-projects-list { padding: 32px 24px 80px; }
-    .nl-project-card { grid-template-columns: 1fr; }
-    .nl-project-cover { aspect-ratio: 16/9; }
+    .nl-project-card { flex-direction: column; }
+    .nl-project-cover { flex: none; min-height: 0; aspect-ratio: 16/9; }
     .nl-project-body { padding: 32px 28px; }
     .nl-team-wrap { padding: 60px 24px 80px; }
     .nl-team-grid { grid-template-columns: repeat(2, 1fr); gap: 20px; }

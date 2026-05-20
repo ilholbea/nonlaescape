@@ -20,6 +20,7 @@ add_action('wp_enqueue_scripts', function () {
     wp_enqueue_style('nonla-fonts', 'https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400;1,600&family=Inter:wght@300;400;500;600&family=Bebas+Neue&display=swap', [], null);
     wp_enqueue_style('parent-style', get_template_directory_uri() . '/style.css');
     wp_enqueue_style('nonla-style', get_stylesheet_uri(), ['parent-style'], '1.0');
+    wp_enqueue_script('nl-ig-carousel', get_stylesheet_directory_uri() . '/assets/js/ig-carousel.js', [], '1.0', true);
 });
 
 // ── FOOTER SCRIPTS ────────────────────────────────────────────────────────────
@@ -43,23 +44,6 @@ add_action('wp_footer', function () { ?>
       });
     });
   }
-
-  // Force Instagram carousel layout after Smash Balloon JS renders
-  (function () {
-    function fixIgCarousel() {
-      var wrap = document.querySelector('.nl-ig-wrap #sbi_images');
-      if (!wrap) return;
-      wrap.style.cssText = 'display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;scroll-snap-type:x mandatory;gap:3px;padding:0!important;';
-      wrap.querySelectorAll('.sbi_item').forEach(function (item) {
-        item.style.cssText = 'flex:0 0 360px!important;width:360px!important;height:360px!important;scroll-snap-align:start;position:relative;';
-      });
-    }
-    var igWrap = document.querySelector('.nl-ig-wrap');
-    if (igWrap) {
-      fixIgCarousel();
-      new MutationObserver(fixIgCarousel).observe(igWrap, { childList: true, subtree: true });
-    }
-  })();
 
   window.nlFilterProjects = function (btn, filter) {
     document.querySelectorAll('.nl-filter-btn').forEach(function (b) { b.classList.remove('active'); });

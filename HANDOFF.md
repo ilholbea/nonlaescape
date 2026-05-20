@@ -99,6 +99,33 @@ Changes to `style.css`, `header.php`, or shortcode PHP files take effect immedia
 
 ## Session log
 
+### 2026-05-21
+
+**Project cover image — background-image approach**
+- Switched from `<img>` tag to `background-image` inline style on `.nl-project-cover` (same pattern as place cards) — eliminates the intrinsic aspect-ratio conflict that prevented img from filling the container height
+- Zoom-on-hover done via `::after` pseudo-element inheriting the background
+- CSS changed to `display: flex` on card, `flex: 0 0 420px` on cover, `background-size: cover; background-position: center` on cover
+- Mobile: `flex-direction: column` on card, `aspect-ratio: 16/9` on cover
+- File: `shortcodes/projects.php`, `style.css`
+
+**Register buttons — arrow removed**
+- Removed SVG arrow from "Register Now" and "Register for Next Edition" buttons
+
+**Instagram carousel — spacing and background**
+- Added `padding: 40px 0` to `.nl-ig-wrap` so the cream background visually separates the carousel from the parch testimonials section above and the CTA below
+- Background kept as `var(--cream)`
+
+**Instagram carousel — extracted to separate JS file**
+- Moved all carousel JS from `functions.php` footer script to `assets/js/ig-carousel.js`
+- Enqueued via `wp_enqueue_script` in `functions.php` (loads in footer)
+- Fixed `scroll-behavior: smooth` bug — was interfering with rAF auto-scroll loop; removed from container, arrow buttons use `scrollBy({ behavior: 'smooth' })` instead
+- Gap between photos: 16px (updated in both CSS and JS override)
+- Duplicate `position: relative` on `.nl-ig-wrap` consolidated
+
+**Deploy workflow clarified** — FTP theme folder for code changes; full AIWPM migration no longer needed for day-to-day deploys; SSH + WP-CLI on Hostinger for Elementor page re-injection when sections/pages change
+
+---
+
 ### 2026-05-20 (continued)
 
 **Instagram carousel — horizontal scroll fix**
