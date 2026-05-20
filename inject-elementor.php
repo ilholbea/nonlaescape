@@ -89,6 +89,7 @@ require __DIR__ . '/sections/series.php';
 require __DIR__ . '/sections/places.php';
 require __DIR__ . '/sections/why.php';
 require __DIR__ . '/sections/testimonials.php';
+require __DIR__ . '/sections/instagram.php';
 // gallery moved to pages/gallery.php
 require __DIR__ . '/sections/cta.php';
 
@@ -111,6 +112,7 @@ $home_data = [
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)],         nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $why_html)],          nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $testimonials_html)], nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $ig_html)],          nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $cta_html)],          nl_col_settings())]),
 ];
 

@@ -550,6 +550,32 @@ img { display: block; max-width: 100%; }
 .nl-team-cta h2 em { font-style: italic; color: var(--terra); }
 .nl-team-cta p { font-size: 18px; color: var(--text2); line-height: 1.75; font-weight: 300; margin-bottom: 32px; }
 
+/* ── INSTAGRAM FEED ─────────────────────────────────────────────────────── */
+
+.nl-ig-wrap { background: var(--cream); padding: 80px 0 100px; }
+.nl-ig-header { text-align: center; margin-bottom: 40px; }
+.nl-ig-handle {
+    display: inline-flex; align-items: center; gap: 9px;
+    font-size: 15px; font-weight: 600; letter-spacing: .08em;
+    color: var(--text); text-decoration: none;
+    transition: color .2s;
+}
+.nl-ig-handle:hover { color: var(--terra); }
+.nl-ig-handle svg { color: var(--terra); }
+.nl-ig-sub { font-size: 14px; color: var(--muted); margin-top: 8px; font-weight: 300; }
+
+/* Smash Balloon overrides — match site aesthetic */
+.nl-ig-wrap #sb_instagram { padding: 0 !important; }
+.nl-ig-wrap #sb_instagram .sbi_photo_wrap { border-radius: 0; }
+.nl-ig-wrap #sb_instagram .sbi_photo img { transition: transform .5s ease !important; }
+.nl-ig-wrap #sb_instagram .sbi_item:hover .sbi_photo img { transform: scale(1.06) !important; }
+.nl-ig-wrap #sb_instagram .sbi_follow_btn a {
+    background: var(--terra) !important; border-radius: 3px !important;
+    font-family: "Inter", sans-serif !important; font-size: 12px !important;
+    font-weight: 600 !important; letter-spacing: .1em !important; text-transform: uppercase !important;
+}
+.nl-ig-wrap #sb_instagram .sbi_follow_btn a:hover { background: var(--terra-l) !important; }
+
 /* ── TESTIMONIALS ────────────────────────────────────────────────────────── */
 
 .nl-testimonials-wrap { padding: 100px 0; background: var(--parch); }
