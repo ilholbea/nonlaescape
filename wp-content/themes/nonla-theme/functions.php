@@ -44,6 +44,23 @@ add_action('wp_footer', function () { ?>
     });
   }
 
+  // Force Instagram carousel layout after Smash Balloon JS renders
+  (function () {
+    function fixIgCarousel() {
+      var wrap = document.querySelector('.nl-ig-wrap #sbi_images');
+      if (!wrap) return;
+      wrap.style.cssText = 'display:flex!important;flex-wrap:nowrap!important;overflow-x:auto!important;scroll-snap-type:x mandatory;gap:3px;padding:0!important;';
+      wrap.querySelectorAll('.sbi_item').forEach(function (item) {
+        item.style.cssText = 'flex:0 0 360px!important;width:360px!important;height:360px!important;scroll-snap-align:start;position:relative;';
+      });
+    }
+    var igWrap = document.querySelector('.nl-ig-wrap');
+    if (igWrap) {
+      fixIgCarousel();
+      new MutationObserver(fixIgCarousel).observe(igWrap, { childList: true, subtree: true });
+    }
+  })();
+
   window.nlFilterProjects = function (btn, filter) {
     document.querySelectorAll('.nl-filter-btn').forEach(function (b) { b.classList.remove('active'); });
     btn.classList.add('active');

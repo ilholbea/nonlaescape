@@ -99,7 +99,19 @@ Changes to `style.css`, `header.php`, or shortcode PHP files take effect immedia
 
 ## Session log
 
-### 2026-05-20
+### 2026-05-20 (continued)
+
+**Instagram carousel — horizontal scroll fix**
+- Smash Balloon's JS was overriding flex layout with its own inline styles, causing vertical-only scroll
+- Added MutationObserver in `functions.php` footer script that forces `display:flex; overflow-x:auto; scroll-snap-type:x mandatory` via inline styles after the plugin renders — runs on initial load and on any DOM mutation inside `.nl-ig-wrap`
+- Item height bumped 280px → 360px in both CSS and the JS override
+- IG logo enlarged 20px → 28px, stroke-width 2 → 2.5, opacity 0.8 → 0.9
+
+**Deploy note:** CSS-only changes aren't enough for Smash Balloon — always check the JS observer is present if the carousel stops scrolling after a plugin update.
+
+---
+
+### 2026-05-20 (earlier)
 
 **Instagram section → carousel only**
 - Removed custom `nl-ig-header` div from `sections/instagram.php`

@@ -578,7 +578,7 @@ img { display: block; max-width: 100%; }
 .nl-ig-wrap #sb_instagram #sbi_images::-webkit-scrollbar { display: none; }
 
 .nl-ig-wrap #sb_instagram .sbi_item {
-    flex: 0 0 280px !important; width: 280px !important; height: 280px !important;
+    flex: 0 0 360px !important; width: 360px !important; height: 360px !important;
     scroll-snap-align: start; position: relative;
 }
 .nl-ig-wrap #sb_instagram .sbi_photo_wrap {
@@ -598,8 +598,8 @@ img { display: block; max-width: 100%; }
 .nl-ig-wrap #sb_instagram .sbi_photo_wrap::after {
     content: '';
     position: absolute; bottom: 10px; right: 10px;
-    width: 20px; height: 20px; pointer-events: none; opacity: .8;
-    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='20' height='20' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Ccircle cx='17.5' cy='6.5' r='1.5' fill='white' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
+    width: 28px; height: 28px; pointer-events: none; opacity: .9;
+    background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Ccircle cx='17.5' cy='6.5' r='1.5' fill='white' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
 /* ── TESTIMONIALS ────────────────────────────────────────────────────────── */
