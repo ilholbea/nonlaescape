@@ -106,6 +106,8 @@ Changes to `style.css`, `header.php`, or shortcode PHP files take effect immedia
 - Places hover text no longer triggers on mobile tap via same breakpoint — `:hover` on touch devices fires on tap and never clears, so overriding it with hidden state at 960px fixes the always-visible bug
 - IG logo: switched from CSS `::after` (unreliable when Smash Balloon overrides parent styles) to JS-injected `<span class="nl-ig-logo">`. JS also explicitly sets `sbi_photo_wrap` inline styles (`position:relative; width:100%; height:100%`) so the logo is always correctly positioned regardless of what the plugin does on mobile
 - Arrow buttons restyled to use `var(--terra)` background with shadow for better visibility on desktop
+- Touch scroll blur/echo fixed: added `touchstart` listener (pauses rAF loop while finger is on screen) and `touchend` listener (resumes auto-scroll after 1500ms). Without this the rAF loop fought native touch scroll causing a jittery blur effect and auto-scroll stopped working after lift.
+- Auto-scroll removed entirely — could not get it to work reliably on mobile without interfering with native touch scroll. Carousel is now swipeable with finger (native overflow-x scroll) and arrow buttons on desktop. No JS-driven auto-scroll.
 
 ---
 
