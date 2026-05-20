@@ -22,11 +22,22 @@ add_shortcode('nl_places', function () {
           $name  = $place->post_title;
           $desc  = get_field('description', $place->ID);
           ?>
+      <?php
+          $hover_en = get_field('hover_details_en', $place->ID);
+          $hover_ro = get_field('hover_details_ro', $place->ID);
+      ?>
       <div class="nl-dest-card"<?php if ($photo): ?> style="background-image:url('<?php echo esc_url($photo); ?>')"<?php endif; ?>>
         <div class="nl-dest-overlay">
           <?php if ($tag):  ?><div class="nl-dest-tag"><?php echo esc_html($tag); ?></div><?php endif; ?>
           <?php if ($name): ?><div class="nl-dest-name"><?php echo esc_html($name); ?></div><?php endif; ?>
           <?php if ($desc): ?><div class="nl-dest-desc"><?php echo wp_strip_all_tags($desc); ?></div><?php endif; ?>
+          <?php if ($hover_en): ?>
+          <div class="nl-dest-hover t"
+               data-en="<?php echo esc_attr(wp_strip_all_tags($hover_en)); ?>"
+               data-ro="<?php echo esc_attr(wp_strip_all_tags($hover_ro ?: $hover_en)); ?>">
+            <?php echo esc_html(wp_strip_all_tags($hover_en)); ?>
+          </div>
+          <?php endif; ?>
         </div>
       </div>
       <?php endforeach; ?>

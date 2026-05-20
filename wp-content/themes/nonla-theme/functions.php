@@ -4,6 +4,7 @@
 
 require_once __DIR__ . '/shortcodes/cpt-registration.php';
 require_once __DIR__ . '/shortcodes/project-acf-fields.php';
+require_once __DIR__ . '/shortcodes/place-acf-fields.php';
 require_once __DIR__ . '/shortcodes/team.php';
 require_once __DIR__ . '/shortcodes/projects.php';
 require_once __DIR__ . '/shortcodes/places.php';
@@ -32,6 +33,16 @@ add_action('wp_footer', function () { ?>
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -32px 0px' });
   document.querySelectorAll('.nl-reveal').forEach(function (el) { obs.observe(el); });
+
+  if (window.matchMedia('(hover: none)').matches) {
+    document.querySelectorAll('.nl-dest-card').forEach(function (card) {
+      card.addEventListener('click', function () {
+        var isActive = card.classList.contains('nl-active');
+        document.querySelectorAll('.nl-dest-card').forEach(function (c) { c.classList.remove('nl-active'); });
+        if (!isActive) card.classList.add('nl-active');
+      });
+    });
+  }
 
   window.nlFilterProjects = function (btn, filter) {
     document.querySelectorAll('.nl-filter-btn').forEach(function (b) { b.classList.remove('active'); });
