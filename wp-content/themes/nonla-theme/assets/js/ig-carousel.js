@@ -9,6 +9,15 @@
     wrap.style.cssText = 'display:flex;flex-wrap:nowrap;overflow-x:auto;gap:16px;padding:0;';
     wrap.querySelectorAll('.sbi_item').forEach(function (item) {
       item.style.cssText = 'flex:0 0 360px;width:360px;height:360px;position:relative;';
+      var pw = item.querySelector('.sbi_photo_wrap');
+      if (pw) {
+        pw.style.cssText = 'position:relative;width:100%;height:100%;display:block;';
+        if (!pw.querySelector('.nl-ig-logo')) {
+          var logo = document.createElement('span');
+          logo.className = 'nl-ig-logo';
+          pw.appendChild(logo);
+        }
+      }
     });
     if (!initialized && wrap.querySelectorAll('.sbi_item').length > 0) {
       initCarousel(wrap);

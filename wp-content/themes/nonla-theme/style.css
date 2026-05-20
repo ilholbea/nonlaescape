@@ -355,7 +355,7 @@ img { display: block; max-width: 100%; }
     max-height: 160px; opacity: 1; visibility: visible; margin-top: 10px; padding-top: 10px;
     border-color: rgba(255, 253, 247, .15);
 }
-
+ 
 /* ── WHY ─────────────────────────────────────────────────────────────────── */
 
 .nl-why-wrap { padding: 100px 0; }
@@ -598,19 +598,18 @@ img { display: block; max-width: 100%; }
 .nl-ig-arrow {
     position: absolute; top: 50%; transform: translateY(-50%); z-index: 10;
     width: 44px; height: 44px; border-radius: 50%; border: none; cursor: pointer;
-    background: rgba(255,255,255,.18); backdrop-filter: blur(6px);
-    color: #fff; display: flex; align-items: center; justify-content: center;
-    transition: background .2s;
+    background: var(--terra); color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    transition: background .2s; box-shadow: 0 2px 12px rgba(26,14,6,.25);
 }
-.nl-ig-arrow:hover { background: rgba(255,255,255,.35); }
+.nl-ig-arrow:hover { background: var(--terra-l); }
 .nl-ig-arrow-prev { left: 16px; }
 .nl-ig-arrow-next { right: 16px; }
 
-/* IG logo — bottom-right of each photo */
-.nl-ig-wrap #sb_instagram .sbi_photo_wrap::after {
-    content: '';
+/* IG logo — injected via JS into each photo wrap */
+.nl-ig-logo {
     position: absolute; bottom: 10px; right: 10px;
-    width: 28px; height: 28px; pointer-events: none; opacity: .9;
+    width: 28px; height: 28px; pointer-events: none; opacity: .9; z-index: 2;
     background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='none' stroke='white' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'%3E%3Crect x='2' y='2' width='20' height='20' rx='5'/%3E%3Ccircle cx='12' cy='12' r='4'/%3E%3Ccircle cx='17.5' cy='6.5' r='1.5' fill='white' stroke='none'/%3E%3C/svg%3E") center/contain no-repeat;
 }
 
@@ -851,4 +850,9 @@ img { display: block; max-width: 100%; }
     .nl-dest-grid { grid-template-columns: 1fr; height: auto; }
     .nl-dest-card { height: 280px; }
     .nl-team-grid { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 960px) {
+    .nl-ig-arrow { display: none; }
+    .nl-dest-card:hover .nl-dest-hover { max-height: 0; opacity: 0; visibility: hidden; margin-top: 0; padding-top: 0; border-color: transparent; }
 }

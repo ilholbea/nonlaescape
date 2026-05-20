@@ -99,7 +99,17 @@ Changes to `style.css`, `header.php`, or shortcode PHP files take effect immedia
 
 ## Session log
 
-### 2026-05-21
+### 2026-05-21 (continued)
+
+**Mobile fixes**
+- Carousel arrows hidden on mobile via `@media (max-width: 960px)` — `(hover: none)` was unreliable across browsers
+- Places hover text no longer triggers on mobile tap via same breakpoint — `:hover` on touch devices fires on tap and never clears, so overriding it with hidden state at 960px fixes the always-visible bug
+- IG logo: switched from CSS `::after` (unreliable when Smash Balloon overrides parent styles) to JS-injected `<span class="nl-ig-logo">`. JS also explicitly sets `sbi_photo_wrap` inline styles (`position:relative; width:100%; height:100%`) so the logo is always correctly positioned regardless of what the plugin does on mobile
+- Arrow buttons restyled to use `var(--terra)` background with shadow for better visibility on desktop
+
+---
+
+### 2026-05-21 (earlier)
 
 **Project cover image — background-image approach**
 - Switched from `<img>` tag to `background-image` inline style on `.nl-project-cover` (same pattern as place cards) — eliminates the intrinsic aspect-ratio conflict that prevented img from filling the container height
