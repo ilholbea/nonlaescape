@@ -47,6 +47,10 @@
 /wp-content/plugins/all-in-one-wp-migration/
 /wp-content/plugins/litespeed-cache/
 /wp-content/plugins/akismet/
+/wp-content/plugins/instagram-feed/
+
+# Plugin runtime / vector DBs
+/wp-content/*.db
 
 # Parent theme (not ours)
 /wp-content/themes/hello-elementor/
