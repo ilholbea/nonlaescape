@@ -213,7 +213,7 @@ Changes to `style.css`, `header.php`, or shortcode PHP files take effect immedia
 | Populate Vol. 5 itinerary | 16 days from Anexa nr. 2 (Google Drive) → WP Admin → Itinerary Days |
 | Populate Vol. 5 accommodations | 4 hotels from Anexa nr. 1 → WP Admin → Accommodations |
 | Remove Vol. 100 | Test project used for countdown — delete before deploy |
-| Production deploy | All-in-One WP Migration, media + plugins excluded (~158MB); Hostinger already has plugins/media; **reset admin password immediately** after import (local uses `admin123`) |
+| Production deploy | All-in-One WP Migration, media + plugins excluded (~158MB); Hostinger already has plugins/media; **reset admin password immediately** after import (local uses `<local admin password — see Local by Flywheel app>`) |
 
 ---
 

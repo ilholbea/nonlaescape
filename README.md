@@ -86,7 +86,7 @@ wp eval-file populate-content.php   # repopulate CPT content from scratch
 2. Download the `.wpress` file (~158MB, comfortably under the 256MB limit)
 3. WP Admin (Hostinger) → All-in-One WP Migration → Import → upload `.wpress`
 4. Hostinger WP Admin → Elementor → Tools → **Clear Files & Data**
-5. **Reset admin password** — local uses `admin123`
+5. **Reset admin password** — local uses `<local admin password — see Local by Flywheel app>`
 
 > Plugins and media don't need re-uploading — they're already on Hostinger from the original site.
 > Only new assets (videos, photos added locally) need FTP upload after import.

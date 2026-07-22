@@ -10,12 +10,12 @@ Local development copy of **nonlaescape.com** running via Local by Flywheel.
 |---|---|
 | Local URL | http://nonla-local.local |
 | WP Admin | http://nonla-local.local/wp-admin |
-| Login | `admin` / `admin123` |
+| Login | `admin` / `<local admin password — see Local by Flywheel app>` |
 | PHP | 8.2.29 |
 | MySQL | 8.4.0 (port 10005) |
 | WP root | `app/public/` |
 
-> ⚠️ Reset the admin password on production after any DB deploy — local uses `admin123`.
+> ⚠️ Reset the admin password on production after any DB deploy — local uses `<local admin password — see Local by Flywheel app>`.
 
 ---
 
@@ -162,7 +162,7 @@ wp plugin install <plugin-slug> --activate
 wp db reset --yes
 
 # Reinstall WordPress after a DB reset
-wp core install --url=http://nonla-local.local --title="Nonla Escape" --admin_user=admin --admin_password=admin123 --admin_email=nonlaescape@gmail.com --skip-email
+wp core install --url=http://nonla-local.local --title="Nonla Escape" --admin_user=admin --admin_password='<local admin password>' --admin_email=nonlaescape@gmail.com --skip-email
 
 # Set all pages to use Elementor template
 wp post meta update <page-id> _wp_page_template elementor_header_footer
@@ -185,5 +185,5 @@ These are Hostinger-specific and crash outside Hostinger servers. Do **not** re-
 1. Export the local DB via **All-in-One WP Migration** (or Adminer → Export)
 2. Upload files via FTP or Git
 3. Import DB on Hostinger
-4. ⚠️ **Reset the admin password immediately** — local uses `admin123`
+4. ⚠️ **Reset the admin password immediately** — local uses `<local admin password — see Local by Flywheel app>`
 5. Re-activate Hostinger plugins after deploy
