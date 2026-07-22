@@ -1,0 +1,67 @@
+# WordPress core (download fresh, don't track)
+/wp-admin/
+/wp-includes/
+/index.php
+/wp-*.php
+/xmlrpc.php
+/license.txt
+/readme.html
+
+# Local-specific files
+/wp-config.php
+/.htaccess
+/local-phpinfo.php
+/local-xdebuginfo.php
+/wp-config-sample.php
+
+# Uploads (media, large binary files)
+/wp-content/uploads/
+
+# Theme binary assets (video/photo — deploy via FTP)
+/wp-content/themes/nonla-theme/assets/videos/
+/wp-content/themes/nonla-theme/assets/photos/
+
+# Backups & migration
+/wp-content/ai1wm-backups/
+/wp-content/.litespeed_conf.dat
+/wp-content/plugins/all-in-one-wp-migration/storage/
+*.wpress
+
+# Cache & generated
+/wp-content/cache/
+/wp-content/upgrade/
+/wp-content/backup-db/
+/wp-content/advanced-cache.php
+/wp-content/wp-cache-config.php
+
+# Disabled Hostinger plugins (not for deployment)
+/wp-content/plugins/hostinger.disabled/
+/wp-content/plugins/hostinger-ai-assistant.disabled/
+/wp-content/plugins/hostinger-easy-onboarding.disabled/
+
+# Third-party plugins (track only our theme + scripts, not vendor code)
+/wp-content/plugins/elementor/
+/wp-content/plugins/elementor-pro/
+/wp-content/plugins/advanced-custom-fields/
+/wp-content/plugins/custom-post-type-ui/
+/wp-content/plugins/all-in-one-wp-migration/
+/wp-content/plugins/litespeed-cache/
+/wp-content/plugins/akismet/
+/wp-content/plugins/instagram-feed/
+
+# Plugin runtime / vector DBs
+/wp-content/*.db
+
+# Parent theme (not ours)
+/wp-content/themes/hello-elementor/
+/wp-content/themes/twentytwentyfive/
+/wp-content/themes/twentytwentyfour/
+/wp-content/themes/twentytwentythree/
+
+# Language files (auto-updated by WP)
+/wp-content/languages/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+*.log
