@@ -6,7 +6,7 @@ logs/
 app/sql/
 app/.envrc
 
-# Temp / handoff docs
-HANDOFF.md
-PLAN.md
-POPULATE-PLAN.md
+# Temp / handoff docs (root level only — app/public/HANDOFF.md is tracked)
+/HANDOFF.md
+/PLAN.md
+/POPULATE-PLAN.md

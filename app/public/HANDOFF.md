@@ -1,6 +1,6 @@
 # Handoff — nonlaescape.com local build
 
-This document lives in `app/public/` so it travels with the WordPress repo on GitHub.
+This document lives in `app/public/` and is tracked in the repo on GitHub.
 Keep it up to date after every session — it's the primary context for future Claude instances.
 
 ---
@@ -30,30 +30,34 @@ Posts and Comments are removed from the WP Admin sidebar (in `functions.php`) �
 
 ---
 
-## Git repos & workflow
+## Git — one repo
 
-There are **two nested git repos**:
-- `nonla-local/` — environment-level files (`CLAUDE.md`, `inject-elementor.php`, `sections/`, `pages/`, this `HANDOFF.md`)
-- `nonla-local/app/public/` — WordPress files; **this is the one you edit day-to-day**
+**A single repo** rooted at the site folder (`C:\Users\ionut\Local Sites\nonla-local`), remote
+`https://github.com/ilholbea/nonlaescape.git`. Every branch contains the whole thing:
+`CLAUDE.md`, `conf/`, and `app/public/**`.
 
-`app/public` has branches: `main`, `development`, `v1-demo`. Always work on `development`.
+Branches: **`development`** (always work here), `main`, and the stale `v1-demo`.
+
+> **Changed 2026-07-22.** This used to be *two nested repos* — a root env repo on `master` plus a
+> separate `app/public` repo — joined by a gitlink with no `.gitmodules`, so cloning `master`
+> produced an empty `app/public`. They were unified with a subtree merge (`ae0cf3a`); all 57
+> commits are preserved and `master` has been deleted. **Old `git -C app/public …` commands no
+> longer apply** — paths are now relative to the site root.
 
 ### Typical commit + merge flow
 
 ```bash
 # stage only intentional changes (avoid committing plugin/DB noise)
-git -C app/public add sections/instagram.php wp-content/themes/nonla-theme/style.css ...
-git -C app/public commit -m "feat: ..."
+git add app/public/sections/instagram.php app/public/wp-content/themes/nonla-theme/style.css
+git commit -m "feat: ..."
 
 # merge to main, stay on development
-git -C app/public checkout main && git -C app/public merge development --no-edit && git -C app/public checkout development
+git checkout main && git merge development --no-edit && git checkout development
 
 # push both
-git -C app/public push origin development
-git -C app/public push origin main
+git push origin development
+git push origin main
 ```
-
-The parent `nonla-local/` repo needs a commit only when env-level files change.
 
 ---
 

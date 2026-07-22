@@ -28,6 +28,14 @@ They require Hostinger's server infrastructure and will fatal error locally.
 - All changes here are **local only** — the live Hostinger site is untouched
 - To deploy changes to production, use a migration plugin (e.g. All-in-One WP Migration) or manual FTP + DB export
 
+## Git
+- **One repo**, rooted at `C:\Users\ionut\Local Sites\nonla-local` → `https://github.com/ilholbea/nonlaescape.git`
+- Branches: **`development`** (work here), `main`, and the stale `v1-demo`
+- Every branch holds the whole site: `CLAUDE.md`, `conf/`, and `app/public/**` — so a fresh clone rebuilds everything
+- Run git from the site root; paths include the `app/public/` prefix (no more `git -C app/public …`)
+- Until 2026-07-22 this was two nested repos linked by a broken gitlink; unified via subtree merge (`ae0cf3a`), full history preserved, `master` retired
+- Full workflow: see `app/public/HANDOFF.md`
+
 ## How the Local Site Was Set Up
 1. Exported live site from Hostinger WP Admin using All-in-One WP Migration plugin (.wpress file)
 2. Created blank site in Local by Flywheel
