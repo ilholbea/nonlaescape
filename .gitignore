@@ -4,6 +4,7 @@
 # Local by Flywheel — runtime files
 logs/
 app/sql/
+app/.envrc
 
 # Temp / handoff docs
 HANDOFF.md
