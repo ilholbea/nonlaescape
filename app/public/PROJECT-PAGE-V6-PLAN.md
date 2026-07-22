@@ -413,16 +413,25 @@ requirements; this is a copy/structure change, not a visual-identity change.
 
 ---
 
-## 6. Content gaps — what a human must produce
+## 6. Content — owner-populated after deploy (NOT a build blocker)
+
+> **None of the items below block implementation.** Per the site owner: all content is configurable from
+> wp-admin and will be entered or corrected directly on the site at deployment time. Opus should build the
+> template, fields and CSS against **placeholder content**, confirm every section degrades gracefully when
+> its fields are empty (§7.2), and hand over. **Do not wait for, or ask the user about, copy, photography,
+> dates or pricing** — including the spec-vs-database discrepancies noted in §0 (dates, price), which the
+> owner resolves in wp-admin, not in code.
+>
+> The list below is a **handover checklist for whoever populates the site**, not a set of prerequisites.
 
 1. **Photography.** None of the 8 images in `assets/photos/` fit the spec's people-first direction (verified:
    `hanoi.jpg` and `garden.jpg` are empty-of-people architecture/landscape shots; the other six are named for
    places, not people, strongly suggesting the same). The spec explicitly wants: people interacting, shared
    meals, conversations, homestays, traditional crafts, genuine emotion — and explicitly rejects empty
-   landscapes. **This is the single biggest content gap.** Someone needs to source or shoot new photography
-   (from a past Vol. 5 trip, presumably) before the Hero, About, and Experience sections can look like the
-   spec intends — pushing new landscape-only photos into an "experience card" would visually contradict the
-   copy sitting next to it.
+   landscapes. All imagery is set via ACF image fields and the media library, so this is purely a content
+   task and the build is unaffected. Worth flagging to whoever populates the site: dropping landscape-only
+   photos into an "experience card" would visually contradict the copy beside it, so people-focused
+   photography (from a past Vol. 5 trip, presumably) is what the design assumes.
 2. **Vol. 6 real data.** Every current field on the `vietnam-escape-vol-6` post is placeholder (§0): cover
    image, description, destinations, dates, price, register URL. All of it needs real content regardless of
    this redesign — this plan's entire new field set (§3: `about_en/ro`, `purpose_intro_en/ro` +
@@ -440,9 +449,9 @@ requirements; this is a copy/structure change, not a visual-identity change.
 5. **Purpose/Audience/Support copy voice.** The wireframe and spec give example bullet points, but final,
    Nonla-voiced EN+RO copy for About, Purpose intro, Project Support intro, Participation note, and Audience
    intro doesn't exist yet — spec explicitly calls out a "Final copy document" as a supporting asset this
-   implementation should reference, which wasn't provided to this planning task. Flagging as a hard
-   dependency before Opus can populate real strings (placeholders/lorem ipsum can carry the build, per the
-   existing pattern already used for Team bios/Testimonials per `HANDOFF.md`'s backlog table).
+   implementation should reference, which wasn't provided to this planning task. Opus should populate
+   placeholder strings drawn from the spec's own example bullets — the same lorem-ipsum pattern already used
+   for Team bios and Testimonials per `HANDOFF.md`'s backlog table — and leave final copy to the owner.
 
 ---
 
@@ -546,11 +555,11 @@ requirements; this is a copy/structure change, not a visual-identity change.
    "redesign the project page" would otherwise imply — worth confirming the user wants it bundled into this
    piece of work versus split into its own ticket, given it touches every `nl_project` field, not just the
    ones this redesign adds.
-4. **Photography sourcing** (§6.1) — who is producing/selecting the people-first photography, and by when?
-   This blocks a faithful implementation of Hero/About/Experience regardless of how well the code is built.
-5. **Copy document** (§6.5) — the "Final copy document" the spec references as a supporting asset was not
-   supplied to this planning task. Confirm whether Opus should draft placeholder EN/RO copy from the spec's
-   own example bullets (acceptable per the site's existing lorem-ipsum precedent) or wait for real copy.
+4. ~~Photography sourcing~~ — **resolved: not a blocker.** All imagery is owner-configurable via ACF image
+   fields and is set on the live site at deployment. Build against placeholders; see §6.
+5. ~~Copy document~~ — **resolved: not a blocker.** Opus drafts placeholder EN/RO copy from the spec's own
+   example bullets (per the site's existing lorem-ipsum precedent); the owner replaces it in wp-admin. Do
+   not wait for a copy document. See §6.
 6. ~~Purpose section data model~~ — **resolved**: project-scoped numbered fields on `nl_project` (§3), not
    static markup and not a sitewide CPT. No longer an open question, but flagging that this is 4×5 = 20 new
    field rows (icon + title_en + title_ro + desc_en + desc_ro, ×4) on an edit screen that's about to also
@@ -560,6 +569,7 @@ requirements; this is a copy/structure change, not a visual-identity change.
 7. **`nl_experience_stop` vs. numbered fields** (§3) — this plan recommends the child-CPT approach. If the
    user wants to minimize new CPTs/admin-menu clutter over long-term flexibility, numbered fields on
    `nl_project` are the documented fallback — confirm preference.
-8. **Vol. 6 launch readiness** is gated on §6 (content gaps) regardless of how well this plan's code is
-   executed — worth setting expectations that "page redesign done" and "Vol. 6 page launch-ready" are
-   different milestones.
+8. **"Redesign done" ≠ "Vol. 6 launch-ready"** — these remain distinct milestones, but the second is a
+   content-entry activity owned by the site owner in wp-admin, not a code dependency. Opus's definition of
+   done is: fields registered, template + CSS built, placeholders in place, empty-field degradation verified
+   (§7.2), both EN and RO paths checked.
