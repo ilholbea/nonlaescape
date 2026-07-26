@@ -24,9 +24,9 @@ $about_html = <<<HTML
           Nonla Cultural Escape is a non-governmental organization founded in Romania with a global vision — offering a safe and inclusive space for cultural exchange and personal growth.
         </p>
         <p class="nl-reveal nl-d3 t"
-           data-en="We organize small-group trips to Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders."
-           data-ro="Organizăm călătorii în grup mic în Vietnam cu totul inclus — zboruri, cazare, transferuri și coordonatori experți care vorbesc română, engleză și vietnameză. Misiunea noastră: conexiuni autentice peste granițe.">
-          We organize small-group trips to Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders.
+           data-en="We organize small-group journeys through Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders."
+           data-ro="Organizăm călătorii în grupuri mici prin Vietnam, cu totul inclus — zboruri, cazare, transferuri și coordonatori experți care vorbesc română, engleză și vietnameză. Misiunea noastră: să creăm conexiuni autentice peste granițe.">
+          We organize small-group journeys through Vietnam with everything handled — flights, accommodation, transfers, and expert coordinators who speak Romanian, English, and Vietnamese. Our mission: create meaningful connections across borders.
         </p>
         <blockquote class="nl-about-quote nl-reveal nl-d4">
           <span class="t"

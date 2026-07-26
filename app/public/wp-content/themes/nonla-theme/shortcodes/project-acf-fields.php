@@ -166,4 +166,108 @@ add_action('acf/init', function () {
         'menu_order' => 0,
         'position'   => 'normal',
     ]);
+
+    // ── Experience Stop fields ──────────────────────────────────────────────
+    // A destination shown in the project detail page's "The Experience" section.
+    // Post title = destination name (e.g. "Ha Giang"). Same child-of-project
+    // pattern as Itinerary Day / Accommodation above.
+    acf_add_local_field_group([
+        'key'    => 'group_nl_experience_stop',
+        'title'  => 'Experience Stop',
+        'fields' => [
+            [
+                'key'           => 'field_nl_exp_project',
+                'label'         => 'Project',
+                'name'          => 'project',
+                'type'          => 'post_object',
+                'post_type'     => ['nl_project'],
+                'return_format' => 'id',
+                'ui'            => 1,
+                'allow_null'    => 0,
+                'required'      => 1,
+                'wrapper'       => ['width' => '100'],
+                'instructions'  => 'Which project does this destination belong to?',
+            ],
+            [
+                'key'           => 'field_nl_exp_order',
+                'label'         => 'Display Order',
+                'name'          => 'display_order',
+                'type'          => 'number',
+                'default_value' => 1,
+                'wrapper'       => ['width' => '30'],
+                'instructions'  => 'Order within the project (1 = first).',
+            ],
+            [
+                'key'           => 'field_nl_exp_tag',
+                'label'         => 'Tag',
+                'name'          => 'tag',
+                'type'          => 'text',
+                'wrapper'       => ['width' => '70'],
+                'instructions'  => 'Short label, e.g. "5-day homestay" or "UNESCO Heritage".',
+            ],
+            [
+                'key'           => 'field_nl_exp_photo',
+                'label'         => 'Photo',
+                'name'          => 'photo',
+                'type'          => 'image',
+                'return_format' => 'url',
+                'preview_size'  => 'medium',
+                'wrapper'       => ['width' => '100'],
+                'instructions'  => 'Destination name is the post title above.',
+            ],
+            [
+                'key'     => 'field_nl_exp_why_en',
+                'label'   => 'Why We Chose It (EN)',
+                'name'    => 'why_en',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+            [
+                'key'     => 'field_nl_exp_why_ro',
+                'label'   => 'Why We Chose It (RO)',
+                'name'    => 'why_ro',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+            [
+                'key'     => 'field_nl_exp_experience_en',
+                'label'   => 'What You Experience (EN)',
+                'name'    => 'experience_en',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+            [
+                'key'     => 'field_nl_exp_experience_ro',
+                'label'   => 'What You Experience (RO)',
+                'name'    => 'experience_ro',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+            [
+                'key'     => 'field_nl_exp_value_en',
+                'label'   => 'Cultural Value (EN)',
+                'name'    => 'value_en',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+            [
+                'key'     => 'field_nl_exp_value_ro',
+                'label'   => 'Cultural Value (RO)',
+                'name'    => 'value_ro',
+                'type'    => 'textarea',
+                'rows'    => 3,
+                'wrapper' => ['width' => '50'],
+            ],
+        ],
+        'location' => [[
+            ['param' => 'post_type', 'operator' => '==', 'value' => 'nl_experience_stop'],
+        ]],
+        'menu_order' => 0,
+        'position'   => 'normal',
+    ]);
 });

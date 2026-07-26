@@ -9,6 +9,7 @@ add_action('init', function () {
         'nl_project'        => ['Projects',        'Project',        'dashicons-location-alt',  26, ['title', 'thumbnail'], 'project'],
         'nl_itinerary_day'  => ['Itinerary Days',  'Itinerary Day',  'dashicons-calendar-alt',  27, ['title'],             null],
         'nl_accommodation'  => ['Accommodations',  'Accommodation',  'dashicons-building',       28, ['title', 'thumbnail'], null],
+        'nl_experience_stop' => ['Experience Stops', 'Experience Stop', 'dashicons-palmtree',     28, ['title'],             null],
         'nl_series'         => ['Series',          'Series',         'dashicons-book',           29, ['title'],             null],
         'nl_place'          => ['Places',          'Place',          'dashicons-location',       30, ['title'],             null],
         'nl_why_item'       => ['Why Items',       'Why Item',       'dashicons-star-filled',    31, ['title'],             null],

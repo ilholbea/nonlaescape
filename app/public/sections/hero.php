@@ -24,9 +24,9 @@ $hero_html = <<<HTML
     <div class="nl-hero-row">
       <div>
         <p class="nl-hero-sub t"
-           data-en="Nonla organizes immersive small-group trips to Vietnam — authentic experiences designed around real connection with the country and its people."
-           data-ro="Nonla organizează experiențe de grup în Vietnam — autentice, menite să creeze conexiuni reale cu oamenii și locurile pe care le vizitezi.">
-          Nonla organizes immersive small-group trips to Vietnam — authentic experiences designed around real connection with the country and its people.
+           data-en="Nonla creates immersive small-group journeys through Vietnam — authentic experiences built around real connection with the country, its people, and its culture."
+           data-ro="Nonla creează experiențe autentice, în grupuri mici, prin Vietnam — construite în jurul unei conexiuni reale cu țara, oamenii și cultura ei.">
+          Nonla creates immersive small-group journeys through Vietnam — authentic experiences built around real connection with the country, its people, and its culture.
         </p>
         <div class="nl-hero-actions">
           <a href="{$projects_url}" class="nl-btn-primary">
@@ -49,7 +49,7 @@ $hero_html = <<<HTML
         </div>
         <div>
           <div class="nl-stat-n">100+</div>
-          <div class="nl-stat-l t" data-en="Travelers" data-ro="Participanți">Travelers</div>
+          <div class="nl-stat-l t" data-en="Participants" data-ro="Participanți">Participants</div>
         </div>
       </div>
     </div>

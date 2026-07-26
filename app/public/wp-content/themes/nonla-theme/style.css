@@ -833,6 +833,111 @@ img { display: block; max-width: 100%; }
 }
 .nl-accomm-link:hover { border-color: var(--terra); gap: 11px; }
 
+/* ── NARRATIVE SECTIONS (redesign) ──────────────────────────────────────── */
+
+/* Alternating backgrounds to separate the narrative beats. */
+.nl-purpose-section,
+.nl-practical-section,
+.nl-audience-section { background: var(--parch); }
+
+/* Section intro sentence (owner-editable, shown under the section title). */
+.nl-section-intro {
+    font-size: 19px; color: var(--text2); line-height: 1.75; font-weight: 300;
+    max-width: 640px; margin: -24px 0 40px;
+}
+
+/* About body — matches the accommodation description voice. */
+.nl-about-body { max-width: 720px; }
+.nl-about-body p { font-size: 18px; color: var(--text2); line-height: 1.8; font-weight: 300; margin-bottom: 18px; }
+.nl-about-body p:last-child { margin-bottom: 0; }
+.nl-about-body ul { margin: 0 0 18px; padding-left: 22px; }
+.nl-about-body li { font-size: 18px; color: var(--text2); line-height: 1.7; font-weight: 300; margin-bottom: 8px; }
+
+/* Purpose grid — 4-up variant of the Why grid. */
+.nl-why-grid--4 { grid-template-columns: repeat(4, 1fr); }
+
+/* The Experience — always-visible destination cards (not hover teasers). */
+.nl-experience-grid {
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(min(100%, 300px), 1fr));
+    gap: 24px; margin-top: 8px;
+}
+.nl-experience-card {
+    background: var(--card); border: 1px solid var(--border); border-radius: 8px;
+    overflow: hidden; display: flex; flex-direction: column;
+    transition: box-shadow .25s, transform .25s;
+}
+.nl-experience-card:hover { box-shadow: 0 16px 48px var(--shadow); transform: translateY(-3px); }
+.nl-experience-photo { height: 200px; background-size: cover; background-position: center; }
+.nl-experience-body { padding: 26px 28px 30px; }
+.nl-experience-tag {
+    font-size: 11px; font-weight: 600; letter-spacing: .18em; text-transform: uppercase;
+    color: var(--terra); margin-bottom: 8px;
+}
+.nl-experience-name {
+    font-family: "Cormorant Garamond", serif; font-size: 30px; font-weight: 600;
+    color: var(--text); line-height: 1.05; margin-bottom: 18px;
+}
+.nl-experience-block { margin-bottom: 16px; }
+.nl-experience-block:last-child { margin-bottom: 0; }
+.nl-experience-block-label {
+    font-size: 11px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+    color: var(--muted); margin-bottom: 5px;
+}
+.nl-experience-block-text { font-size: 15px; color: var(--text2); line-height: 1.65; font-weight: 300; margin: 0; }
+
+/* Project Support / Who Is This For — checklist. */
+.nl-support-list { max-width: 720px; margin-top: 8px; }
+.nl-support-list ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px 32px; }
+.nl-support-list li {
+    position: relative; padding-left: 30px;
+    font-size: 17px; color: var(--text2); line-height: 1.5; font-weight: 300;
+}
+.nl-support-list li::before {
+    content: ""; position: absolute; left: 0; top: 3px; width: 18px; height: 18px;
+    border-radius: 50%; background: rgba(184, 85, 32, .12);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12' fill='none'%3E%3Cpath d='M2.5 6.2l2.3 2.3L9.5 3.5' stroke='%23B85520' stroke-width='1.6' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+    background-repeat: no-repeat; background-position: center;
+}
+.nl-support-list p { font-size: 17px; color: var(--text2); line-height: 1.7; font-weight: 300; }
+
+/* Practical detail wrapper (relocated itinerary + accommodations). */
+.nl-practical-leadin {
+    font-size: 14px; letter-spacing: .04em; text-transform: uppercase; font-weight: 600;
+    color: var(--muted); margin-bottom: 8px;
+}
+.nl-itinerary-block { margin-bottom: 64px; }
+.nl-section-title--sub {
+    font-size: clamp(34px, 4vw, 52px); margin-bottom: 28px;
+}
+.nl-section-title--sub em { display: inline; }
+
+/* Accommodation card — single cover photo (no booking-gallery mosaic). */
+.nl-accomm-photo-single { height: 220px; }
+.nl-accomm-photo-single img { width: 100%; height: 100%; object-fit: cover; display: block; transition: transform .5s; }
+.nl-accomm-card:hover .nl-accomm-photo-single img { transform: scale(1.04); }
+
+/* Participation Contribution — the price, presented as a centerpiece. */
+.nl-participation-amount {
+    font-family: "Cormorant Garamond", serif; font-size: clamp(48px, 7vw, 76px);
+    font-weight: 600; color: var(--terra); line-height: 1; margin: 8px 0 6px;
+}
+.nl-participation-note { font-size: 15px; color: var(--muted); font-weight: 300; margin-bottom: 24px; }
+
+/* Final CTA — dark closing block. */
+.nl-project-cta { background: var(--text); }
+.nl-project-cta-inner { text-align: center; max-width: 720px; }
+.nl-project-cta-inner h2 {
+    font-family: "Cormorant Garamond", serif; font-size: clamp(42px, 6vw, 72px);
+    font-weight: 600; line-height: 1; color: var(--white); margin-bottom: 20px;
+}
+.nl-project-cta-inner p {
+    font-size: 18px; color: rgba(255, 253, 247, .72); line-height: 1.75; font-weight: 300;
+    max-width: 480px; margin: 0 auto 36px;
+}
+.nl-project-cta-actions { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; }
+.nl-btn-outline--light { color: var(--white); border-color: rgba(255, 253, 247, .4); }
+.nl-btn-outline--light:hover { border-color: var(--white); background: rgba(255, 253, 247, .08); }
+
 /* ── RESPONSIVE — PROJECT DETAIL ────────────────────────────────────────── */
 
 @media (max-width: 960px) {
@@ -844,6 +949,12 @@ img { display: block; max-width: 100%; }
     .nl-itin-head { padding: 18px 20px; gap: 12px; }
     .nl-itin-date { display: none; }
     .nl-itin-body p { padding: 0 20px 20px; }
+    .nl-why-grid--4 { grid-template-columns: repeat(2, 1fr); }
+    .nl-support-list ul { grid-template-columns: 1fr; }
+}
+
+@media (max-width: 540px) {
+    .nl-why-grid--4 { grid-template-columns: 1fr; }
 }
 
 @media (max-width: 540px) {

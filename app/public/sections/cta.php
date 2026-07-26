@@ -14,7 +14,7 @@ $cta_html = <<<HTML
     </div>
     <h2 class="nl-reveal nl-d1">
       <span class="t" data-en="Find Your" data-ro="Găsește-ți">Find Your</span><br>
-      <em><span class="t" data-en="Escape." data-ro="Călătorie.">Escape.</span></em>
+      <em><span class="t" data-en="Escape." data-ro="Evadarea.">Escape.</span></em>
     </h2>
     <p class="nl-reveal nl-d2 t"
        data-en="Browse our Vietnam escapes — past, present, and upcoming — and find the one that calls to you."
