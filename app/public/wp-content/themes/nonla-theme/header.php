@@ -131,9 +131,12 @@
     a.addEventListener('click', closeMenu);
   });
 
-  applyLang(localStorage.getItem(LANG_KEY) || 'en');
+  var _initialLang = localStorage.getItem(LANG_KEY) || 'en';
+  applyLang(_initialLang); // swaps the nav immediately (it exists above this script)
 
   document.addEventListener('DOMContentLoaded', function () {
+    applyLang(_initialLang); // re-apply now that the page body's .t elements exist
+
     var vid = document.querySelector('.nl-hero-video');
     if (!vid) return;
     var conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;

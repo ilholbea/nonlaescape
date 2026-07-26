@@ -3,13 +3,13 @@
 // Uses: (no external vars needed — self-contained)
 
 $ticker_items = [
-    ['Vietnam Escape',        'Vietnam Escape'],
-    ['Vietnam Undiscovered',  'Vietnam Nedescoperit'],
+    ['Cultural Exchange',     'Schimb Cultural'],
+    ['Human Connection',      'Conexiuni Reale'],
+    ['More Than a Trip',      'Mai Mult Decât o Călătorie'],
     ['Small Groups',          'Grupuri Mici'],
     ['Authentic Experiences', 'Experiențe Autentice'],
-    ['Expert Coordinators',   'Coordonatori Experți'],
-    ['All-Inclusive',         'Totul Inclus'],
-    ['Cultural Travel',       'Călătorii Culturale'],
+    ['Personal Growth',       'Dezvoltare Personală'],
+    ['Cultural Immersion',    'Imersiune Culturală'],
     ['Since 2020',            'Din 2020'],
 ];
 $ticker_inner = '';

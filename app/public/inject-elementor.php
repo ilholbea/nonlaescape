@@ -104,14 +104,16 @@ require __DIR__ . '/pages/legal.php';
 // ASSEMBLE HOME PAGE
 // ═══════════════════════════════════════════════════════════════════════════════
 
+// Mission-first arc: Hero → Ticker → About (mission) → Why (purpose) →
+// Places (experience) → Testimonials (human proof) → Series (choose) → IG → CTA.
 $home_data = [
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $hero_html)],         nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $ticker_html)],       nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $about_html)],        nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $series_html)],       nl_col_settings())]),
-    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)],         nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $why_html)],          nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $dest_html)],         nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $testimonials_html)], nl_col_settings())]),
+    nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $series_html)],       nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $ig_html)],          nl_col_settings())]),
     nl_section(nl_id($i++), nl_sec(), [nl_column(nl_id($i++), 100, [nl_html(nl_id($i++), $cta_html)],          nl_col_settings())]),
 ];
