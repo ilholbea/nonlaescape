@@ -10,3 +10,8 @@ app/.envrc
 /HANDOFF.md
 /PLAN.md
 /POPULATE-PLAN.md
+
+# Playwright MCP output
+.playwright-mcp/
+# Claude Code personal settings (per machine)
+.claude/settings.local.json

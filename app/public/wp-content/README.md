@@ -182,8 +182,8 @@ These are Hostinger-specific and crash outside Hostinger servers. Do **not** re-
 
 ## Deploying to Production
 
-1. Export the local DB via **All-in-One WP Migration** (or Adminer → Export)
-2. Upload files via FTP or Git
-3. Import DB on Hostinger
-4. ⚠️ **Reset the admin password immediately** — local uses `<local admin password — see Local by Flywheel app>`
-5. Re-activate Hostinger plugins after deploy
+See [`docs/deploy-hostinger.md`](../docs/deploy-hostinger.md).
+
+In short: FTP only the `themes/nonla-theme/` folder, then clear Elementor's files and data in production WP Admin. Layout changes in `sections/`/`pages/` are injected over SSH.
+
+> ⚠️ **Never import the local database or a full All-in-One WP Migration file into production.** It wipes the real content. Content is created only in production WP Admin.

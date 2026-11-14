@@ -1,6 +1,6 @@
 # nonla-local
 
-Local dev for **nonlaescape.com** — Local by Flywheel, http://nonla-local.local
+Local dev for **nonlaescape.com** — Local by Flywheel, http://nonla-local-import.local
 
 ---
 
@@ -63,7 +63,7 @@ wp elementor flush-css              # flush CSS cache (run after any inject)
 wp eval-file populate-content.php   # repopulate CPT content from scratch
 ```
 
-> Photos for populate-content.php must be at `C:\Users\ionut\Desktop\Photos\modified\`
+> Photos for populate-content.php must be at `C:\Users\micro-local\Desktop\Photos\modified\`
 
 ---
 
@@ -72,33 +72,12 @@ wp eval-file populate-content.php   # repopulate CPT content from scratch
 1. Make changes locally
 2. `wp eval-file inject-elementor.php` — rebuild Elementor pages
 3. `wp elementor flush-css` — flush CSS cache
-4. Test on http://nonla-local.local
+4. Test on http://nonla-local-import.local
 
 ---
 
 ## Deploy to Hostinger
 
-### Full site deploy (AIWPM)
+Follow **[docs/deploy-hostinger.md](app/public/docs/deploy-hostinger.md)**. In short: code goes up by FTP (the `wp-content/themes/nonla-theme/` folder, then Elementor → Tools → Clear Files & Data), layout changes in `sections/` or `pages/` also need the inject run over SSH, and content is created only in production WP Admin.
 
-1. WP Admin (local) → All-in-One WP Migration → Export → Advanced Options
-   - ✅ Exclude media library
-   - ✅ Exclude plugins
-2. Download the `.wpress` file (~158MB, comfortably under the 256MB limit)
-3. WP Admin (Hostinger) → All-in-One WP Migration → Import → upload `.wpress`
-4. Hostinger WP Admin → Elementor → Tools → **Clear Files & Data**
-5. **Reset admin password** — local uses `<local admin password — see Local by Flywheel app>`
-
-> Plugins and media don't need re-uploading — they're already on Hostinger from the original site.
-> Only new assets (videos, photos added locally) need FTP upload after import.
-
-### New assets only (FileZilla)
-
-Upload directly to `public_html/wp-content/themes/nonla-theme/assets/` — no export needed.
-
-### DB changes only
-
-```bash
-wp db export ~/nonla-export.sql   # export locally
-# import via Hostinger phpMyAdmin
-wp search-replace 'nonla-local.local' 'nonlaescape.com' --all-tables  # run on Hostinger via SSH
-```
+> **Never import an All-in-One WP Migration file (or any local database) into production.** It replaces the live content with the local test copy. The full-AIWPM deploy that used to be described here is retired.
