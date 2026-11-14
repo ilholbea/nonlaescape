@@ -49,7 +49,7 @@ They require Hostinger's server infrastructure and will fatal error locally.
 8. Reset admin password via MySQL CLI
 
 ## Docs
-Current docs live in `app/public/docs/`: `README.md` (index and the "code flows up, content stays in prod" rule), `development.md` (local dev loop), `deploy-hostinger.md` (production deploy), `content-editing.md` (staff guide), `IMPROVEMENT-PLAN.md` (what to improve next). Where they disagree with the Workflow section above or with older READMEs, the docs win.
+Current docs live in `app/public/docs/`: `README.md` (index and the "code flows up, content stays in prod" rule), `development.md` (local dev loop), `deploy-hostinger.md` (production deploy), `content-editing.md` (staff guide), `content-enrichment.md` (places copy EN/RO and photo credits, ready to paste into production), `IMPROVEMENT-PLAN.md` (what to improve next). Where they disagree with the Workflow section above or with older READMEs, the docs win.
 
 **Never import an All-in-One WP Migration file or a local database into production.** Deploys are theme-folder FTP, plus an SSH inject for `sections/` and `pages/` changes. Content is created only in production WP Admin.
 
