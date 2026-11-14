@@ -1,0 +1,15 @@
+{
+  "env": {
+    "PLAYWRIGHT_MCP_BROWSER": "chromium",
+    "PLAYWRIGHT_MCP_EXECUTABLE_PATH": "C:/Program Files/BraveSoftware/Brave-Browser/Application/brave.exe",
+    "PLAYWRIGHT_MCP_OUTPUT_DIR": "C:/Users/micro-local/AppData/Local/Temp/playwright-mcp"
+  },
+  "enabledPlugins": {
+    "frontend-design@claude-plugins-official": true,
+    "playwright@claude-plugins-official": true,
+    "php-lsp@claude-plugins-official": true,
+    "context7@claude-plugins-official": true,
+    "claude-md-management@claude-plugins-official": true,
+    "security-guidance@claude-plugins-official": true
+  }
+}
